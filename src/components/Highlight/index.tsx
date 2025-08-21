@@ -9,7 +9,7 @@ const lexendDeca = Lexend_Deca({
 
 export default function Highlight() {
   return (
-    <section className="px-6 md:px-16 lg:px-32 flex flex-col-reverse md:flex-row items-center md:items-start gap-10 md:gap-16 bg-[#16120F]">
+    <section className="px-6 md:px-16 lg:px-32 flex flex-col-reverse lg:flex-row items-center md:items-start gap-10 md:gap-16 bg-[#16120F]">
       {/* Image */}
       <Image
         src="/images/highlight.jpg"
@@ -31,7 +31,7 @@ export default function Highlight() {
           Girls Love Wave Looks
         </h2>
 
-        <p className="text-[16px] md:text-[20px] text-[#DDCAB5] leading-relaxed"
+        <p className="text-[#DDCAB5] "
           style={{ fontFamily: lexendDeca.style.fontFamily }}
         >
           Our wave collection features soft, natural-looking waves that add
@@ -39,7 +39,7 @@ export default function Highlight() {
           wear or special occasions, providing versatility and style.
         </p>
 
-        <p className="text-[16px] md:text-[20px] text-[#DDCAB5] leading-relaxed"
+        <p className=" text-[#DDCAB5] "
           style={{ fontFamily: lexendDeca.style.fontFamily }}
         >
           Our wigs are made from premium human hair, ethically sourced and

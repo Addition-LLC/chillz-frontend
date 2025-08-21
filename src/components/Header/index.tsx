@@ -53,6 +53,10 @@ const Header = () => {
                 className={` font-medium text-white hover:underline hover:decoration-2 hover:decoration-[#636340] hover:underline-offset-6 ${
                   usePathName === menuItem.path && "!text-white"
                 }`}
+              style={{
+                fontFamily: "'ARPDisplay', Arial, sans-serif",
+                fontWeight: 400,
+              }}
               >
                 {menuItem.title}
               </Link>

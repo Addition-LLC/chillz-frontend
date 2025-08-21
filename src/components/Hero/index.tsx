@@ -29,15 +29,15 @@ export default function Hero() {
           <p className="text-2xl font-semibold  text-[#a6a57a] text-center">
             UP TO 40% OFF
           </p>
-          <p className="mb-2 text-lg font-semibold text-white text-center">
+          <p className="mb-2 text-lg  text-white text-center">
             ON NEW WIGS
           </p>
 
-          <h1 className="text-xl font-extrabold leading-tight text-white md:text-3xl lg:text-5xl text-center ">
+          <h1 className="text-xl font-extrabold tracking-wider text-white md:text-3xl lg:text-5xl text-center ">
               Natural Human Hair Wig For Women
           </h1>
           
-          <p className="mt-4  text-white/90 text-center">
+          <p className="mt-3 text-sm text-white/60 text-center">
             Femmez Lace & Wigs, the premium lace wig specialist
           </p>
 
