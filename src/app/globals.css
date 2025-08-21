@@ -12,12 +12,68 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-20.ttf') format('truetype');
+  font-weight: 200;
 }
+
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-40.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-80.ttf') format('truetype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-150.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-240.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-20.ttf') format('truetype');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-40.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-80.ttf') format('truetype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-150.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-240.ttf') format('truetype');
+  font-weight: 900;
+}
+
+
+
 
 body {
   background: var(--background);
