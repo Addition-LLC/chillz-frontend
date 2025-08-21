@@ -54,7 +54,7 @@ const Header = () => {
                   usePathName === menuItem.path && "!text-white"
                 }`}
               style={{
-                fontFamily: "'ARPDisplay', Arial, sans-serif",
+                fontFamily: "sans-serif",
                 fontWeight: 400,
               }}
               >

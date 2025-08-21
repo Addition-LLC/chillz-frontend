@@ -1,7 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')
-layer(base);
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import 'tailwindcss';
+
+/* --- ADDED: Custom Font Declarations --- */
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-20.ttf') format('truetype');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-40.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-80.ttf') format('truetype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-150.ttf') format('truetype');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'ARP';
+  src: url('/fonts/ARP-240.ttf') format('truetype');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-20.ttf') format('truetype');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-40.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-80.ttf') format('truetype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-150.ttf') format('truetype');
+  font-weight: 900;
+}
+@font-face {
+  font-family: 'ARPDisplay';
+  src: url('/fonts/ARPDisplay-240.ttf') format('truetype');
+  font-weight: 900;
+}
+/* --- End of Added Fonts --- */
+
+@layer base;
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,6 +96,10 @@ layer(base);
   --color-gray-dark: #1e232e;
   --color-gray-light: #f0f2f9;
 
+  /* --- ADDED: New color variables --- */
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+
   --shadow-sign-up: 0px 5px 10px rgba(4, 10, 34, 0.2);
   --shadow-one: 0px 2px 3px rgba(7, 7, 77, 0.05);
   --shadow-two: 0px 5px 10px rgba(6, 8, 15, 0.1);
@@ -57,6 +114,10 @@ layer(base);
   --shadow-btn-light: 0px 1px 2px rgba(0, 0, 0, 0.1);
 
   --drop-shadow-three: 0px 5px 15px rgba(6, 8, 15, 0.05);
+  
+  /* --- ADDED: New font family variables --- */
+  --font-family-arp: 'ARP', sans-serif;
+  --font-family-arp-display: 'ARPDisplay', sans-serif;
 }
 
 @utility container {
@@ -64,14 +125,6 @@ layer(base);
   padding-inline: 1rem;
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -124,7 +177,7 @@ layer(base);
 
 @layer base {
   body {
-    font-family: "Inter", sans-serif;
+    font-family: "Inter", sans-serif; /* This remains the default font */
   }
 }
 
