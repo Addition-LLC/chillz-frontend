@@ -1,10 +1,10 @@
 // components/Highlight.tsx
-import Image from "next/image";
-import { Lexend_Deca } from "next/font/google";
+import Image from 'next/image';
+import { Lexend_Deca } from 'next/font/google';
 
 const lexendDeca = Lexend_Deca({
-  weight: "400",
-  subsets: ["latin"],
+  weight: '400',
+  subsets: ['latin'],
 });
 
 export default function Highlight() {
@@ -24,14 +24,15 @@ export default function Highlight() {
         <h2
           className="text-[22px] md:text-[35px] font-bold text-white"
           style={{
-            fontFamily: "'ARPDisplay', Arial, sans-serif",
+            fontFamily: "'ARP', Arial, sans-serif",
             fontWeight: 700,
           }}
         >
           Girls Love Wave Looks
         </h2>
 
-        <p className="text-[#DDCAB5] "
+        <p
+          className="text-[#DDCAB5] "
           style={{ fontFamily: lexendDeca.style.fontFamily }}
         >
           Our wave collection features soft, natural-looking waves that add
@@ -39,7 +40,8 @@ export default function Highlight() {
           wear or special occasions, providing versatility and style.
         </p>
 
-        <p className=" text-[#DDCAB5] "
+        <p
+          className=" text-[#DDCAB5] "
           style={{ fontFamily: lexendDeca.style.fontFamily }}
         >
           Our wigs are made from premium human hair, ethically sourced and

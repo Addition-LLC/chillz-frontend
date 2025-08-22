@@ -4,8 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Play, ArrowUpRight } from 'lucide-react';
 
-
-
 // app/components/CircularTextSpinner.tsx
 
 const CircularTextSpinner = () => {
@@ -37,9 +35,7 @@ const CircularTextSpinner = () => {
         fontWeight="500"
         letterSpacing="2.8"
       >
-        <textPath href="#circlePath">
-          Develop your product with us
-        </textPath>
+        <textPath href="#circlePath">Develop your product with us</textPath>
       </text>
 
       {/* 3. The full, static arrow in the center (No Animation) */}
@@ -55,28 +51,30 @@ const CircularTextSpinner = () => {
   );
 };
 
-
-
-
 const WigCollection = () => {
   return (
     <section className="bg-[#FBF6ED] py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Main 3-column grid container for desktop */}
-        <div className="hidden lg:grid grid-cols-3 2xl:px-4 gap-12 items-center" >
-          
+        <div className="hidden lg:grid grid-cols-3 2xl:px-4 gap-12 items-center">
           {/* --- COLUMN 1: Text & First Image --- */}
           <div className="flex flex-col  h-120 pt-4">
             {/* Top Text */}
-            <div className='mb-6'>
-              <h2 className="text-2xl 2xl:text-3xl font-bold text-gray-800">
+            <div className="mb-6">
+              <h2
+                className="text-2xl 2xl:text-3xl  tracking-wider"
+                style={{
+                  fontFamily: "'ARP', Arial, sans-serif",
+                  fontWeight: 850,
+                }}
+              >
                 SOME AMAZING WIGS COLLECTION
               </h2>
               <p className=" text-md text-gray-600">
                 Natural wigs made from 100% human hair.
               </p>
             </div>
-            
+
             {/* Image 1: wigcollection1.jpg */}
             <div className="relative w-64 xl:w-84 h-56 mb-16">
               <Image
@@ -86,8 +84,8 @@ const WigCollection = () => {
                 className="rounded-2xl object-cover shadow-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/20">
-                <button 
-                  aria-label="Play video" 
+                <button
+                  aria-label="Play video"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm transition-transform hover:scale-110"
                 >
                   <Play className="ml-1 h-5 w-5 fill-gray-800 text-gray-800" />
@@ -97,66 +95,67 @@ const WigCollection = () => {
 
             {/* Bottom Text */}
             <p className="text-gray-600 max-w-sm">
-              With over 25 years of experience, we offer a wide range of styles to help you find your perfect look.
+              With over 25 years of experience, we offer a wide range of styles
+              to help you find your perfect look.
             </p>
           </div>
 
           {/* --- COLUMN 2: Main Image --- */}
           <div className="relative ">
             {/* We make the image larger than the column and use z-index to place it behind others */}
-                <div className="relative w-80 h-110 rounded-3xl overflow-hidden" >
-                  <Image
-                    src="/images/wigcollection2.png"
-                    alt="Hero"
-                    fill
-                    className="object-cover"
-                  />
-                  {/* Overlay mask on bottom-left */}
-                  <div className="absolute  bottom-0 left-0 w-32 h-32 bg-[#FBF8F3] rounded-tr-4xl"></div>
-
-                </div>
+            <div className="relative w-80 h-110 rounded-3xl overflow-hidden">
+              <Image
+                src="/images/wigcollection2.png"
+                alt="Hero"
+                fill
+                className="object-cover"
+              />
+              {/* Overlay mask on bottom-left */}
+              <div className="absolute  bottom-0 left-0 w-32 h-32 bg-[#FBF8F3] rounded-tr-4xl"></div>
+            </div>
             {/* Shop Now Button */}
             {/* Positioned at the bottom, but visually shifted left with a negative margin to appear centered */}
-              <div className="absolute bottom-[14%] xl:left-[-20%] left-[-35%] z-30">
-                <Link
-                  href="/shop"
-                  className="group mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-[#6a693e] py-2 px-6 text-lg font-bold text-white transition-colors hover:bg-[#585734] max-w-[250px] w-full sm:w-auto"
-                >
-                  Shop Now
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white transition-transform group-hover:scale-110">
-                    <ArrowUpRight className="h-6 w-4 text-[#6a693e]" />
-                  </span>
-                </Link>
-              </div>
+            <div className="absolute bottom-[14%] xl:left-[-25%] left-[-35%] z-30">
+              <Link
+                href="/shop"
+                className="group mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-[#6a693e] py-2 px-4 text-lg font-bold text-white transition-colors hover:bg-[#585734] max-w-[250px] w-full sm:w-auto"
+                style={{
+                  fontFamily: "'ARPDisplay', Arial, sans-serif",
+                  fontWeight: 600,
+                }}
+              >
+                Shop Now
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white transition-transform group-hover:scale-110">
+                  <ArrowUpRight className="h-6 w-4 text-[#6a693e]" />
+                </span>
+              </Link>
+            </div>
           </div>
 
           {/* --- COLUMN 3: Images & Button --- */}
           <div className=" h-120 flex flex-col items-center xl:items-start gap-8">
             {/* Spinner Image */}
-               <div className="mb-12">
+            <div className="mb-12">
               <CircularTextSpinner />
             </div>
 
-
             {/* Image 3: wigcollection3.jpg */}
 
-    <div className="relative w-64 h-48 xl:w-80 xl:h-60 rounded-3xl overflow-hidden">
-  <Image
-    src="/images/wigcollection3.jpg"
-    alt="Hero"
-    fill
-    className="object-cover"
-  />
+            <div className="relative w-64 h-48 xl:w-80 xl:h-60 rounded-3xl overflow-hidden">
+              <Image
+                src="/images/wigcollection3.jpg"
+                alt="Hero"
+                fill
+                className="object-cover"
+              />
             </div>
-            
-
           </div>
         </div>
 
-      {/* --- NEW MOBILE LAYOUT (FOR SCREENS BELOW LG) --- */}
+        {/* --- NEW MOBILE LAYOUT (FOR SCREENS BELOW LG) --- */}
         <div className="flex flex-col items-center text-center lg:hidden">
           {/* Top Text */}
-          <div className='mb-8 w-full max-w-md'>
+          <div className="mb-8 w-full max-w-md">
             <h2 className="text-3xl font-bold text-gray-800">
               SOME AMAZING WIGS COLLECTION
             </h2>
@@ -174,9 +173,7 @@ const WigCollection = () => {
                 fill
                 className="object-cover"
               />
-             
             </div>
-          
           </div>
 
           {/* Bottom two images */}
@@ -189,8 +186,8 @@ const WigCollection = () => {
                 className="object-cover"
               />
               <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/20">
-                <button 
-                  aria-label="Play video" 
+                <button
+                  aria-label="Play video"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm"
                 >
                   <Play className="ml-1 h-5 w-5 fill-gray-800 text-gray-800" />
@@ -209,21 +206,21 @@ const WigCollection = () => {
 
           {/* Bottom Text (No Spinner) */}
           <p className="text-gray-600 max-w-md my-8">
-            With over 25 years of experience, we offer a wide range of styles to help you find your perfect look.
+            With over 25 years of experience, we offer a wide range of styles to
+            help you find your perfect look.
           </p>
-            <div className="">
-              <Link
-                href="/shop"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#6a693e] py-2 px-6 text-sm font-bold text-white"
-              >
-                Shop Now
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                  <ArrowUpRight className="h-4 w-3 text-[#6a693e]" />
-                </span>
-              </Link>
-            </div>
+          <div className="">
+            <Link
+              href="/shop"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#6a693e] py-2 px-6 text-sm font-bold text-white"
+            >
+              Shop Now
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white">
+                <ArrowUpRight className="h-4 w-3 text-[#6a693e]" />
+              </span>
+            </Link>
+          </div>
         </div>
-
       </div>
     </section>
   );

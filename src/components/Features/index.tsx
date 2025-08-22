@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { Lexend_Deca } from "next/font/google";
+import Image from 'next/image';
+import { Lexend_Deca } from 'next/font/google';
 
 const lexendDeca = Lexend_Deca({
-  weight: "400",
-  subsets: ["latin"],
+  weight: '400',
+  subsets: ['latin'],
 });
 
 export default function Features() {
@@ -13,7 +13,7 @@ export default function Features() {
         <h2
           className="text-3xl sm:text-4xl font-bold mb-2 font-arpd"
           style={{
-            fontFamily: "'ARPDisplay', Arial, sans-serif",
+            fontFamily: "'ARP', Arial, sans-serif",
             fontWeight: 700,
           }}
         >
@@ -34,58 +34,56 @@ export default function Features() {
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
           <div className="flex flex-col items-center gap-6">
             <Image
-                src="/images/comb.png"
-                alt="Comb Icon"
-                width={48}
-                height={48}
+              src="/images/comb.png"
+              alt="Comb Icon"
+              width={48}
+              height={48}
             />
             <h3
-                className="text-lg sm:text-xl font-semibold"
-                style={{
-                fontFamily: "'ARPDisplay', Arial, sans-serif",
+              className="text-lg sm:text-xl font-semibold"
+              style={{
+                fontFamily: "'ARP', Arial, sans-serif",
                 fontWeight: 700,
-                }}
+              }}
             >
-            Cut it as you need
-          </h3>
+              Cut it as you need
+            </h3>
           </div>
           <p
-            className="text-[#D1D5DB] text-sm sm:text-base font-light"
+            className="text-sm text-white/60 text-center"
             style={{
-              fontFamily: "'Lexend Deca', Arial, sans-serif",
-              fontWeight: 300,
+              fontFamily: ' Arial, sans-serif',
             }}
           >
-            You&apos;re looking for a sleek bob or long, flowing locks, our expert
-            stylists will help you achieve the perfect cut tailored just for
-            you.
+            You&apos;re looking for a sleek bob or long, flowing locks, our
+            expert stylists will help you achieve the perfect cut tailored just
+            for you.
           </p>
         </div>
 
         {/* Feature 2 */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
-        <div className="flex flex-col items-center gap-6">
-          <Image
-            src="/images/hairdryer.png"
-            alt="Hairdryer Icon"
-            width={48}
-            height={48}
-          />
-          <h3
-            className="text-lg sm:text-xl font-semibold"
-            style={{
-              fontFamily: "'ARPDisplay', Arial, sans-serif",
-              fontWeight: 700,
-            }}
-          >
-            Apply custom colors
-          </h3>
+          <div className="flex flex-col items-center gap-6">
+            <Image
+              src="/images/hairdryer.png"
+              alt="Hairdryer Icon"
+              width={48}
+              height={48}
+            />
+            <h3
+              className="text-lg sm:text-xl font-semibold"
+              style={{
+                fontFamily: "'ARP', Arial, sans-serif",
+                fontWeight: 700,
+              }}
+            >
+              Apply custom colors
+            </h3>
           </div>
           <p
-            className="text-[#D1D5DB] text-sm sm:text-base font-light"
+            className="text-sm text-white/60 text-center"
             style={{
-              fontFamily: "'Lexend Deca', Arial, sans-serif",
-              fontWeight: 300,
+              fontFamily: ' Arial, sans-serif',
             }}
           >
             From subtle highlights to bold, vibrant hues, our team of
@@ -96,28 +94,27 @@ export default function Features() {
 
         {/* Feature 3 */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
-        <div className="flex flex-col items-center gap-6">
-          <Image
-            src="/images/hair-brush.png"
-            alt="Hair Brush Icon"
-            width={48}
-            height={48}
-          />
-          <h3
-            className="text-lg sm:text-xl font-semibold"
-            style={{
-              fontFamily: "'ARPDisplay', Arial, sans-serif",
-              fontWeight: 700,
-            }}
-          >
-            We love to serve
-          </h3>
+          <div className="flex flex-col items-center gap-6">
+            <Image
+              src="/images/hair-brush.png"
+              alt="Hair Brush Icon"
+              width={48}
+              height={48}
+            />
+            <h3
+              className="text-lg sm:text-xl font-semibold"
+              style={{
+                fontFamily: "'ARP', Arial, sans-serif",
+                fontWeight: 700,
+              }}
+            >
+              We love to serve
+            </h3>
           </div>
           <p
-            className="text-[#D1D5DB] text-sm sm:text-base font-light"
+            className="text-sm text-white/60 text-center"
             style={{
-              fontFamily: "'Lexend Deca', Arial, sans-serif",
-              fontWeight: 300,
+              fontFamily: ' Arial, sans-serif',
             }}
           >
             Whether you need styling advice or help selecting the perfect piece,

@@ -1,17 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { HeartIcon as HeartSolid, StarIcon } from "@heroicons/react/24/solid";
-import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
+import { useState } from 'react';
+import { HeartIcon as HeartSolid, StarIcon } from '@heroicons/react/24/solid';
+import { HeartIcon as HeartOutline } from '@heroicons/react/24/outline';
 
 export default function PopularLooks() {
   const [favorites, setFavorites] = useState<number[]>([]);
 
   const products = [
-    { id: 1, name: "Blonde Classic Style", price: 49, img: "/images/shop1.jpg" },
-    { id: 2, name: "Curly Dark Style", price: 49, img: "/images/shop2.jpg" },
-    { id: 3, name: "Long Wavy Brunette", price: 49, img: "/images/shop3.jpg" },
-    { id: 4, name: "Long Straight Brunette", price: 49, img: "/images/wigstyles2.jpg" },
+    {
+      id: 1,
+      name: 'Blonde Classic Style',
+      price: 49,
+      img: '/images/shop1.jpg',
+    },
+    { id: 2, name: 'Curly Dark Style', price: 49, img: '/images/shop2.jpg' },
+    { id: 3, name: 'Long Wavy Brunette', price: 49, img: '/images/shop3.jpg' },
+    {
+      id: 4,
+      name: 'Long Straight Brunette',
+      price: 49,
+      img: '/images/wigstyles2.jpg',
+    },
   ];
 
   const toggleFavorite = (id: number) => {
@@ -25,7 +35,7 @@ export default function PopularLooks() {
       <h2
         className="text-center text-3xl md:text-4xl font-bold mb-10"
         style={{
-          fontFamily: "'ARPDisplay', Arial, sans-serif",
+          fontFamily: "'ARP', Arial, sans-serif",
           fontWeight: 700,
         }}
       >
@@ -57,24 +67,34 @@ export default function PopularLooks() {
               </button>
 
               {/* Full View Button */}
-               <button className="md:absolute bottom-3 left-1/2  transform -translate-x-1/2 w-[142px] h-[40px] bg-[#5E3B1E] text-white text-[16px] font-bold py-4 shadow-md hover:bg-[#4A2F17] transition hidden md:flex items-center justify-center"
+              <button
+                className="md:absolute bottom-3 left-1/2  transform -translate-x-1/2 w-[142px] h-[40px] bg-[#5E3B1E] text-white text-[16px] font-bold py-4 shadow-md hover:bg-[#4A2F17] transition hidden md:flex items-center justify-center"
                 style={{
-                  fontFamily: "'ARPDisplay', Arial, sans-serif",
+                  fontFamily: "'ARP', Arial, sans-serif",
                   fontWeight: 700,
-                }}>
+                }}
+              >
                 FULL VIEW
               </button>
             </div>
 
             {/* Content */}
             <div className="p-4 text-center">
-              <h3 className="font-semibold text-lg truncate">{product.name}</h3>
+              <h3
+                className=" text-lg truncate"
+                style={{
+                  fontFamily: "'ARP', Arial, sans-serif",
+                  fontWeight: 800,
+                }}
+              >
+                {product.name}
+              </h3>
               <div className="flex justify-center my-2 text-yellow-500">
                 {Array.from({ length: 5 }, (_, i) => (
                   <StarIcon key={i} className="w-5 h-5 " />
                 ))}
               </div>
-              <p className="text-lg font-bold">${product.price}</p>
+              <p className="text-lg font-medium">${product.price}</p>
             </div>
           </div>
         ))}
