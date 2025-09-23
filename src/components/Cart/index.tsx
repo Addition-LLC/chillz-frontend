@@ -10,7 +10,6 @@ export default function Cart() {
 
   return (
     <div className={`relative z-50 ${isCartOpen ? '' : 'hidden'}`} aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-      {/* Background overlay */}
       <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={closeCart}></div>
 
       <div className="fixed inset-0 overflow-hidden">
@@ -34,7 +33,7 @@ export default function Cart() {
                        <div className="flex flex-col items-center justify-center h-full text-center py-12">
                           <ShoppingBag className="h-16 w-16 text-brand-brown/30" />
                           <p className="mt-4 text-lg font-medium">Your cart is empty</p>
-                          <p className="mt-2 text-sm text-brand-brown/60">Looks like you haven't added anything yet.</p>
+                          <p className="mt-2 text-sm text-brand-brown/60">Looks like you haven&apos;t added anything yet.</p>
                           <Link href="/tools" onClick={closeCart} className="mt-6 rounded-md bg-brand-pink px-6 py-3 text-base font-medium text-brand-brown shadow-sm hover:opacity-90">
                             Start Shopping
                           </Link>
@@ -53,7 +52,7 @@ export default function Cart() {
                                     <h3><Link href={`/product/${item.id}`}>{item.name}</Link></h3>
                                     <p className="ml-4">${(item.price * item.quantity).toFixed(2)}</p>
                                   </div>
-                                  <p className="mt-1 text-sm text-brand-brown/60">Length: {item.lengths[0]}"</p>
+                                  <p className="mt-1 text-sm text-brand-brown/60">Length: {item.lengths[0]}&quot;</p>
                                 </div>
                                 <div className="flex flex-1 items-end justify-between text-sm">
                                   <div className="flex items-center border border-gray-300 rounded">

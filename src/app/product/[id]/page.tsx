@@ -3,16 +3,28 @@
 import { useState } from 'react';
 import { products, Product } from '../../tools/products';
 import Image from 'next/image';
+// import Link from 'next/link';
 import { Star, ChevronLeft, ChevronRight, Minus, Plus } from 'lucide-react';
+import { useCart } from '@/context/CartContext'; // Import the useCart hook
 
 // --- Helper function to find a product by its ID ---
 const getProductById = (id: number): Product | undefined => {
   return products.find(p => p.id === id);
 };
 
+// --- Type definition for the ImageCarousel props ---
+interface ImageCarouselProps {
+  images: string[];
+  currentImageIndex: number;
+  prevImage: () => void;
+  nextImage: () => void;
+}
+
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const productId = parseInt(params.id, 10);
   const product = getProductById(productId);
+
+  const { addToCart } = useCart(); // Get the addToCart function from the context
 
   const [selectedLength, setSelectedLength] = useState<number | undefined>(product?.lengths[0]);
   const [quantity, setQuantity] = useState(1);
@@ -32,7 +44,6 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
-
   if (!product) {
     return (
       <div className="bg-brand-tan min-h-screen flex items-center justify-center">
@@ -40,6 +51,15 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       </div>
     );
   }
+
+  const handleAddToCart = () => {
+    if (product && selectedLength) {
+      // Add the item to the cart `quantity` times.
+      for (let i = 0; i < quantity; i++) {
+        addToCart(product, selectedLength);
+      }
+    }
+  };
 
   return (
     <div className="bg-brand-tan text-brand-brown">
@@ -50,7 +70,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             <ImageCarousel images={images} currentImageIndex={currentImageIndex} prevImage={prevImage} nextImage={nextImage} />
 
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold">{product.name}</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold" style={{fontFamily: 'var(--font-playfair-display)'}}>{product.name}</h1>
               <p className="text-2xl mt-2">${product.price.toFixed(2)}</p>
               <div className="mt-4 flex items-center">
                   <div className="flex items-center">
@@ -67,7 +87,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
               {product.lengths.length > 0 && (
                 <div className="mt-8">
-                  <h3 className="text-sm font-medium">Length: {selectedLength}"</h3>
+                  <h3 className="text-sm font-medium">Length: {selectedLength}&quot;</h3>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {product.lengths.map(length => (
                       <button 
@@ -75,7 +95,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                         onClick={() => setSelectedLength(length)}
                         className={`px-4 py-2 text-sm rounded-full border transition-colors ${selectedLength === length ? 'bg-brand-brown text-white border-brand-brown' : 'border-gray-300 hover:border-brand-brown'}`}
                       >
-                        {length}"
+                        {length}&quot;
                       </button>
                     ))}
                   </div>
@@ -88,19 +108,23 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                       <span className="px-4 text-lg font-semibold">{quantity}</span>
                       <button onClick={() => setQuantity(q => q + 1)} className="p-2"><Plus className="h-4 w-4" /></button>
                   </div>
-                  <button className="flex-1 bg-brand-pink text-brand-brown font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity">
-                      Add to Cart
+                  <button 
+                    onClick={handleAddToCart}
+                    disabled={!selectedLength}
+                    className="flex-1 bg-brand-pink text-brand-brown font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Add to Cart
                   </button>
               </div>
             </div>
           </div>
 
           <div className="mt-24">
-              <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{fontFamily: 'var(--font-playfair-display)'}}>Customer Reviews</h2>
               <p className="text-brand-brown/70">Reviews are coming soon...</p>
           </div>
            <div className="mt-16">
-              <h2 className="text-2xl font-bold mb-6">You Might Also Like</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{fontFamily: 'var(--font-playfair-display)'}}>You Might Also Like</h2>
               <p className="text-brand-brown/70">Related products will be shown here...</p>
           </div>
         </div>
@@ -110,7 +134,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 }
 
 
-function ImageCarousel({ images, currentImageIndex, prevImage, nextImage }: any) {
+function ImageCarousel({ images, currentImageIndex, prevImage, nextImage }: ImageCarouselProps) {
     return (
         <div className="relative w-full aspect-w-1 aspect-h-1">
             <div className="overflow-hidden rounded-lg">

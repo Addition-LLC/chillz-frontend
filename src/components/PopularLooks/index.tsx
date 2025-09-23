@@ -1,28 +1,25 @@
 'use client';
 
 import { useState } from 'react';
-import { HeartIcon as HeartSolid, StarIcon } from '@heroicons/react/24/solid';
-import { HeartIcon as HeartOutline } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Heart, Star, Search } from 'lucide-react';
+
+const products = [
+  {
+    id: 1,
+    name: 'Blonde Classic Style',
+    price: 49,
+    img: '/images/shop1.jpg',
+    href: '/product/1',
+  },
+  { id: 2, name: 'Curly Dark Style', price: 49, img: '/images/shop2.jpg', href: '/product/2' },
+  { id: 3, name: 'Long Wavy Brunette', price: 49, img: '/images/shop3.jpg', href: '/product/3' },
+  { id: 4, name: 'Long Straight Brunette', price: 49, img: '/images/wigstyles2.jpg', href: '/product/4' },
+];
 
 export default function PopularLooks() {
-  const [favorites, setFavorites] = useState<number[]>([]);
-
-  const products = [
-    {
-      id: 1,
-      name: 'Blonde Classic Style',
-      price: 49,
-      img: '/images/shop1.jpg',
-    },
-    { id: 2, name: 'Curly Dark Style', price: 49, img: '/images/shop2.jpg' },
-    { id: 3, name: 'Long Wavy Brunette', price: 49, img: '/images/shop3.jpg' },
-    {
-      id: 4,
-      name: 'Long Straight Brunette',
-      price: 49,
-      img: '/images/wigstyles2.jpg',
-    },
-  ];
+  const [favorites, setFavorites] = useState<number[]>([2]); // Example: one item is favorited by default
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>
@@ -31,74 +28,64 @@ export default function PopularLooks() {
   };
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-12">
-      <h2
-        className="text-center text-3xl md:text-4xl font-bold mb-10"
-        style={{
-          fontFamily: "'ARP', Arial, sans-serif",
-          fontWeight: 700,
-        }}
-      >
-        POPULAR LOOKS
-      </h2>
+    <section className="bg-brand-secondary-bg py-20 lg:py-32">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2
+            className="text-3xl sm:text-4xl font-bold text-brand-brown"
+            style={{ fontFamily: 'var(--font-playfair-display)' }}
+          >
+            Popular Looks
+          </h2>
+          <p className="mt-4 text-lg text-brand-brown/80 max-w-2xl mx-auto">
+            Discover the styles our customers are loving right now.
+          </p>
+        </div>
 
-      {/* Responsive Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="overflow-hidden">
-            {/* Image Container */}
-            <div className="relative shadow h-[455px] rounded-[16px] overflow-hidden">
-              <img
-                src={product.img}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-
-              {/* Favorite Button */}
-              <button
-                onClick={() => toggleFavorite(product.id)}
-                className="absolute top-4 right-4 bg-white/50 rounded-full p-2 shadow-md hover:scale-110 transition"
-              >
-                {favorites.includes(product.id) ? (
-                  <HeartSolid className="w-6 h-6 text-red-500" />
-                ) : (
-                  <HeartOutline className="w-6 h-6 text-gray-600" />
-                )}
-              </button>
-
-              {/* Full View Button */}
-              <button
-                className="md:absolute bottom-3 left-1/2  transform -translate-x-1/2 w-[142px] h-[40px] bg-[#5E3B1E] text-white text-[16px] font-bold py-4 shadow-md hover:bg-[#4A2F17] transition hidden md:flex items-center justify-center"
-                style={{
-                  fontFamily: "'ARP', Arial, sans-serif",
-                  fontWeight: 700,
-                }}
-              >
-                FULL VIEW
-              </button>
-            </div>
-
-            {/* Content */}
-            <div className="p-4 text-center">
-              <h3
-                className=" text-lg truncate"
-                style={{
-                  fontFamily: "'ARP', Arial, sans-serif",
-                  fontWeight: 800,
-                }}
-              >
-                {product.name}
-              </h3>
-              <div className="flex justify-center my-2 text-yellow-500">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <StarIcon key={i} className="w-5 h-5 " />
-                ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <div key={product.id} className="group relative text-center transition-all duration-300 hover:-translate-y-2">
+              <div className="relative h-[400px] w-full overflow-hidden rounded-lg shadow-sm bg-white">
+                <Image
+                  src={product.img}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Link href={product.href} className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-semibold text-brand-brown backdrop-blur-sm hover:bg-white">
+                    <Search className="h-4 w-4" />
+                    Quick View
+                  </Link>
+                </div>
+                <button
+                  onClick={() => toggleFavorite(product.id)}
+                  className="absolute top-3 right-3 z-20 bg-white/70 rounded-full p-2 backdrop-blur-sm transition-colors hover:bg-white"
+                  aria-label="Toggle Favorite"
+                >
+                  <Heart className={`w-5 h-5 transition-all ${favorites.includes(product.id) ? 'text-red-500 fill-current' : 'text-brand-brown/70'}`} />
+                </button>
               </div>
-              <p className="text-lg font-medium">${product.price}</p>
+              
+              <div className="mt-4">
+                <h3 className="text-lg font-bold text-brand-brown" style={{fontFamily: 'var(--font-playfair-display)'}}>
+                  <Link href={product.href}>
+                    <span aria-hidden="true" className="absolute inset-0"></span>
+                    {product.name}
+                  </Link>
+                </h3>
+                <div className="mt-1 flex justify-center text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <p className="mt-1 text-md font-semibold text-brand-brown">${product.price}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
 }
+

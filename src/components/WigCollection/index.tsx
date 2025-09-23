@@ -51,7 +51,6 @@ const WigCollection = () => {
       <style>{animationStyles}</style>
       <section className="bg-brand-secondary-bg py-20 lg:py-32 overflow-hidden text-brand-brown">
         <div className="container mx-auto px-4">
-          {/* --- Desktop Layout --- */}
           <div className="hidden lg:grid grid-cols-3 gap-16 items-center">
             
             <div className="flex flex-col h-full space-y-8 animate-slide-in-left" style={{ animationDelay: '0.2s', opacity: 0 }}>
@@ -60,7 +59,7 @@ const WigCollection = () => {
                   Experience The Difference
                 </h2>
                 <p className="mt-3 text-lg text-brand-brown/80">
-                  Our wigs aren't just accessories; they're a statement of quality and confidence.
+                  Our wigs aren&apos;t just accessories; they&apos;re a statement of quality and confidence.
                 </p>
               </div>
               
@@ -81,8 +80,8 @@ const WigCollection = () => {
                 <Image src="/images/wigcollection2.png" alt="Model with blonde wig" fill className="object-cover transition-transform duration-500 group-hover:scale-105"/>
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <Link href="/shop" className="group/button inline-flex items-center justify-center gap-4 rounded-full bg-white py-3 pl-8 pr-3 text-lg font-bold text-brand-brown transition-all duration-300 hover:bg-brand-brown hover:text-white">
-                    <span className="transition-transform duration-300 group-hover/button:-translate-x-2 hover:text-black">Shop The Look</span>
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-pink transition-colors duration-300 group-hover/button:bg-black">
+                    <span className="transition-transform duration-300 group-hover/button:-translate-x-2">Shop The Look</span>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-pink transition-colors duration-300 group-hover/button:bg-white">
                       <ArrowUpRight className="h-5 w-5 text-brand-brown transition-colors duration-300 group-hover/button:text-brand-pink" />
                     </span>
                   </Link>
@@ -102,7 +101,7 @@ const WigCollection = () => {
                   Experience The Difference
                 </h2>
                 <p className="mt-3 text-lg text-brand-brown/80 max-w-md mx-auto">
-                  Our wigs aren't just accessories; they're a statement of quality and confidence.
+                  Our wigs aren&apos;t just accessories; they&apos;re a statement of quality and confidence.
                 </p>
               </div>
 
@@ -135,4 +134,3 @@ const WigCollection = () => {
 };
 
 export default WigCollection;
-

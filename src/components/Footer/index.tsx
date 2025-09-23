@@ -3,12 +3,6 @@
 import Link from 'next/link';
 import { Twitter, Instagram, Youtube, Facebook, MapPin, Phone, Mail } from 'lucide-react';
 
-const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props} >
-    <path d="M12.52 3.32a.5.5 0 0 1 .48.5v11.5a.5.5 0 0 1-.48.5h-3a.5.5 0 0 1-.48-.5v-11a.5.5 0 0 1 .48-.5h3Z" />
-    <path d="M12.52 3.32a5.5 5.5 0 0 0-5.04 5.5v0a5.5 5.5 0 0 0 5.04 5.5h3a.5.5 0 0 1 .48.5v2.5a.5.5 0 0 1-.48.5h-3a.5.5 0 0 1-.48-.5v-2a.5.5 0 0 0-.48-.5h-2.5a5.5 5.5 0 0 1-5.5-5.5v0a5.5 5.5 0 0 1 5.5-5.5h2.5a.5.5 0 0 0 .48-.5v-2a.5.5 0 0 1 .48-.5h3Z" />
-  </svg>
-);
 
 const footerLinks = [
   {

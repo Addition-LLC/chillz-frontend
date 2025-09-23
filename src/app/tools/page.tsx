@@ -5,12 +5,17 @@ import { products, Product } from './products';
 import Image from 'next/image';
 import { ChevronDown, X, Search } from 'lucide-react';
 
-// (All helper functions and data definitions remain the same)
 const collections = [...new Set(products.map(p => p.collection))];
 const lengths = [...new Set(products.flatMap(p => p.lengths))].sort((a, b) => a - b);
 const collectionCounts = (() => { const c: { [key: string]: number } = {}; products.forEach(p => c[p.collection] = (c[p.collection] || 0) + 1); return c; })();
 const lengthCounts = (() => { const c: { [key: number]: number } = {}; products.forEach(p => p.lengths.forEach(l => c[l] = (c[l] || 0) + 1)); return c; })();
 
+interface FilterControlsProps {
+  filters: { collections: string[]; lengths: number[] };
+  handleCollectionChange: (collection: string) => void;
+  handleLengthChange: (length: number) => void;
+  clearFilters: () => void;
+}
 
 export default function ToolsPage() {
   const [filters, setFilters] = useState<{ collections: string[]; lengths: number[]; }>({ collections: [], lengths: [], });
@@ -91,11 +96,6 @@ export default function ToolsPage() {
   );
 }
 
-// All sub-components (ProductCard, SortMenu, FilterControls) remain the same as the previous version.
-// ... (You can copy them from the previous response)
-
-// --- Sub-components ---
-
 function ProductCard({ product }: { product: Product }) {
     return (
         <div className="group relative">
@@ -161,7 +161,7 @@ function SortMenu({ sort, setSort }: { sort: string; setSort: (value: string) =>
     );
 }
 
-function FilterControls({ filters, handleCollectionChange, handleLengthChange, clearFilters }: any) {
+function FilterControls({ filters, handleCollectionChange, handleLengthChange, clearFilters }: FilterControlsProps) {
     return (
         <div className="space-y-8">
              <div>
@@ -193,7 +193,7 @@ function FilterControls({ filters, handleCollectionChange, handleLengthChange, c
                             onClick={() => handleLengthChange(length)}
                             className={`px-4 py-2 text-sm rounded-full border transition-colors flex items-center gap-2 ${filters.lengths.includes(length) ? 'bg-brand-brown text-white border-brand-brown' : 'border-gray-300 hover:border-brand-brown'}`}
                         >
-                            {length}"
+                            {length}&quot;
                             <span className="text-xs font-mono bg-brand-tan/20 rounded-full px-2 py-0.5">{lengthCounts[length]}</span>
                         </button>
                     ))}
