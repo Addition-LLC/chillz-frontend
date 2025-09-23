@@ -1,91 +1,79 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { Leaf, Palette, HeartHandshake } from 'lucide-react';
 
-const NewToWigs1 = () => {
+// New, more aspirational content for the features
+const featuresData = [
+  {
+    icon: Leaf,
+    title: "Uncompromisingly Natural",
+    description: "Every strand is 100% ethically sourced human hair, ensuring a flawless, natural look that moves and feels like your own."
+  },
+  {
+    icon: Palette,
+    title: "Artistry in Color",
+    description: "Our master colorists use their artistry to create custom hues, from sun-kissed highlights to rich, vibrant tones, tailored to your vision."
+  },
+  {
+    icon: HeartHandshake,
+    title: "A Commitment to You",
+    description: "We're more than a brand; we're your partners in style. Receive personalized guidance and passionate service every step of the way."
+  }
+];
+
+export default function Features() {
   return (
-    <section className="bg-[#FBF8F3] lg:py-6">
+    <section className="bg-brand-tan py-20 lg:py-32 overflow-hidden">
       <div className="container mx-auto px-4">
-        {/* Main container: flex for mobile, grid for desktop */}
-        <div className="flex flex-col items-center lg:grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center">
-          {/* --- Image Column --- */}
-          <div className="hidden lg:block lg:order-2 w-full">
-            {/* Flex container for the two images */}
-            <div className="flex justify-center gap-4">
-              {/* First image, pushed down with a top margin */}
-              <div className="w-1/2 mt-12 pl-12">
-                <div className="overflow-hidden rounded-2xl shadow-lg">
-                  <Image
-                    src="/images/newtowigs1.jpg" // Replace with your image path
-                    alt="Woman trying on a wig"
-                    width={300}
-                    height={400}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Second image, pushed up with a bottom margin */}
-              <div className="w-1/2 mb-12">
-                <div className="overflow-hidden rounded-2xl shadow-lg">
-                  <Image
-                    src="/images/newtowigs2.jpg" // Replace with your image path
-                    alt="A selection of different wig styles"
-                    width={300}
-                    height={400}
-                    className="h-full w-full "
-                  />
-                </div>
+        <div className="relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            
+            {/* --- Left Column: Image --- */}
+            <div className="relative h-[500px] lg:h-[650px] w-full">
+              <div className="absolute w-full h-full lg:w-[120%] lg:h-[110%] lg:-top-[5%] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/promise1.jpg" 
+                  alt="A close-up of beautiful, styled hair"
+                  fill
+                  className="object-cover"
+                />
               </div>
             </div>
-          </div>
 
-          {/* --- Text Column --- */}
-          <div className="order-1  lg:text-left lg:pl-16 xl:pl-24 lg:mt-0">
-            <h2
-              className="text-2xl lg:text-3xl xl:text-4xl  "
-              style={{
-                fontFamily: "'ARP', Arial, sans-serif",
-                fontWeight: 800,
-              }}
-            >
-              Long And Styled Hairs And Wigs
-            </h2>
-            <div className="mt-4 lg:mx-0 space-y-4">
-              <p>
-                Our expert stylists are here to guide you through the process of
-                finding the perfect wig for your needs. Whether you&apos;re
-                looking for a natural look or something more dramatic, we have
-                options for everyone.
-              </p>
-              <p>
-                Our wigs are made from premium human hair, ethically sourced and
-                professionally crafted to ensure the highest quality and most
-                natural appearance. Each piece is designed to provide comfort,
-                style, and confidence.
-              </p>
-            </div>
-
-            <div className="mt-8">
-              <Link
-                href="/shop"
-                className="group inline-flex items-center  gap-2 rounded-full bg-[#6a693e] py-2 px-8 text-sm font-bold text-white"
-                style={{
-                  fontFamily: "'ARP', Arial, sans-serif",
-                  fontWeight: 700,
-                }}
+            {/* --- Right Column: Content --- */}
+            <div className="text-brand-brown z-10">
+              <h2
+                className="text-3xl lg:text-4xl font-bold mb-8"
+                style={{ fontFamily: 'var(--font-playfair-display)' }}
               >
-                Learn More
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                  <ArrowUpRight className="h-4 w-4 text-[#6a693e]" />
-                </span>
-              </Link>
+                The ChilzStyles Promise
+              </h2>
+              
+              <div className="space-y-8 border-l-2 border-brand-pink pl-8">
+                {featuresData.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-pink/10 flex-shrink-0">
+                      <feature.icon className="h-6 w-6 text-brand-pink" />
+                    </div>
+                    <div>
+                      <h3
+                        className="text-xl font-bold"
+                        style={{ fontFamily: 'var(--font-playfair-display)' }}
+                      >
+                        {feature.title}
+                      </h3>
+                      <p className="text-base text-brand-brown/70 mt-1">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default NewToWigs1;
+}

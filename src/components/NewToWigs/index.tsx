@@ -1,87 +1,69 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Leaf, Gem } from 'lucide-react';
 
 const NewToWigs = () => {
   return (
-    <section className="bg-[#FBF8F3] lg:py-6">
+    <section className="bg-brand-tan py-20 lg:py-32 overflow-hidden">
       <div className="container mx-auto px-4">
-        {/* Main container: flex for mobile, grid for desktop */}
-        <div className="flex flex-col items-center lg:grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center">
-          {/* --- Image Column --- */}
-          <div className="order-1 lg:order-1 w-full">
-            {/* Flex container for the two images */}
-            <div className="flex justify-center gap-4">
-              {/* First image, pushed down with a top margin */}
-              <div className="w-1/2 mt-12 pl-12">
-                <div className="overflow-hidden rounded-2xl shadow-lg">
-                  <Image
-                    src="/images/newtowigs1.jpg" // Replace with your image path
-                    alt="Woman trying on a wig"
-                    width={300}
-                    height={400}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Second image, pushed up with a bottom margin */}
-              <div className="w-1/2 mb-12">
-                <div className="overflow-hidden rounded-2xl shadow-lg">
-                  <Image
-                    src="/images/newtowigs2.jpg" // Replace with your image path
-                    alt="A selection of different wig styles"
-                    width={300}
-                    height={400}
-                    className="h-full w-full "
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* --- Text Column --- */}
-          <div className="order-2  lg:text-left xl:pr-36 lg:mt-0">
-            <h2
-              className="text-2xl lg:text-3xl xl:text-4xl  "
-              style={{
-                fontFamily: "'ARP', Arial, sans-serif",
-                fontWeight: 800,
-              }}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+          
+          <div className="lg:col-span-3 text-brand-brown text-center lg:text-left">
+            <h2 
+              className="text-4xl lg:text-5xl font-bold leading-tight"
+              style={{ fontFamily: 'var(--font-playfair-display)' }}
             >
-              New To Wigs Or Toppers?
+              Beyond Beauty.
+              <br />
+              An Expression of You.
             </h2>
-            <div className="mt-4 lg:mx-0 space-y-4">
-              <p>
-                Our expert stylists are here to guide you through the process of
-                finding the perfect wig for your needs. Whether you&apos;re
-                looking for a natural look or something more dramatic, we have
-                options for everyone.
-              </p>
-              <p>
-                Our wigs are made from premium human hair, ethically sourced and
-                professionally crafted to ensure the highest quality and most
-                natural appearance. Each piece is designed to provide comfort,
-                style, and confidence.
-              </p>
+            <p className="mt-4 text-lg text-brand-brown/80 max-w-xl mx-auto lg:mx-0">
+              At ChilzStyles, we believe hair is a statement of confidence. Our collections are designed to empower you to be unapologetically you.
+            </p>
+            
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
+              <div className="flex items-start gap-4">
+                <Leaf className="h-8 w-8 text-brand-pink flex-shrink-0" />
+                <div>
+                  <h3 className="font-bold">Expert Guidance</h3>
+                  <p className="text-sm text-brand-brown/70">Personalized consultations to find your perfect match.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Gem className="h-8 w-8 text-brand-pink flex-shrink-0" />
+                <div>
+                  <h3 className="font-bold">Premium Quality</h3>
+                  <p className="text-sm text-brand-brown/70">100% ethically sourced human hair, crafted for a flawless look.</p>
+                </div>
+              </div>
             </div>
-
-            <div className="mt-8">
-              <Link
+            
+            <div className="mt-10">
+               <Link
                 href="/shop"
-                className="group inline-flex items-center  gap-2 rounded-full bg-[#6a693e] py-2 px-8 text-sm font-bold text-white"
-                style={{
-                  fontFamily: "'ARP', Arial, sans-serif",
-                  fontWeight: 700,
-                }}
+                className="group inline-flex items-center gap-3 rounded-full bg-brand-brown py-3 px-6 text-base font-bold text-brand-tan transition-all duration-300 hover:scale-105 hover:bg-brand-pink hover:text-brand-brown"
               >
-                Learn More
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                  <ArrowUpRight className="h-4 w-4 text-[#6a693e]" />
+                Find Your Signature Style
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-tan text-brand-brown transition-transform group-hover:rotate-45 group-hover:bg-white">
+                  <ArrowUpRight className="h-4 w-4" />
                 </span>
               </Link>
             </div>
           </div>
+          
+          <div className="lg:col-span-2 relative h-[550px] w-full">
+            <div className="absolute top-0 left-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/newtowigs1.jpg"
+                alt="Woman with beautiful wavy hair"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

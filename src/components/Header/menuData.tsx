@@ -1,6 +1,28 @@
-// app/components/Header/menuData.ts
+export type MenuItem = {
+  title: string;
+  href: string;
+};
 
-import { Menu } from "@/types/menu"; // Assuming you have this type defined elsewhere
+export type MegaMenuCategory = {
+  title: string;
+  items: MenuItem[];
+};
+
+export type Menu = {
+  id: number;
+  title: string;
+  path?: string;
+  newTab: boolean;
+  submenu?: {
+    categories: MegaMenuCategory[];
+    promo?: {
+      imageSrc: string;
+      title: string;
+      description: string;
+      href: string;
+    };
+  };
+};
 
 export const menuData: Menu[] = [
   {
@@ -11,14 +33,41 @@ export const menuData: Menu[] = [
   },
   {
     id: 2,
-    title: "WIGS",
-    path: "/wigs",
+    title: "HAIR TOOLS", 
+    path: "/tools",
     newTab: false,
+    submenu: {
+      categories: [
+        {
+          title: "Wigs by Style",
+          items: [
+            { title: "Full Lace Wigs", href: "/wigs/full-lace" },
+            { title: "Lace Front Wigs", href: "/wigs/lace-front" },
+            { title: "Bob Wigs", href: "/wigs/bob" },
+            { title: "HD Lace Wigs", href: "/wigs/hd-lace" },
+          ],
+        },
+        {
+          title: "Extensions",
+          items: [
+            { title: "Clip-In Extensions", href: "/extensions/clip-in" },
+            { title: "Tape-In Extensions", href: "/extensions/tape-in" },
+            { title: "Weft Bundles", href: "/extensions/weft" },
+          ],
+        },
+      ],
+      // promo: {
+      //   imageSrc: "/images/new-arrival.png", 
+      //   title: "New Arrivals",
+      //   description: "Shop the latest styles",
+      //   href: "/new-arrivals",
+      // },
+    },
   },
   {
     id: 3,
-    title: "LACES",
-    path: "/laces",
+    title: "CLOSURES", 
+    path: "/closures",
     newTab: false,
   },
   {

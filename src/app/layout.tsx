@@ -1,16 +1,21 @@
-"use client";
+import { Playfair_Display, Lato } from 'next/font/google';
+import { CartProvider } from '@/context/CartContext';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
+import Cart from '@/components/Cart';
+import './globals.css';
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import ScrollToTop from "@/components/ScrollToTop";
-import { Inter, Montserrat } from "next/font/google";
-import "../styles/index.css";
+const playfair_display = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-playfair-display',
+});
 
-const inter = Inter({ subsets: ["latin"] });
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"], 
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-lato',
 });
 
 export default function RootLayout({
@@ -19,20 +24,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
+    <html lang="en">
       <head />
-
-      <body className={`bg-[#FBF8F3]  ${inter.className} ${montserrat.className}`}>
+      <body className={`${playfair_display.variable} ${lato.variable}`}>
+        <CartProvider>
+          <Cart />
           <Header />
-          {children}
-          <Footer />
+          <main>{children}</main>
           <ScrollToTop />
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
 }
-

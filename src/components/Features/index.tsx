@@ -1,125 +1,95 @@
-import Image from 'next/image';
-import { Lexend_Deca } from 'next/font/google';
+'use client';
 
-const lexendDeca = Lexend_Deca({
-  weight: '400',
-  subsets: ['latin'],
-});
+import { useState } from 'react';
+import Image from 'next/image';
+import { Scissors, Palette, HeartHandshake, Plus, Minus } from 'lucide-react';
+
+const featuresData = [
+  {
+    icon: Scissors,
+    title: "Perfectly Tailored",
+    description: "Whether you desire a sleek, modern bob or long, flowing locks, our master stylists will help you achieve the perfect cut, tailored exclusively for you.",
+    imageSrc: "/images/features1.jpg"
+  },
+  {
+    icon: Palette,
+    title: "Artistry in Color",
+    description: "From subtle, sun-kissed highlights to bold, vibrant hues, our colorists use their artistry to create a look that perfectly matches your unique style and personality.",
+    imageSrc: "/images/wigcollection3.jpg"
+  },
+  {
+    icon: HeartHandshake,
+    title: "A Service of Passion",
+    description: "We believe in beauty with a conscience. Whether you need styling advice or help selecting the perfect piece, we're here to serve you with passion and expertise.",
+    imageSrc: "/images/features2.jpg"
+  }
+];
 
 export default function Features() {
+  const [openIndex, setOpenIndex] = useState(0); // Default first item to be open
+
+  const handleToggle = (index: number) => {
+    setOpenIndex(openIndex === index ? -1 : index); // Allows closing by clicking again
+  };
+
   return (
-    <section className="py-16 px-6 sm:px-10 lg:px-16 bg-[#5E3B1E] text-white text-center">
-      <div className="flex flex-col items-center gap-4">
-        <h2
-          className="text-3xl sm:text-4xl font-bold mb-2 font-arpd"
-          style={{
-            fontFamily: "'ARP', Arial, sans-serif",
-            fontWeight: 700,
-          }}
-        >
-          FEATURES
-        </h2>
-        <p
-          className="text-base sm:text-lg mb-10 max-w-xl"
-          style={{ fontFamily: lexendDeca.style.fontFamily }}
-        >
-          We handpick only the best brands and styles to ensure you find wigs
-          that are beautiful, comfortable, and 100% natural human hair.
-        </p>
-      </div>
-
-      {/* Responsive layout */}
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:items-start justify-center">
-        {/* Feature 1 */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
-          <div className="flex flex-col items-center gap-6">
-            <Image
-              src="/images/comb.png"
-              alt="Comb Icon"
-              width={48}
-              height={48}
-            />
-            <h3
-              className="text-lg sm:text-xl font-semibold"
-              style={{
-                fontFamily: "'ARP', Arial, sans-serif",
-                fontWeight: 700,
-              }}
-            >
-              Cut it as you need
-            </h3>
-          </div>
-          <p
-            className="text-sm text-white/60 text-center"
-            style={{
-              fontFamily: ' Arial, sans-serif',
-            }}
+    <section className="bg-brand-tan py-20 lg:py-32">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2
+            className="text-3xl sm:text-4xl font-bold text-brand-brown"
+            style={{ fontFamily: 'var(--font-playfair-display)' }}
           >
-            You&apos;re looking for a sleek bob or long, flowing locks, our
-            expert stylists will help you achieve the perfect cut tailored just
-            for you.
+            Our Commitment to Perfection
+          </h2>
+          <p className="mt-4 text-lg text-brand-brown/80 max-w-2xl mx-auto">
+            Discover the core principles that make ChilzStyles a leader in luxury hair.
           </p>
         </div>
 
-        {/* Feature 2 */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
-          <div className="flex flex-col items-center gap-6">
-            <Image
-              src="/images/hairdryer.png"
-              alt="Hairdryer Icon"
-              width={48}
-              height={48}
-            />
-            <h3
-              className="text-lg sm:text-xl font-semibold"
-              style={{
-                fontFamily: "'ARP', Arial, sans-serif",
-                fontWeight: 700,
-              }}
-            >
-              Apply custom colors
-            </h3>
-          </div>
-          <p
-            className="text-sm text-white/60 text-center"
-            style={{
-              fontFamily: ' Arial, sans-serif',
-            }}
-          >
-            From subtle highlights to bold, vibrant hues, our team of
-            professionals can help you find the right color to match your style
-            and personality.
-          </p>
-        </div>
-
-        {/* Feature 3 */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 max-w-sm">
-          <div className="flex flex-col items-center gap-6">
-            <Image
-              src="/images/hair-brush.png"
-              alt="Hair Brush Icon"
-              width={48}
-              height={48}
-            />
-            <h3
-              className="text-lg sm:text-xl font-semibold"
-              style={{
-                fontFamily: "'ARP', Arial, sans-serif",
-                fontWeight: 700,
-              }}
-            >
-              We love to serve
-            </h3>
-          </div>
-          <p
-            className="text-sm text-white/60 text-center"
-            style={{
-              fontFamily: ' Arial, sans-serif',
-            }}
-          >
-            Whether you need styling advice or help selecting the perfect piece,
-            we&apos;re always ready to serve you with passion and expertise.
-          </p>
+        <div className="max-w-4xl mx-auto border-t border-b border-brand-brown/20">
+          {featuresData.map((feature, index) => (
+            <div key={index} className="border-b border-brand-brown/20">
+              <button
+                onClick={() => handleToggle(index)}
+                className="w-full flex justify-between items-center text-left py-6"
+              >
+                <div className="flex items-center gap-4">
+                  <feature.icon className="h-8 w-8 text-brand-pink flex-shrink-0" />
+                  <h3
+                    className="text-2xl lg:text-3xl font-bold text-brand-brown"
+                    style={{ fontFamily: 'var(--font-playfair-display)' }}
+                  >
+                    {feature.title}
+                  </h3>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-secondary-bg">
+                  {openIndex === index ? <Minus className="h-5 w-5 text-brand-brown" /> : <Plus className="h-5 w-5 text-brand-brown" />}
+                </div>
+              </button>
+              <div
+                className={`grid transition-all duration-500 ease-in-out ${
+                  openIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 pb-8">
+                    <p className="text-base text-brand-brown/80">
+                      {feature.description}
+                    </p>
+                    <div className="relative h-48 w-full rounded-lg overflow-hidden">
+                      <Image 
+                        src={feature.imageSrc}
+                        alt={feature.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

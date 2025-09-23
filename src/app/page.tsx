@@ -14,6 +14,7 @@ import NewToWigs1 from "@/components/NewToWigs1";
 import Highlight from "@/components/Highlight";
 
 
+
 export const metadata: Metadata = {
   title: "ChilzStyles - Premium Human Hair Wigs",
   description: "Premium quality wigs made from ethically sourced human hair. Designed for comfort, style, and confidence.",
@@ -28,11 +29,11 @@ export default function Home() {
       <NewToWigs /> 
       <ShopByCategory />
       <Features />
-      <VideoSection />
+      {/* <VideoSection /> */}
       <NewToWigs1 />
-      <PopularLooks />
+      {/* <PopularLooks /> */}
       <Highlight />
-      <BlogSection />
+      {/* <BlogSection /> */}
       <Newsletter />  
     </>
   );

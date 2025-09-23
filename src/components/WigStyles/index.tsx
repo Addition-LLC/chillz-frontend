@@ -1,83 +1,105 @@
-// app/components/WigStyles.tsx
+'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
-// Define the data for the cards to keep the code clean
 const stylesData = [
   {
-    name: 'WAVE',
-    description: 'Premium quality wave style wigs',
-    href: '/shop/wave',
-    imgSrc: '/images/shop3.jpg',
+    name: 'Wave',
+    description: 'Embrace effortless, flowing textures.',
+    href: '/tools?style=wave',
+    imageSrc: '/images/wigstyles1.jpg', // Green Shirt
   },
   {
-    name: 'STRAIGHT',
-    description: 'Premium quality straight style wigs',
-    href: '/shop/straight',
-    imgSrc: '/images/wigstyles2.jpg',
+    name: 'Straight',
+    description: 'Discover sleek, timeless elegance.',
+    href: '/tools?style=straight',
+    imageSrc: '/images/wigstyles2.jpg', // White Hoodie
   },
   {
-    name: 'CURLS',
-    description: 'Premium quality curls style wigs',
-    href: '/shop/curls',
-    imgSrc: '/images/wigstyles3.jpg',
+    name: 'Curls',
+    description: 'Define your look with bold, beautiful curls.',
+    href: '/tools?style=curly',
+    imageSrc: '/images/wigstyles3.jpg', // Red Shirt
   },
 ];
 
 const WigStyles = () => {
+  const [activeStyle, setActiveStyle] = useState(stylesData[0]); 
+
   return (
-    <section className="py-10 bg-[#FBF6ED]">
-      <div className="container mx-auto px-4 lg:px-0">
-        {/* Grid container for the style cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-0">
-          {stylesData.map((style) => (
-            <div
-              key={style.name}
-              className="group relative h-96 w-full overflow-hidden rounded-2xl lg:rounded-none shadow-lg"
-            >
-              {/* Background Image with Hover Zoom Effect */}
-              <Image
-                src={style.imgSrc}
-                alt={`${style.name} style wig`}
-                fill
-                className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-              />
-
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-black/40"></div>
-
-              {/* Content */}
-              <div className="relative h-full flex flex-col items-center justify-end text-center text-white p-8">
-                <h3
-                  className="text-4xl  tracking-wider"
-                  style={{
-                    fontFamily: "'ARP', Arial, sans-serif",
-                    fontWeight: 600,
-                  }}
-                >
-                  {style.name}
-                </h3>
-                <p className=" text-white/90">{style.description}</p>
-
-                {/* Shop Button */}
-                <Link
-                  href={style.href}
-                  className="mt-6 inline-flex items-center justify-center gap-3 rounded-full border border-white/50 px-6 py-2 text-md  backdrop-blur-sm transition-colors hover:bg-white/10"
-                  style={{
-                    fontFamily: "'ARP', Arial, sans-serif",
-                    fontWeight: 550,
-                  }}
-                >
-                  Shop {style.name}
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                    <ArrowUpRight className="h-4 w-4 text-black/50" />
-                  </span>
-                </Link>
-              </div>
+    <section 
+      className="py-20 lg:py-32"
+      style={{ backgroundColor: '#5C4033', color: '#F5F0E6' }} // Forced brand-brown bg & brand-tan text
+    >
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* --- Left Column: Interactive Text Links --- */}
+          <div>
+            <div className="mb-12">
+              <h2 
+                className="text-3xl lg:text-4xl font-bold"
+                style={{ fontFamily: 'var(--font-playfair-display)' }}
+              >
+                Find Your Signature Style
+              </h2>
+              <p className="mt-4 text-lg text-brand-tan/70 max-w-lg">
+                Hover over a style to preview the collection. Click to explore all the unique looks we have to offer.
+              </p>
             </div>
-          ))}
+            
+            <div className="divide-y divide-brand-tan/20 border-t border-b border-brand-tan/20">
+              {stylesData.map((style, index) => (
+                <div 
+                  key={style.name}
+                  onMouseEnter={() => setActiveStyle(style)}
+                  className="group"
+                >
+                  <Link href={style.href} className="flex justify-between items-center py-8 text-brand-tan transition-colors duration-300">
+                    <div className="flex items-center gap-6">
+                      <span className="text-sm font-semibold text-brand-tan/70">
+                        0{index + 1}
+                      </span>
+                      <h3 
+                        className="text-4xl lg:text-6xl font-bold transition-transform duration-300 group-hover:translate-x-2"
+                        style={{ fontFamily: 'var(--font-playfair-display)' }}
+                      >
+                        {style.name}
+                      </h3>
+                    </div>
+                    <div className="text-right flex items-center gap-4">
+                      <p className="hidden md:block text-brand-tan/80 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                        {style.description}
+                      </p>
+                      <div className="h-14 w-14 rounded-full border-2 border-brand-tan flex items-center justify-center transition-all duration-300 group-hover:bg-brand-tan group-hover:text-brand-brown">
+                        <ArrowUpRight className="h-6 w-6" />
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* --- Right Column: Image Preview --- */}
+          <div className="relative w-full h-[28rem] lg:h-[36rem] rounded-2xl overflow-hidden">
+             <div className="absolute inset-0 bg-brand-secondary-bg"></div>
+             {stylesData.map((style) => (
+                <Image
+                    key={style.name}
+                    src={style.imageSrc}
+                    alt={style.name}
+                    fill
+                    className={`object-cover object-center transition-opacity duration-700 ease-in-out ${
+                    activeStyle.name === style.name ? 'opacity-100' : 'opacity-0'
+                    }`}
+                />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
@@ -85,3 +107,4 @@ const WigStyles = () => {
 };
 
 export default WigStyles;
+
