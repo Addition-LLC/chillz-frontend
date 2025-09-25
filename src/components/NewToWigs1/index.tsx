@@ -47,7 +47,7 @@ export default function Features() {
                 className="text-3xl lg:text-4xl font-bold mb-8"
                 style={{ fontFamily: 'var(--font-playfair-display)' }}
               >
-                The ChilzStyles Promise
+                The Nhim Wen Promise
               </h2>
               
               <div className="space-y-8 border-l-2 border-brand-pink pl-8">

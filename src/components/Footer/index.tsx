@@ -45,7 +45,7 @@ const Footer = () => {
           <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
             <div className="mb-12 max-w-[360px] lg:mb-16">
               <Link href="/" className="mb-8 inline-block text-3xl font-bold text-brand-brown">
-                ChilzStyles
+                Nhim Wen Luxury Hair
               </Link>
               <p className="mb-9 text-base leading-relaxed">
                 Premium quality wigs made from ethically sourced human hair. Designed for comfort, style, and confidence.
@@ -98,7 +98,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-brand-pink flex-shrink-0" />
-                  <p>info@chilzstyles.com</p>
+                  <p>info@nhimwenluxuryhair.com</p>
                 </div>
               </div>
             </div>
@@ -108,7 +108,7 @@ const Footer = () => {
         <div className="h-px w-full bg-brand-brown/20"></div>
         <div className="py-8">
           <p className="text-center text-base">
-            &copy; {currentYear} ChilzStyles. All Rights Reserved.
+            &copy; {currentYear} Nhim Wen Luxury Hair. All Rights Reserved.
           </p>
         </div>
       </div>

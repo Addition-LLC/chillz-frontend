@@ -20,7 +20,7 @@ const NewToWigs = () => {
               An Expression of You.
             </h2>
             <p className="mt-4 text-lg text-brand-brown/80 max-w-xl mx-auto lg:mx-0">
-              At ChilzStyles, we believe hair is a statement of confidence. Our collections are designed to empower you to be unapologetically you.
+              At Nhim Wen, we believe hair is a statement of confidence. Our collections are designed to empower you to be unapologetically you.
             </p>
             
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">

@@ -1,4 +1,4 @@
-import { Playfair_Display, Lato } from 'next/font/google';
+import { Playfair_Display, Geist } from 'next/font/google';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,7 +12,7 @@ const playfair_display = Playfair_Display({
   variable: '--font-playfair-display',
 });
 
-const lato = Lato({
+const lato = Geist({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-lato',

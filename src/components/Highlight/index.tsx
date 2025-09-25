@@ -23,7 +23,7 @@ export default function Highlight() {
         {/* --- Background Image --- */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/highlight.jpg"
+            src="/images/newtowigs1.jpg"
             alt="Highlight Wig Collection"
             fill
             className="object-cover"
