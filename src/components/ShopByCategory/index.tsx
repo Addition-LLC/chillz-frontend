@@ -1,123 +1,78 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Use category names and handles that match your Medusa setup
 const categories = [
   {
     id: 1,
-    name: 'Blonde Straight',
-    href: '/tools?category=blonde',
-    imgSrc: '/images/shop1.jpg',
+    name: 'The D Collection', // Example Category Name
+    href: '/products/the-d-collection', // Example Link (use product handle or collection path)
+    imgSrc: '/images/shop1.jpg', // Replace with your image path
   },
   {
     id: 2,
-    name: 'Body Wave',
-    href: '/tools?style=wave',
-    imgSrc: '/images/shop2.jpg',
+    name: 'Curly',
+    href: '/products/curly-hair', // Example Link
+    imgSrc: '/images/shop3.jpg', // Replace with your image path
   },
   {
     id: 3,
-    name: 'Loose Curls',
-    href: '/tools?style=curly',
-    imgSrc: '/images/shop3.jpg',
+    name: 'Straight',
+    href: '/products/straight-hair', // Example Link
+    imgSrc: '/images/wigstyles2.jpg', // Replace with your image path
   },
   {
     id: 4,
-    name: 'Yaki Straight',
-    href: '/tools?style=straight',
-    imgSrc: '/images/wigstyles2.jpg',
+    name: 'Wavy',
+    href: '/products/wavy-hair', // Example Link
+    imgSrc: '/images/shop2.jpg', // Replace with your image path
   },
 ];
 
 const ShopByCategory = () => {
-  const [hoveredCategory, setHoveredCategory] = useState<{ id: number; imgSrc: string } | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
   return (
-    <section className="relative min-h-screen bg-brand-brown text-brand-tan flex flex-col justify-center py-20 lg:py-0">
-      <div
-        className="pointer-events-none absolute z-0 transition-opacity duration-300 hidden lg:block"
-        style={{
-          top: mousePosition.y,
-          left: mousePosition.x,
-          transform: 'translate(-50%, -50%)',
-          opacity: hoveredCategory ? 1 : 0,
-        }}
-      >
-        {categories.map(category => (
-           <div key={category.id} className={`relative h-64 w-48 rounded-lg overflow-hidden shadow-2xl transition-opacity duration-300 ${hoveredCategory?.id === category.id ? 'opacity-100' : 'opacity-0'}`}>
-             <Image
-                src={category.imgSrc}
-                alt={category.name}
-                fill
-                className="object-cover"
-             />
-           </div>
-        ))}
-      </div>
-      
-      <div className="container mx-auto px-4 relative z-20">
+    <section className="bg-brand-brown text-brand-tan py-16 lg:py-20"> {/* Reverted background */}
+      <div className="container mx-auto px-4">
         <div className="text-center mb-12 lg:mb-16">
-          <h2 
-            className="text-3xl lg:text-4xl font-bold"
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-brand-tan" // Reverted text color
             style={{ fontFamily: 'var(--font-playfair-display)' }}
           >
-            Explore The Collections
+            Shop By Style
           </h2>
           <p className="mt-4 text-lg text-brand-tan/70 max-w-2xl mx-auto">
-            Each style is a new identity. Hover to reveal the essence of each collection.
+            Find the perfect texture for your look.
           </p>
         </div>
-        
-        <div className="divide-y divide-brand-tan/20 max-w-4xl mx-auto hidden lg:block">
-          {categories.map((category) => (
-            <div 
-              key={category.id}
-              onMouseEnter={() => setHoveredCategory(category)}
-              onMouseLeave={() => setHoveredCategory(null)}
-            >
-              <Link 
-                href={category.href} 
-                className="group block text-center py-8"
-              >
-                <h3 
-                  className="text-5xl lg:text-8xl font-bold text-brand-tan/60 transition-all duration-300 group-hover:text-brand-tan group-hover:scale-105"
-                  style={{ fontFamily: 'var(--font-playfair-display)' }}
-                >
-                  {category.name}
-                </h3>
-              </Link>
-            </div>
-          ))}
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:hidden">
+        {/* Grid for all screen sizes */}
+        {/* FIX: Reduced gap using gap-1 or gap-2 */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 md:gap-2 max-w-7xl mx-auto">
           {categories.map((category) => (
-            <Link key={category.id} href={category.href} className="group relative block text-center">
-              <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+            <Link key={category.id} href={category.href} className="group relative block text-center overflow-hidden"> {/* Removed shadow-sm and rounded-md */}
+              {/* Image Container */}
+              <div className="relative aspect-[3/4] w-full"> {/* Aspect ratio for consistency */}
                 <Image
                   src={category.imgSrc}
                   alt={category.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 25vw, 25vw" // Adjusted sizes
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+                {/* Text Overlay */}
+                <div className="absolute inset-0 flex items-end justify-center p-4">
+                  <h3
+                    className="text-white text-lg sm:text-xl lg:text-2xl font-semibold transition-opacity duration-300 group-hover:opacity-80"
+                    style={{ fontFamily: 'var(--font-playfair-display)' }}
+                  >
+                    {category.name}
+                  </h3>
+                </div>
               </div>
-              <h3 className="mt-4 text-2xl font-bold text-brand-tan" style={{fontFamily: 'var(--font-playfair-display)'}}>
-                {category.name}
-              </h3>
             </Link>
           ))}
         </div>
@@ -127,4 +82,3 @@ const ShopByCategory = () => {
 };
 
 export default ShopByCategory;
-

@@ -1,5 +1,6 @@
 
 import { Metadata } from "next";
+import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import WigCollection from "@/components/WigCollection";
 import WigStyles from "@/components/WigStyles";

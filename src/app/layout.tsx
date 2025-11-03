@@ -1,4 +1,7 @@
+"use client";
+
 import { Playfair_Display, Geist } from 'next/font/google';
+import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -27,13 +30,15 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body className={`${playfair_display.variable} ${lato.variable}`}>
-        <CartProvider>
-          <Cart />
-          <Header />
-          <main>{children}</main>
-          <ScrollToTop />
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Cart />
+            <Header />
+            <main>{children}</main>
+            <ScrollToTop />
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
