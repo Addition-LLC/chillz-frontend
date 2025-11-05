@@ -71,7 +71,7 @@ export default async function CollectionPage({ params }: Props) {
 
       {/* FIX: Add introductory text */}
       <p className="text-lg text-center text-gray-600 mb-10">
-        Browse products in the "{collection.title}" collection:
+        Browse products in the {collection.title} collection:
       </p>
 
       {products && products.length > 0 ? (

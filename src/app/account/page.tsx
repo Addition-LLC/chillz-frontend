@@ -3,9 +3,8 @@
 import { useAuth } from "@/context/AuthContext";
 import medusaClient from "@/lib/medusa";
 import type { StoreOrder, HttpTypes } from "@medusajs/types";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link"; // Import Link
+import Image from "next/image";
 
 // Helper to format prices
 const formatPrice = (amount: number | string | undefined | null, currencyCode: string | undefined): string => {
@@ -101,7 +100,7 @@ export default function OrderHistoryPage() {
               <div className="py-4 space-y-4">
                 {order.items?.map((item) => (
                   <div key={item.id} className="flex items-center space-x-4">
-                    <img 
+                    <Image
                       src={item.thumbnail || '/placeholder.png'} 
                       alt={item.title}
                       className="w-16 h-20 object-cover rounded-md flex-shrink-0"

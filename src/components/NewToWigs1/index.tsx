@@ -45,7 +45,7 @@ export default function Features() {
             <div className="text-brand-brown z-10">
               <h2
                 className="text-3xl lg:text-4xl font-bold mb-8"
-                style={{ fontFamily: 'var(--font-playfair-display)' }}
+                style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               >
                 The Nhim Wen Promise
               </h2>
@@ -59,7 +59,7 @@ export default function Features() {
                     <div>
                       <h3
                         className="text-xl font-bold"
-                        style={{ fontFamily: 'var(--font-playfair-display)' }}
+                        style={{ fontFamily: 'var(--font-caviar-dreams)' }}
                       >
                         {feature.title}
                       </h3>

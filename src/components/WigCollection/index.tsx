@@ -55,18 +55,19 @@ const WigCollection = () => {
             
             <div className="flex flex-col h-full space-y-8 animate-slide-in-left" style={{ animationDelay: '0.2s', opacity: 0 }}>
               <div>
-                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+                {/* --- FIX 1: Font changed --- */}
+                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
                   Get the Look
                 </h2>
-                <p className="mt-3 text-lg text-brand-brown/80">
+                <p className="mt-3 text-lg text-brand-brown/80" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                   Our wigs aren&apos;t just accessories; they&apos;re a statement of quality and confidence.
                 </p>
               </div>
               
               <div className="space-y-4">
-                <div className="flex items-center gap-4"><Leaf className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold">100% Human Hair</h3><p className="text-sm text-brand-brown/70">For the most natural look and feel.</p></div></div>
-                <div className="flex items-center gap-4"><Heart className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold">Ethically Sourced</h3><p className="text-sm text-brand-brown/70">Beauty with a conscience.</p></div></div>
-                <div className="flex items-center gap-4"><Gem className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold">Unmatched Quality</h3><p className="text-sm text-brand-brown/70">Crafted to last, designed to impress.</p></div></div>
+                <div className="flex items-center gap-4"><Leaf className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>100% Human Hair</h3><p className="text-sm text-brand-brown/70">For the most natural look and feel.</p></div></div>
+                <div className="flex items-center gap-4"><Heart className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Ethically Sourced</h3><p className="text-sm text-brand-brown/70">Beauty with a conscience.</p></div></div>
+                <div className="flex items-center gap-4"><Gem className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Unmatched Quality</h3><p className="text-sm text-brand-brown/70">Crafted to last, designed to impress.</p></div></div>
               </div>
               
               <div className="relative group w-full h-56 mt-auto">
@@ -97,7 +98,8 @@ const WigCollection = () => {
           
           <div className="flex flex-col items-center text-center lg:hidden space-y-10">
               <div>
-                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+                {/* --- FIX 2: Font changed --- */}
+                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
                   Experience The Difference
                 </h2>
                 <p className="mt-3 text-lg text-brand-brown/80 max-w-md mx-auto">
@@ -117,15 +119,15 @@ const WigCollection = () => {
                 </div>
               </div>
               
-               <div className="space-y-4 max-w-sm">
-                <div className="flex items-center text-left gap-4"><Leaf className="h-6 w-6 text-brand-pink flex-shrink-0" /><div><h3 className="font-bold">100% Human Hair</h3><p className="text-sm text-brand-brown/70">For the most natural look and feel.</p></div></div>
-                <div className="flex items-center text-left gap-4"><Heart className="h-6 w-6 text-brand-pink flex-shrink-0" /><div><h3 className="font-bold">Ethically Sourced</h3><p className="text-sm text-brand-brown/70">Beauty with a conscience.</p></div></div>
-              </div>
+                <div className="space-y-4 max-w-sm">
+                 <div className="flex items-center text-left gap-4"><Leaf className="h-6 w-6 text-brand-pink flex-shrink-0" /><div><h3 className="font-bold">100% Human Hair</h3><p className="text-sm text-brand-brown/70">For the most natural look and feel.</p></div></div>
+                 <div className="flex items-center text-left gap-4"><Heart className="h-6 w-6 text-brand-pink flex-shrink-0" /><div><h3 className="font-bold">Ethically Sourced</h3><p className="text-sm text-brand-brown/70">Beauty with a conscience.</p></div></div>
+                </div>
 
-              <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-                 <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection1.jpg" alt="Dark wavy wig style" fill className="object-cover"/></div>
-                 <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection3.jpg" alt="Curly hair styles" fill className="object-cover"/></div>
-              </div>
+                <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+                    <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection1.jpg" alt="Dark wavy wig style" fill className="object-cover"/></div>
+                    <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection3.jpg" alt="Curly hair styles" fill className="object-cover"/></div>
+                </div>
           </div>
         </div>
       </section>

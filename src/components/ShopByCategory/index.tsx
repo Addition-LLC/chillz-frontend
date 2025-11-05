@@ -37,12 +37,12 @@ const ShopByCategory = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 lg:mb-16">
           <h2
-            className="text-3xl lg:text-4xl font-bold text-brand-tan" // Reverted text color
-            style={{ fontFamily: 'var(--font-playfair-display)' }}
+            className="text-7xl lg:text-4xl font-bold text-brand-tan"
+            style={{ fontFamily: 'var(--font-caviar-dreams)', fontWeight: '700', fontSize: '36px' }}
           >
             Shop By Style
           </h2>
-          <p className="mt-4 text-lg text-brand-tan/70 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-brand-tan/70 max-w-2xl mx-auto font-caviar font-normal">
             Find the perfect texture for your look.
           </p>
         </div>
@@ -67,7 +67,7 @@ const ShopByCategory = () => {
                 <div className="absolute inset-0 flex items-end justify-center p-4">
                   <h3
                     className="text-white text-lg sm:text-xl lg:text-2xl font-semibold transition-opacity duration-300 group-hover:opacity-80"
-                    style={{ fontFamily: 'var(--font-playfair-display)' }}
+                    style={{ fontFamily: 'var(--font-caviar-dreams)' }}
                   >
                     {category.name}
                   </h3>

@@ -12,14 +12,14 @@ const NewToWigs = () => {
           
           <div className="lg:col-span-3 text-brand-brown text-center lg:text-left">
             <h2 
-              className="text-4xl lg:text-5xl font-bold leading-tight"
-              style={{ fontFamily: 'var(--font-playfair-display)' }}
+              className="text-4xl lg:text-5xl font-bold leading-tight font-bold"
+              style={{ fontFamily: 'var(--font-caviar-dreams)' }}
             >
               Beyond Beauty.
               <br />
               An Expression of You.
             </h2>
-            <p className="mt-4 text-lg text-brand-brown/80 max-w-xl mx-auto lg:mx-0">
+            <p className="mt-4 text-lg text-brand-brown/80 max-w-xl mx-auto lg:mx-0" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
               At Nhim Wen, we believe hair is a statement of confidence. Our collections are designed to empower you to be unapologetically you.
             </p>
             
@@ -27,15 +27,15 @@ const NewToWigs = () => {
               <div className="flex items-start gap-4">
                 <Leaf className="h-8 w-8 text-brand-pink flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold">Expert Guidance</h3>
-                  <p className="text-sm text-brand-brown/70">Personalized consultations to find your perfect match.</p>
+                  <h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Expert Guidance</h3>
+                  <p className="text-sm text-brand-brown/70" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Personalized consultations to find your perfect match.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Gem className="h-8 w-8 text-brand-pink flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold">Premium Quality</h3>
-                  <p className="text-sm text-brand-brown/70">100% ethically sourced human hair, crafted for a flawless look.</p>
+                  <h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Premium Quality</h3>
+                  <p className="text-sm text-brand-brown/70" style={{fontFamily: 'var(--font-caviar-dreams)'}}>100 % ethically sourced human hair, crafted for a flawless look.</p>
                 </div>
               </div>
             </div>
@@ -44,6 +44,7 @@ const NewToWigs = () => {
                <Link
                 href="/shop"
                 className="group inline-flex items-center gap-3 rounded-full bg-brand-brown py-3 px-6 text-base font-bold text-brand-tan transition-all duration-300 hover:scale-105 hover:bg-brand-pink hover:text-brand-brown"
+                style={{fontFamily: 'var(--font-caviar-dreams)'}}
               >
                 Find Your Signature Style
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-tan text-brand-brown transition-transform group-hover:rotate-45 group-hover:bg-white">

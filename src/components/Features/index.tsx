@@ -38,7 +38,7 @@ export default function Features() {
         <div className="text-center mb-12">
           <h2
             className="text-3xl sm:text-4xl font-bold text-brand-brown"
-            style={{ fontFamily: 'var(--font-playfair-display)' }}
+            style={{ fontFamily: 'var(--font-caviar-dreams)' }}
           >
             Our Commitment to Perfection
           </h2>
@@ -58,7 +58,7 @@ export default function Features() {
                   <feature.icon className="h-8 w-8 text-brand-pink flex-shrink-0" />
                   <h3
                     className="text-2xl lg:text-3xl font-bold text-brand-brown"
-                    style={{ fontFamily: 'var(--font-playfair-display)' }}
+                    style={{ fontFamily: 'var(--font-caviar-dreams)' }}
                   >
                     {feature.title}
                   </h3>

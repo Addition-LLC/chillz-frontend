@@ -2,12 +2,10 @@
 
 import { useCart } from "@/context/CartContext";
 import medusaClient from "@/lib/medusa";
-// Import the correct types: StoreCartShippingOption and StoreCartLineItem
 import type { StoreCartShippingOption, StoreCartLineItem, HttpTypes } from "@medusajs/types";
 import { useState, useEffect } from "react";
-import StripePayment from "@/components/Checkout/StripePayment"; // Assuming this component exists
+import StripePayment from "@/components/Checkout/StripePayment"; 
 
-// Define the shape for the shipping address state
 interface ShippingAddress {
   first_name: string;
   last_name: string;
@@ -16,12 +14,11 @@ interface ShippingAddress {
   country_code: string;
   postal_code: string;
   province: string;
-  phone?: string; // Phone is optional
+  phone?: string; 
 }
 
 export default function CheckoutPage() {
-  const { cart, setCart } = useCart(); // Get cart and setCart from context
-  // Use the correct StoreCartShippingOption type for the state
+  const { cart, setCart } = useCart(); 
   const [shippingOptions, setShippingOptions] = useState<StoreCartShippingOption[]>([]);
   const [selectedShipping, setSelectedShipping] = useState<string>("");
   const [isAddressSet, setIsAddressSet] = useState(false);
@@ -42,7 +39,6 @@ export default function CheckoutPage() {
   });
   const [email, setEmail] = useState("");
 
-  // Auto-fill form if cart has details already
   useEffect(() => {
     if (cart) {
       setEmail(cart.email || "");
@@ -70,13 +66,11 @@ export default function CheckoutPage() {
   }, [cart]);
 
 
-  // Handler for address input changes
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setShippingAddress({ ...shippingAddress, [name]: value });
   };
 
-  // Handler for submitting the shipping address form
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -115,12 +109,10 @@ export default function CheckoutPage() {
     }
   };
 
-  // Function to create/initiate payment sessions
   const createPaymentSessions = async (cartId: string) => {
      setError(null);
      setIsInitializingPayment(true);
      try {
-       // FIX 1: Change 'expand' to 'fields' and add '*'
        const { cart: currentCart } = await medusaClient.store.cart.retrieve(cartId, {
            fields: "*payment_collection.payment_providers"
        });

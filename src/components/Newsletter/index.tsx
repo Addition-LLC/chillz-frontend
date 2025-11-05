@@ -4,7 +4,7 @@ export default function Newsletter() {
       <h3
         className="text-white text-2xl md:text-3xl font-bold text-center md:text-left"
         style={{
-          fontFamily: "'ARP', Arial, sans-serif",
+          fontFamily: 'var(--font-caviar-dreams)',
           fontWeight: 700,
         }}
       >

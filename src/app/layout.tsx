@@ -1,6 +1,5 @@
-"use client";
-
 import { Playfair_Display, Geist } from 'next/font/google';
+import localFont from 'next/font/local'; // 1. Import localFont
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
@@ -21,6 +20,33 @@ const lato = Geist({
   variable: '--font-lato',
 });
 
+// 2. Define your local font
+const caviarDreams = localFont({
+  src: [
+    {
+      path: '../../public/fonts/CaviarDreams.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/CaviarDreams_Italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../../public/fonts/CaviarDreams_Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/CaviarDreams_BoldItalic.ttf',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-caviar-dreams', // This is the CSS variable we'll use
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -29,7 +55,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className={`${playfair_display.variable} ${lato.variable}`}>
+      {/* 3. Add the new font variable to the body */}
+      <body className={`${playfair_display.variable} ${lato.variable} ${caviarDreams.variable}`}>
         <AuthProvider>
           <CartProvider>
             <Cart />

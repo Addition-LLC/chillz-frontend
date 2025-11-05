@@ -43,7 +43,7 @@ export default function Highlight() {
               <h3 className="text-lg font-semibold text-brand-pink">Collection Spotlight</h3>
               <h2
                 className="text-4xl lg:text-5xl font-bold mt-2"
-                style={{ fontFamily: 'var(--font-playfair-display)' }}
+                style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               >
                 The Wave Collection
               </h2>

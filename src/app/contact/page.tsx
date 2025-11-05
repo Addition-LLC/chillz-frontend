@@ -50,7 +50,7 @@ export default function ContactPage() {
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Have a question about our products, an order, or just want to say hello? 
-              We'd love to hear from you.
+              We&apos;d love to hear from you.
             </p>
           </div>
 

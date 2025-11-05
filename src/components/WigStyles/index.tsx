@@ -42,12 +42,12 @@ const WigStyles = () => {
             <div className="mb-12">
               <h2 
                 className="text-3xl lg:text-4xl font-bold"
-                style={{ fontFamily: 'var(--font-playfair-display)' }}
+                style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               >
                 Embrace Your Ethereal Beauty
               </h2>
-              <p className="mt-4 text-lg text-brand-tan/70 max-w-lg">
-                Here at Nhim Wën Lux Hair, embracing our natural hair texture is an act of reclaiming identity and celebrating its rich heritage. Our South Sudanese founder shares a similar journey all black women face of being stifled by western beauty standards and the colonial narratives that sought to erase and re-write the beauty of black hair. Hair extensions, when used intentionally, can be a beautiful tool to enhance and honor your natural curls, coils, and kinks. Not to mask them. They allow you to express versatility and creativity while staying rooted in the power of your authentic self. By choosing to adorn your hair in all ways, especially its natural texture, you harness the ethereal beauty that is unapologetically yours. As we defy outdated norms and inspire a movement where Black women everywhere reclaim their crowns with pride, resilience, and love. Your hair is your heritage; let it shine boldly.
+              <p className="mt-4 text-lg text-brand-tan/70 max-w-lg" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
+              At Nhim Wën Lux Hair, we see embracing natural hair as reclaiming your identity. Our founder shares this journey against colonial beauty standards. We believe extensions are a tool to enhance your natural texture, not mask it, allowing for versatile self-expression. By celebrating your hair, you defy outdated norms and reclaim your crown with pride. Your hair is your heritage; let it shine boldly.
               </p>
             </div>
             

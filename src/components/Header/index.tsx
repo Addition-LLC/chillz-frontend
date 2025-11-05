@@ -79,17 +79,19 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex flex-grow items-center justify-center">
             <nav className="flex space-x-8">
-              <Link href="/" className={`py-6 font-semibold transition-colors hover:text-brand-pink ${ currentPath === "/" ? "!text-brand-pink" : "" }`}>
+              <Link href="/" className={`py-6 font-semibold transition-colors hover:text-brand-pink ${ currentPath === "/" ? "!text-brand-pink" : "" }`}
+              style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                 Home
               </Link>
               <div className="group relative">
-                <span className={`py-6 font-semibold cursor-default flex items-center transition-colors hover:text-brand-pink ${ currentPath.startsWith("/collections") ? "!text-brand-pink" : "" }`}>
+                <span className={`py-6 font-semibold cursor-default flex items-center transition-colors hover:text-brand-pink ${ currentPath.startsWith("/collections") ? "!text-brand-pink" : "" }`}
+                style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                   Collections
                   <svg className="ml-1 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                 </span>
                 <div
                   className="absolute top-full left-1/2 -translate-x-1/2 mt-0 p-4 shadow-lg rounded-md w-48 invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                  style={{ backgroundColor: '#F5F0E6', color: '#5C4033' }}
+                  style={{ backgroundColor: '#F5F0E6', color: '#5C4033', fontFamily: 'var(--font-caviar-dreams)' }}
                 >
                   <ul className="space-y-2">
                     {collections.map((col) => (
@@ -103,7 +105,8 @@ const Header = () => {
                 </div>
               </div>
               {staticLinks.map((link) => (
-                 <Link key={link.id} href={link.path} className={`py-6 font-semibold transition-colors hover:text-brand-pink ${ currentPath === link.path ? "!text-brand-pink" : "" }`}>
+                 <Link key={link.id} href={link.path} className={`py-6 font-semibold transition-colors hover:text-brand-pink ${ currentPath === link.path ? "!text-brand-pink" : "" }`}
+                 style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                    {link.title}
                  </Link>
               ))}

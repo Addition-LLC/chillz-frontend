@@ -44,7 +44,7 @@ const Footer = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
             <div className="mb-12 max-w-[360px] lg:mb-16">
-              <Link href="/" className="mb-8 inline-block text-3xl font-bold text-brand-brown">
+              <Link href="/" className="mb-8 inline-block text-3xl font-bold text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                 Nhim Wen Luxury Hair
               </Link>
               <p className="mb-9 text-base leading-relaxed">

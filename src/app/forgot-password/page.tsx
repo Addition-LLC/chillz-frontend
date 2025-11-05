@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
         Forgot Your Password?
       </h1>
       <p className="text-center text-gray-600 mb-8 max-w-md mx-auto">
-        Enter your email address below, and we'll send you instructions to reset your password.
+        Enter your email address below, and we&apos;ll send you instructions to reset your password.
       </p>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 bg-white p-8 shadow-md rounded-lg">
         {error && (
