@@ -42,7 +42,7 @@ export default function Highlight() {
             >
               <h3 className="text-lg font-semibold text-brand-pink">Collection Spotlight</h3>
               <h2
-                className="text-4xl lg:text-5xl font-bold mt-2"
+                className="text-4xl lg:text-5xl font-bold mt-2 font-edwardian-first-letter"
                 style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               >
                 The Wave Collection
@@ -55,7 +55,7 @@ export default function Highlight() {
               </p>
               <div className="mt-8">
                 <Link
-                  href="/tools?style=wave"
+                  href="/product"
                   className="group inline-flex items-center gap-3 rounded-full bg-brand-brown py-3 px-6 text-base font-bold text-brand-tan transition-all duration-300 hover:scale-105 hover:bg-brand-pink hover:text-brand-brown"
                 >
                   Shop The Look

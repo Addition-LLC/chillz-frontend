@@ -183,13 +183,13 @@ export default function Cart() {
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) - 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50"
+                                          className="px-2 text-lg disabled:opacity-50 text-gray-600"
                                         >-</button>
                                         <p className="text-gray-700 mx-2">Qty {item.quantity}</p>
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) + 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50"
+                                          className="px-2 text-lg disabled:opacity-50 text-gray-600"
                                         >+</button>
                                       </div>
                                       <div className="flex">

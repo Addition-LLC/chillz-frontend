@@ -2,32 +2,32 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+// import Link from 'next/link';
+// import { ArrowUpRight } from 'lucide-react';
 
 const stylesData = [
   {
     name: 'Wave',
     description: 'Embrace effortless, flowing textures.',
-    href: '/tools?style=wave',
+    href: '/product',
     imageSrc: '/images/wigstyles1.jpg', // Green Shirt
   },
   {
     name: 'Straight',
     description: 'Discover sleek, timeless elegance.',
-    href: '/tools?style=straight',
+    href: '/product',
     imageSrc: '/images/wigstyles2.jpg', // White Hoodie
   },
   {
     name: 'Curls',
     description: 'Define your look with bold, beautiful curls.',
-    href: '/tools?style=curly',
+    href: '/product',
     imageSrc: '/images/wigstyles3.jpg', // Red Shirt
   },
 ];
 
 const WigStyles = () => {
-  const [activeStyle, setActiveStyle] = useState(stylesData[0]); 
+  const [activeStyle] = useState(stylesData[0]); 
 
   return (
     <section 

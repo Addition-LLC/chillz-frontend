@@ -46,9 +46,9 @@ export default function AccountLayout({
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
+    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+        <h1 className="text-3xl font-bold" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
           My Account
         </h1>
         <button
@@ -60,10 +60,10 @@ export default function AccountLayout({
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
         {/* Side Navigation */}
         <nav className="md:col-span-1">
-          <ul className="space-y-2">
+          <ul className="space-y-2" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -73,6 +73,8 @@ export default function AccountLayout({
                       ? "bg-brand-brown text-white"
                       : "bg-white text-gray-700 hover:bg-gray-50"
                   }`}
+
+                  style={{ fontFamily: 'var(--font-caviar-dreams)' }}
                 >
                   <link.icon size={20} />
                   <span className="font-medium">{link.name}</span>

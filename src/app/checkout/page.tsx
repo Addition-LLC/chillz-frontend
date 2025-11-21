@@ -2,9 +2,11 @@
 
 import { useCart } from "@/context/CartContext";
 import medusaClient from "@/lib/medusa";
-import type { StoreCartShippingOption, StoreCartLineItem, HttpTypes } from "@medusajs/types";
+import type { StoreCartShippingOption, StoreCartLineItem } from "@medusajs/types";
 import { useState, useEffect } from "react";
-import StripePayment from "@/components/Checkout/StripePayment"; 
+import StripePayment from "@/components/Checkout/StripePayment";
+import { Check, ChevronRight, CreditCard, Truck, MapPin } from "lucide-react";
+import Image from "next/image";
 
 interface ShippingAddress {
   first_name: string;
@@ -14,11 +16,11 @@ interface ShippingAddress {
   country_code: string;
   postal_code: string;
   province: string;
-  phone?: string; 
+  phone?: string;
 }
 
 export default function CheckoutPage() {
-  const { cart, setCart } = useCart(); 
+  const { cart, setCart, addDiscount, removeDiscount } = useCart();
   const [shippingOptions, setShippingOptions] = useState<StoreCartShippingOption[]>([]);
   const [selectedShipping, setSelectedShipping] = useState<string>("");
   const [isAddressSet, setIsAddressSet] = useState(false);
@@ -26,6 +28,11 @@ export default function CheckoutPage() {
   const [isLoadingShipping, setIsLoadingShipping] = useState(false);
   const [isInitializingPayment, setIsInitializingPayment] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Discount State
+  const [discountCode, setDiscountCode] = useState("");
+  const [isApplyingDiscount, setIsApplyingDiscount] = useState(false);
+  const [discountError, setDiscountError] = useState<string | null>(null);
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
     first_name: "",
@@ -55,12 +62,12 @@ export default function CheckoutPage() {
         });
       }
       if (cart.shipping_methods?.[0]?.shipping_option_id) {
-         setSelectedShipping(cart.shipping_methods[0].shipping_option_id);
-         setIsAddressSet(true);
-         const stripeSession = cart.payment_collection?.payment_sessions?.find((ps: any) => ps.provider_id === 'pp_stripe_stripe');
-         if (stripeSession?.data?.client_secret) {
-            setPaymentSessionClientSecret(stripeSession.data.client_secret as string);
-         }
+        setSelectedShipping(cart.shipping_methods[0].shipping_option_id);
+        setIsAddressSet(true);
+        const stripeSession = cart.payment_collection?.payment_sessions?.find((ps: any) => ps.provider_id === 'pp_stripe_stripe');
+        if (stripeSession?.data?.client_secret) {
+          setPaymentSessionClientSecret(stripeSession.data.client_secret as string);
+        }
       }
     }
   }, [cart]);
@@ -75,8 +82,8 @@ export default function CheckoutPage() {
     e.preventDefault();
     setError(null);
     if (!cart?.id) {
-        setError("Cart is not available. Please refresh.");
-        return;
+      setError("Cart is not available. Please refresh.");
+      return;
     }
     setPaymentSessionClientSecret(null);
     setSelectedShipping("");
@@ -85,22 +92,22 @@ export default function CheckoutPage() {
     setIsLoadingShipping(true);
 
     try {
-        await medusaClient.store.cart.update(cart.id as string, {
-            email: email,
-            shipping_address: shippingAddress,
-        });
+      await medusaClient.store.cart.update(cart.id as string, {
+        email: email,
+        shipping_address: shippingAddress,
+      });
 
-        const { shipping_options } = await medusaClient.store.fulfillment.listCartOptions({
-            cart_id: cart.id
-        });
+      const { shipping_options } = await medusaClient.store.fulfillment.listCartOptions({
+        cart_id: cart.id
+      });
 
-        if (shipping_options && shipping_options.length > 0) {
-            setShippingOptions(shipping_options);
-            setIsAddressSet(true);
-        } else {
-            setError("No shipping options available for this address.");
-            setIsAddressSet(true);
-        }
+      if (shipping_options && shipping_options.length > 0) {
+        setShippingOptions(shipping_options);
+        setIsAddressSet(true);
+      } else {
+        setError("No shipping options available for this address.");
+        setIsAddressSet(true);
+      }
     } catch (err: any) {
       console.error("Failed in handleAddressSubmit:", err);
       setError(err.message || "Failed to save address or fetch shipping options.");
@@ -110,49 +117,47 @@ export default function CheckoutPage() {
   };
 
   const createPaymentSessions = async (cartId: string) => {
-     setError(null);
-     setIsInitializingPayment(true);
-     try {
-       const { cart: currentCart } = await medusaClient.store.cart.retrieve(cartId, {
-           fields: "*payment_collection.payment_providers"
-       });
-       if (!currentCart) throw new Error("Cart not found before initiating payment.");
+    setError(null);
+    setIsInitializingPayment(true);
+    try {
+      const { cart: currentCart } = await medusaClient.store.cart.retrieve(cartId, {
+        fields: "*payment_collection.payment_providers"
+      });
+      if (!currentCart) throw new Error("Cart not found before initiating payment.");
 
-       const paymentProviderId = currentCart.payment_collection?.payment_providers?.[0]?.id || 'pp_stripe_stripe';
-       if (!paymentProviderId) {
-           throw new Error("No payment providers configured for the cart's region.");
-       }
+      const paymentProviderId = currentCart.payment_collection?.payment_providers?.[0]?.id || 'pp_stripe_stripe';
+      if (!paymentProviderId) {
+        throw new Error("No payment providers configured for the cart's region.");
+      }
 
-       const { payment_collection } = await medusaClient.store.payment.initiatePaymentSession(
-         currentCart,
-         {
-           provider_id: paymentProviderId,
-           data: {}
-         }
-       );
+      await medusaClient.store.payment.initiatePaymentSession(
+        currentCart,
+        {
+          provider_id: paymentProviderId,
+          data: {}
+        }
+      );
 
-       // FIX 2: Change 'expand' to 'fields' and add '*'
-       const { cart: updatedCartWithSession } = await medusaClient.store.cart.retrieve(cartId, {
-           fields: "*payment_collection.payment_sessions"
-       });
-       setCart(updatedCartWithSession);
+      const { cart: updatedCartWithSession } = await medusaClient.store.cart.retrieve(cartId, {
+        fields: "*payment_collection.payment_sessions"
+      });
+      setCart(updatedCartWithSession);
 
-       const stripeSession = updatedCartWithSession.payment_collection?.payment_sessions?.find((ps: any) => ps.provider_id === 'pp_stripe_stripe');
-       if (stripeSession?.data?.client_secret) {
-           setPaymentSessionClientSecret(stripeSession.data.client_secret as string);
-       } else {
-           console.error("Stripe payment session or client_secret not found:", updatedCartWithSession);
-           setError("Could not initialize Stripe payment (client secret missing).");
-       }
-     } catch (err: any) {
-         console.error("Failed to create/initiate payment sessions:", err);
-         setError(`Failed to initialize payment: ${err.message}`);
-     } finally {
-        setIsInitializingPayment(false);
-     }
+      const stripeSession = updatedCartWithSession.payment_collection?.payment_sessions?.find((ps: any) => ps.provider_id === 'pp_stripe_stripe');
+      if (stripeSession?.data?.client_secret) {
+        setPaymentSessionClientSecret(stripeSession.data.client_secret as string);
+      } else {
+        console.error("Stripe payment session or client_secret not found:", updatedCartWithSession);
+        setError("Could not initialize Stripe payment (client secret missing).");
+      }
+    } catch (err: any) {
+      console.error("Failed to create/initiate payment sessions:", err);
+      setError(`Failed to initialize payment: ${err.message}`);
+    } finally {
+      setIsInitializingPayment(false);
+    }
   };
 
-  // Handler for selecting a shipping option
   const handleShippingSelect = async (optionId: string) => {
     setSelectedShipping(optionId);
     if (!cart?.id) return;
@@ -165,7 +170,7 @@ export default function CheckoutPage() {
       const { cart: updatedCart } = await medusaClient.store.cart.addShippingMethod(cart.id as string, {
         option_id: optionId,
       });
-      setCart(updatedCart); 
+      setCart(updatedCart);
 
       await createPaymentSessions(updatedCart.id);
 
@@ -176,170 +181,351 @@ export default function CheckoutPage() {
     }
   };
 
-  // Helper to format prices correctly
-  const formatPrice = (amount: number | string | undefined | null, currencyCode: string | undefined): string => {
-     if (amount === undefined || amount === null || !currencyCode) return 'N/A';
+  const handleApplyDiscount = async () => {
+    if (!discountCode) return;
+    setIsApplyingDiscount(true);
+    setDiscountError(null);
     try {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: currencyCode,
-        }).format(Number(amount));
-    } catch (error) {
-        console.error("Error formatting price:", error);
-        return 'Invalid Price';
+      await addDiscount(discountCode);
+      setDiscountCode("");
+    } catch (_err: any) {
+      setDiscountError("Invalid discount code.");
+    } finally {
+      setIsApplyingDiscount(false);
     }
   };
 
-  // Show loading state if cart isn't ready
+  const handleRemoveDiscount = async (code: string) => {
+    try {
+      await removeDiscount(code);
+    } catch (err) {
+      console.error("Failed to remove discount", err);
+    }
+  };
+
+  const formatPrice = (amount: number | string | undefined | null, currencyCode: string | undefined): string => {
+    if (amount === undefined || amount === null || !currencyCode) return 'N/A';
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currencyCode,
+      }).format(Number(amount));
+    } catch (error) {
+      console.error("Error formatting price:", error);
+      return 'Invalid Price';
+    }
+  };
+
   if (!cart) {
     return (
-      <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32 text-center text-gray-500">
-        Loading cart details...
+      <div className="min-h-screen flex items-center justify-center bg-brand-tan">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-12 w-12 rounded-full border-4 border-brand-brown border-t-transparent animate-spin mb-4"></div>
+          <p className="text-brand-brown font-medium">Loading your cart...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
-      <h1 className="text-3xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-playfair-display)' }}>Checkout</h1>
-       {error && (
-         <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl mx-auto" role="alert">
-           <strong className="font-bold">Error: </strong>
-           <span className="block sm:inline">{error}</span>
-           <button onClick={() => setError(null)} className="absolute top-0 bottom-0 right-0 px-4 py-3">
-              <span className="text-xl leading-none">&times;</span>
-           </button>
-         </div>
-       )}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-        {/* Left Column: Shipping & Payment */}
-        <div className="space-y-12">
-          {/* Shipping Form Section */}
-          <section>
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">1. Shipping Information</h2>
-            <form onSubmit={handleAddressSubmit} className="space-y-4 bg-white p-6 rounded-lg shadow">
-              <InputField id="email" name="email" label="Email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              <div className="grid grid-cols-2 gap-4">
-                <InputField id="first_name" name="first_name" label="First Name" placeholder="John" value={shippingAddress.first_name} onChange={handleAddressChange} required />
-                <InputField id="last_name" name="last_name" label="Last Name" placeholder="Doe" value={shippingAddress.last_name} onChange={handleAddressChange} required />
-              </div>
-              <InputField id="address_1" name="address_1" label="Address" placeholder="123 Main St" value={shippingAddress.address_1} onChange={handleAddressChange} required />
-              <InputField id="city" name="city" label="City" placeholder="Anytown" value={shippingAddress.city} onChange={handleAddressChange} required />
-              <div className="grid grid-cols-2 gap-4">
-                <InputField id="province" name="province" label="State / Province" placeholder="CA" value={shippingAddress.province} onChange={handleAddressChange} required />
-                <InputField id="postal_code" name="postal_code" label="ZIP / Postal Code" placeholder="90210" value={shippingAddress.postal_code} onChange={handleAddressChange} required />
-              </div>
-              <InputField id="phone" name="phone" label="Phone (Optional)" type="tel" placeholder="555-123-4567" value={shippingAddress.phone || ''} onChange={handleAddressChange} />
-              <button
-                type="submit"
-                disabled={isLoadingShipping}
-                className="w-full bg-brand-brown text-white font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoadingShipping ? "Validating Address..." : "Set Address & View Shipping"}
-              </button>
-            </form>
-          </section>
+    <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <h1 className="text-4xl font-bold mb-10 text-center text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+          Checkout
+        </h1>
 
-          {/* Shipping Options Section - Conditionally Render */}
-          {isAddressSet && (
-            <section>
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">2. Shipping Method</h2>
+        {error && (
+          <div className="mb-8 bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+              <div className="ml-auto pl-3">
+                <div className="-mx-1.5 -my-1.5">
+                  <button
+                    onClick={() => setError(null)}
+                    className="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 focus:outline-none"
+                  >
+                    <span className="sr-only">Dismiss</span>
+                    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L10 8.586 5.757 4.293 4.293 4.293z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Left Column: Forms */}
+          <div className="lg:col-span-7 space-y-8">
+            
+            {/* Section 1: Shipping Address */}
+            <section className="bg-white rounded-2xl shadow-sm p-6 lg:p-8 border border-brand-brown/10">
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-brown text-white font-bold text-sm">1</div>
+                <h2 className="text-xl font-bold text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Shipping Information</h2>
+              </div>
+              
+              <form onSubmit={handleAddressSubmit} className="space-y-5">
+                <InputField 
+                  id="email" 
+                  name="email" 
+                  label="Email Address" 
+                  type="email" 
+                  placeholder="you@example.com" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                  icon={<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span className="text-gray-400">@</span></div>}
+                />
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <InputField id="first_name" name="first_name" label="First Name" placeholder="Jane" value={shippingAddress.first_name} onChange={handleAddressChange} required />
+                  <InputField id="last_name" name="last_name" label="Last Name" placeholder="Doe" value={shippingAddress.last_name} onChange={handleAddressChange} required />
+                </div>
+                
+                <InputField 
+                  id="address_1" 
+                  name="address_1" 
+                  label="Address" 
+                  placeholder="123 Luxury Lane" 
+                  value={shippingAddress.address_1} 
+                  onChange={handleAddressChange} 
+                  required 
+                  icon={<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><MapPin className="h-4 w-4 text-gray-400" /></div>}
+                />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <InputField id="city" name="city" label="City" placeholder="New York" value={shippingAddress.city} onChange={handleAddressChange} required />
+                  <InputField id="province" name="province" label="State / Province" placeholder="NY" value={shippingAddress.province} onChange={handleAddressChange} required />
+                  <InputField id="postal_code" name="postal_code" label="ZIP Code" placeholder="10001" value={shippingAddress.postal_code} onChange={handleAddressChange} required />
+                </div>
+                
+                <InputField id="phone" name="phone" label="Phone (Optional)" type="tel" placeholder="(555) 123-4567" value={shippingAddress.phone || ''} onChange={handleAddressChange} />
+                
+                <button
+                  type="submit"
+                  disabled={isLoadingShipping}
+                  className="w-full mt-4 bg-brand-brown text-white font-bold py-4 px-6 rounded-xl hover:bg-brand-brown/90 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                >
+                  {isLoadingShipping ? (
+                    <>
+                      <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></div>
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Continue to Shipping</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </section>
+
+            {/* Section 2: Shipping Method */}
+            <section className={`bg-white rounded-2xl shadow-sm p-6 lg:p-8 border border-brand-brown/10 transition-opacity duration-300 ${!isAddressSet ? 'opacity-50 pointer-events-none grayscale' : 'opacity-100'}`}>
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-brown text-white font-bold text-sm">2</div>
+                <h2 className="text-xl font-bold text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Shipping Method</h2>
+              </div>
+
               {isLoadingShipping ? (
-                 <p className="text-gray-500 bg-white p-6 rounded-lg shadow animate-pulse">Loading shipping options...</p>
+                 <div className="flex items-center justify-center py-8 text-brand-brown/60">
+                   <div className="h-5 w-5 rounded-full border-2 border-brand-brown border-t-transparent animate-spin mr-3"></div>
+                   Loading options...
+                 </div>
               ) : shippingOptions.length > 0 ? (
-                <div className="space-y-3 bg-white p-6 rounded-lg shadow">
+                <div className="space-y-3">
                   {shippingOptions.map((option: StoreCartShippingOption) => (
                     <div
                       key={option.id}
                       onClick={() => !isInitializingPayment && handleShippingSelect(option.id!)}
-                      className={`p-4 border rounded-md cursor-pointer transition-all duration-200 ${selectedShipping === option.id ? 'border-brand-pink ring-2 ring-brand-pink bg-pink-50' : 'border-gray-200 hover:border-gray-400'} ${isInitializingPayment ? 'opacity-50 cursor-wait' : ''}`}
+                      className={`relative p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-between group ${selectedShipping === option.id ? 'border-brand-pink bg-brand-pink/5' : 'border-gray-100 hover:border-brand-pink/50'}`}
                     >
-                      <div className="flex justify-between items-center">
-                        <p className="font-medium text-gray-700">{option.name}</p>
-                        <p className="text-gray-900">{formatPrice(option.amount || 0, cart.region?.currency_code)}</p>
+                      <div className="flex items-center gap-4">
+                        <div className={`h-5 w-5 rounded-full border flex items-center justify-center ${selectedShipping === option.id ? 'border-brand-pink bg-brand-pink' : 'border-gray-300'}`}>
+                          {selectedShipping === option.id && <div className="h-2 w-2 rounded-full bg-white" />}
+                        </div>
+                        <div>
+                          <p className="font-bold text-brand-brown">{option.name}</p>
+                          <p className="text-xs text-brand-brown/60 flex items-center gap-1 mt-1">
+                            <Truck className="h-3 w-3" /> Standard Delivery
+                          </p>
+                        </div>
                       </div>
+                      <p className="font-bold text-brand-brown">{formatPrice(option.amount || 0, cart.region?.currency_code)}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                !isLoadingShipping && <p className="text-gray-500 bg-white p-6 rounded-lg shadow">No shipping options available for this address.</p>
+                !isLoadingShipping && <p className="text-gray-500 italic">Please enter a valid shipping address to see options.</p>
               )}
             </section>
-          )}
 
-          {/* Payment Section - Conditionally Render */}
-          {selectedShipping && (
-             <section>
-               <h2 className="text-xl font-semibold mb-4 text-gray-800">3. Payment</h2>
+            {/* Section 3: Payment */}
+            <section className={`bg-white rounded-2xl shadow-sm p-6 lg:p-8 border border-brand-brown/10 transition-opacity duration-300 ${!selectedShipping ? 'opacity-50 pointer-events-none grayscale' : 'opacity-100'}`}>
+               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-brown text-white font-bold text-sm">3</div>
+                <h2 className="text-xl font-bold text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Payment</h2>
+              </div>
+
                {isInitializingPayment ? (
-                  <div className="text-center p-4 bg-white rounded-lg shadow text-gray-500 animate-pulse">Initializing Payment...</div>
+                  <div className="flex flex-col items-center justify-center py-12 text-brand-brown/60">
+                    <div className="h-8 w-8 rounded-full border-2 border-brand-brown border-t-transparent animate-spin mb-2"></div>
+                    <p>Securing connection...</p>
+                  </div>
                ) : paymentSessionClientSecret ? (
-                 <div className="bg-white p-6 rounded-lg shadow">
+                 <div className="animate-fade-in">
                    <StripePayment clientSecret={paymentSessionClientSecret} />
                  </div>
                ) : (
-                 error && <p className="text-red-500 bg-white p-6 rounded-lg shadow">Could not initialize payment. Please check address and shipping, or try again.</p>
+                 error && <p className="text-red-500 p-4 bg-red-50 rounded-lg">Could not initialize payment. Please check your details.</p>
                )}
-             </section>
-          )}
+            </section>
+          </div>
 
-        </div>
-
-        {/* Right Column: Order Summary */}
-        <div className="bg-gray-50 p-6 lg:p-8 rounded-lg shadow-md h-fit sticky top-28 lg:top-32">
-           <h2 className="text-xl font-semibold mb-6 text-gray-800">Order Summary</h2>
-            {cart.items && cart.items.length > 0 ? (
-             <div className="space-y-3">
-               {cart.items.map((item: StoreCartLineItem) => (
-                 <div key={item.id} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-b-0">
-                   <div className="flex items-start space-x-3 flex-grow min-w-0">
-                      <img src={item.thumbnail || '/placeholder.png'} alt={item.title} className="w-16 h-20 object-cover rounded flex-shrink-0"/>
-                      <div className="flex-grow min-w-0">
-                        <p className="font-semibold text-gray-700 text-sm sm:text-base line-clamp-2 truncate">{item.title}</p>
-                        <p className="text-xs text-gray-500">
-                          {item.variant?.title ? `(${item.variant.title})` : ''} Qty: {Number(item.quantity)}
-                        </p>
-                      </div>
+          {/* Right Column: Order Summary (Sticky) */}
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-brand-brown/10 sticky top-32">
+               <h2 className="text-xl font-bold mb-6 text-brand-brown pb-4 border-b border-gray-100" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Order Summary</h2>
+               
+               <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                 {cart.items?.map((item: StoreCartLineItem) => (
+                   <div key={item.id} className="flex gap-4">
+                     <div className="relative h-20 w-16 flex-shrink-0 rounded-lg overflow-hidden border border-gray-100">
+                        <Image src={item.thumbnail || '/placeholder.png'} alt={item.title} fill className="object-cover" />
+                        <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-brand-brown text-xs font-bold text-white shadow-sm">
+                          {item.quantity}
+                        </span>
+                     </div>
+                     <div className="flex-1 min-w-0">
+                       <h3 className="font-medium text-brand-brown truncate">{item.title}</h3>
+                       <p className="text-sm text-brand-brown/60 truncate">{item.variant?.title}</p>
+                     </div>
+                     <p className="font-bold text-brand-brown">{formatPrice(item.total || 0, cart.region?.currency_code)}</p>
                    </div>
-                   <p className="text-gray-900 text-right text-sm sm:text-base ml-2 flex-shrink-0">{formatPrice(item.total || 0, cart.region?.currency_code)}</p>
+                 ))}
+               </div>
+
+               <div className="mt-8 space-y-3 pt-6 border-t border-gray-100">
+                 {/* Discount Code Section */}
+                 <div className="mb-6">
+                   <div className="flex gap-2">
+                     <input
+                       type="text"
+                       placeholder="Discount code"
+                       className="flex-1 rounded-lg border-gray-200 bg-gray-50 focus:bg-white focus:border-brand-pink focus:ring-2 focus:ring-brand-pink/20 transition-all duration-200 py-2 px-3 text-sm"
+                       value={discountCode}
+                       onChange={(e) => setDiscountCode(e.target.value)}
+                     />
+                     <button
+                       onClick={handleApplyDiscount}
+                       disabled={isApplyingDiscount || !discountCode}
+                       className="bg-brand-brown text-white font-bold py-2 px-4 rounded-lg hover:bg-brand-brown/90 transition-colors disabled:opacity-50 text-sm"
+                     >
+                       {isApplyingDiscount ? "..." : "Apply"}
+                     </button>
+                   </div>
+                   {discountError && <p className="text-red-500 text-xs mt-1">{discountError}</p>}
+                   
+                   {/* Applied Promotions */}
+                   {cart.promotions && cart.promotions.length > 0 && (
+                     <div className="mt-3 space-y-2">
+                       {cart.promotions.map((promo) => (
+                         <div key={promo.id} className="flex justify-between items-center bg-green-50 p-2 rounded text-sm text-green-700 border border-green-100">
+                           <span className="font-medium flex items-center gap-1">
+                             <Check className="h-3 w-3" /> {promo.code}
+                           </span>
+                           <button 
+                             onClick={() => handleRemoveDiscount(promo.code!)}
+                             className="text-xs hover:text-red-600 underline"
+                           >
+                             Remove
+                           </button>
+                         </div>
+                       ))}
+                     </div>
+                   )}
                  </div>
-               ))}
-               <div className="space-y-2 text-gray-700 pt-4 border-t border-gray-200 mt-4">
-                 <div className="flex justify-between text-sm">
+
+                 <div className="flex justify-between text-brand-brown/80">
                    <span>Subtotal</span>
                    <span>{formatPrice(cart.subtotal || 0, cart.region?.currency_code)}</span>
                  </div>
-                 <div className="flex justify-between text-sm">
+                 
+                 {cart.discount_total && cart.discount_total > 0 && (
+                   <div className="flex justify-between text-green-600 font-medium">
+                     <span>Discount</span>
+                     <span>-{formatPrice(cart.discount_total, cart.region?.currency_code)}</span>
+                   </div>
+                 )}
+
+                 <div className="flex justify-between text-brand-brown/80">
                    <span>Shipping</span>
                    <span>{formatPrice(cart.shipping_total || 0, cart.region?.currency_code)}</span>
                  </div>
-                 <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-300 mt-2 text-gray-900">
-                   <span>Total</span>
-                   <span>{formatPrice(cart.total || 0, cart.region?.currency_code)}</span>
+                 <div className="flex justify-between text-brand-brown/80">
+                   <span>Taxes</span>
+                   <span>{formatPrice(cart.tax_total || 0, cart.region?.currency_code)}</span>
+                 </div>
+                 
+                 <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-4">
+                   <span className="text-lg font-bold text-brand-brown">Total</span>
+                   <span className="text-2xl font-bold text-brand-brown">{formatPrice(cart.total || 0, cart.region?.currency_code)}</span>
                  </div>
                </div>
-             </div>
-           ) : (
-             <p className="text-gray-500">Your cart is empty.</p>
-           )}
+
+               {/* Trust Badges */}
+               <div className="mt-8 grid grid-cols-3 gap-2 text-center">
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="p-2 bg-brand-tan rounded-full"><Check className="h-4 w-4 text-brand-brown" /></div>
+                    <span className="text-[10px] uppercase tracking-wider text-brand-brown/60 font-bold">Secure</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="p-2 bg-brand-tan rounded-full"><Truck className="h-4 w-4 text-brand-brown" /></div>
+                    <span className="text-[10px] uppercase tracking-wider text-brand-brown/60 font-bold">Fast</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="p-2 bg-brand-tan rounded-full"><CreditCard className="h-4 w-4 text-brand-brown" /></div>
+                    <span className="text-[10px] uppercase tracking-wider text-brand-brown/60 font-bold">Encrypted</span>
+                  </div>
+               </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-
-// Simple InputField component
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   name: string;
   label: string;
-  error?: string;
+  icon?: React.ReactNode;
 }
-const InputField = ({ id, name, label, error, ...props }: InputFieldProps) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input id={id} name={name} className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
-    {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+
+const InputField = ({ id, name, label, icon, ...props }: InputFieldProps) => (
+  <div className="relative">
+    <label htmlFor={id} className="block text-xs font-bold uppercase tracking-wider text-brand-brown/60 mb-1.5 ml-1">
+      {label}
+    </label>
+    <div className="relative">
+      {icon}
+      <input
+        id={id}
+        name={name}
+        className={`block w-full rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-brand-pink focus:ring-2 focus:ring-brand-pink/20 transition-all duration-200 py-3.5 ${icon ? 'pl-10' : 'pl-4'} pr-4 text-brand-brown placeholder-gray-400`}
+        {...props}
+      />
+    </div>
   </div>
 );

@@ -11,7 +11,7 @@ import { useCart } from "@/context/CartContext"; // Use your CartContext path
 import { useState } from "react";
 import medusaClient from "@/lib/medusa"; // Use your Medusa client path
 import { useRouter } from "next/navigation"; // For redirection
-import type { HttpTypes } from "@medusajs/types"; // Import HttpTypes
+// import type { HttpTypes } from "@medusajs/types"; // Import HttpTypes
 
 // Load Stripe outside of the component to avoid recreating it on every render
 const stripePromise = loadStripe(

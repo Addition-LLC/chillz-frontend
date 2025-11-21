@@ -10,6 +10,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   retrieveCustomer: () => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const { customer } = await medusaClient.store.customer.retrieve();
       setCustomer(customer);
-    } catch (error) {
+    } catch (_error) {
       setCustomer(null); // Set to null on failure (not logged in)
     }
   };
@@ -53,13 +54,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updatePassword = async (password: string) => {
+    try {
+      // @ts-expect-error - password is valid for update but types might be missing it
+      await medusaClient.store.customer.update({ password });
+      await retrieveCustomer();
+    } catch (error) {
+      console.error("Update password failed:", error);
+      throw new Error("Failed to update password.");
+    }
+  };
+
   return (
     <AuthContext.Provider 
       value={{ 
         customer, 
         login, 
         logout, 
-        retrieveCustomer
+        retrieveCustomer,
+        updatePassword
       }}
     >
       {children}

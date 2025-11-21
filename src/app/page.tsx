@@ -1,14 +1,11 @@
 
 import { Metadata } from "next";
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import WigCollection from "@/components/WigCollection";
 import WigStyles from "@/components/WigStyles";
 import NewToWigs from "@/components/NewToWigs";
 import ShopByCategory from "@/components/ShopByCategory";
 import Features from "@/components/Features";
-// import VideoSection from "@/components/VideoSection";
-// import PopularLooks from "@/components/PopularLooks";
 // import BlogSection from "@/components/BlogSection";
 import Newsletter from "@/components/Newsletter";
 import NewToWigs1 from "@/components/NewToWigs1";

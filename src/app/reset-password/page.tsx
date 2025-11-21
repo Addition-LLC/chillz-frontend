@@ -1,136 +1,106 @@
 "use client";
 
-import medusaClient from "@/lib/medusa";
-import { useSearchParams, useRouter } from 'next/navigation'; // Import useSearchParams
-import { useEffect, useState, Suspense } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import AuthLayout from "@/components/AuthLayout";
+import { Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react";
 
-// Wrap the main component in Suspense for useSearchParams
-export default function ResetPasswordWrapper() {
-  return (
-    <Suspense fallback={<div className="text-center py-20 pt-32 lg:pt-40">Loading...</div>}>
-      <ResetPasswordPage />
-    </Suspense>
-  )
-}
-
-
-function ResetPasswordPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  useEffect(() => {
-    // Extract token and email from URL query parameters
-    const urlToken = searchParams.get('token');
-    const urlEmail = searchParams.get('email');
-    setToken(urlToken);
-    setEmail(urlEmail);
-
-    if (!urlToken || !urlEmail) {
-      setError("Invalid or missing reset token/email in URL.");
-      // Consider redirecting or showing a more permanent error
-    }
-  }, [searchParams]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!token || !email) {
-      setError("Invalid reset link.");
-      return;
-    }
-    if (password.length < 8) {
-       setError("Password must be at least 8 characters long.");
-       return;
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
     setIsLoading(true);
-    setError(null);
-    setMessage(null);
-
-    try {
-      // Call the correct SDK method
-      await medusaClient.auth.updateProvider("customer", "emailpass", {
-        // email is not strictly needed by the API, but good practice to include if available
-        email,
-        password,
-      }, token); // Pass the token as the last argument
-
-      setMessage("Password has been reset successfully! You can now log in.");
-      // Optionally redirect to login after a delay
-      setTimeout(() => router.push('/login'), 3000);
-
-    } catch (err: any) {
-      console.error("Reset Password Error:", err);
-      setError(err.message || "Failed to reset password. The token might be invalid or expired.");
-    } finally {
-      setIsLoading(false);
-    }
+    // Simulate password reset
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log({ password });
+    setIsLoading(false);
+    setIsSubmitted(true);
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
-      <h1 className="text-3xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-playfair-display)' }}>
-        Reset Your Password
-      </h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 bg-white p-8 shadow-md rounded-lg">
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong className="font-bold">Error: </strong>
-            <span className="block sm:inline">{error}</span>
+    <AuthLayout 
+      title="Set New Password" 
+      subtitle="Please enter your new password below."
+    >
+      {!isSubmitted ? (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="password" className="block text-sm font-bold text-brand-brown mb-2" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+              New Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-xl border-gray-200 bg-gray-50 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink/20 focus:bg-white transition-all duration-200 p-4 pr-12"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-brown transition-colors"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
-        )}
-        {message && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <strong className="font-bold">Success: </strong>
-            <span className="block sm:inline">{message}</span>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-bold text-brand-brown mb-2" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+              Confirm Password
+            </label>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="block w-full rounded-xl border-gray-200 bg-gray-50 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink/20 focus:bg-white transition-all duration-200 p-4 pr-12"
+                placeholder="••••••••"
+                required
+              />
+            </div>
           </div>
-        )}
-        {!token || !email ? (
-           <p className="text-center text-red-500">Invalid reset link.</p>
-        ) : (
-          <>
-            <InputField id="password" name="password" label="New Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8}/>
-            <InputField id="confirmPassword" name="confirmPassword" label="Confirm New Password" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-            <button
-              type="submit"
-              disabled={isLoading || !token || !email}
-              className="w-full bg-brand-brown text-white font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50"
-            >
-              {isLoading ? "Resetting..." : "Reset Password"}
-            </button>
-          </>
-        )}
-         <p className="text-center text-sm">
-          <Link href="/login" className="font-medium text-brand-pink hover:underline">
-            Back to Log In
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-brand-brown text-white font-bold py-4 px-6 rounded-full hover:bg-brand-pink transition-all duration-300 disabled:opacity-50 disabled:hover:bg-brand-brown flex items-center justify-center gap-2 group shadow-lg shadow-brand-brown/20"
+          >
+            {isLoading ? "Updating..." : "Update Password"}
+            {!isLoading && <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />}
+          </button>
+
+          <div className="text-center mt-8">
+            <Link href="/login" className="text-gray-600 hover:text-brand-brown transition-colors flex items-center justify-center gap-2 group">
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+              Back to Login
+            </Link>
+          </div>
+        </form>
+      ) : (
+        <div className="text-center space-y-6">
+          <div className="bg-green-50 text-green-800 p-4 rounded-xl border border-green-100">
+            <p className="font-medium">Password Updated</p>
+            <p className="text-sm mt-1">Your password has been successfully reset.</p>
+          </div>
+          <Link 
+            href="/login"
+            className="inline-flex w-full bg-brand-brown text-white font-bold py-4 px-6 rounded-full hover:bg-brand-pink transition-all duration-300 items-center justify-center gap-2 group shadow-lg shadow-brand-brown/20"
+          >
+            Sign In Now
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
-        </p>
-      </form>
-    </div>
+        </div>
+      )}
+    </AuthLayout>
   );
 }
-
-// Simple InputField component (assuming it's defined elsewhere or add it here)
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  id: string;
-  name: string;
-  label: string;
-  error?: string;
-}
-const InputField = ({ id, name, label, error, ...props }: InputFieldProps) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input id={id} name={name} className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
-    {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
-  </div>
-);

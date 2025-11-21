@@ -10,8 +10,14 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  --color-brand-tan: #F5F0E6;
+  --color-brand-secondary-bg: #EAE2D7;
+  --color-brand-brown: #5C4033;
+  --color-brand-pink: #D9C2BA;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-pinyon-script: var(--font-pinyon-script);
 }
 
 
@@ -22,5 +28,13 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair-display), serif;
+  font-family: var(--font-caviar-dreams), serif;
+}
+
+.font-edwardian-first-letter::first-letter {
+  font-family: var(--font-pinyon-script), cursive;
+  font-size: 2em;
+  line-height: 1;
+  margin-right: 0.05em;
+  vertical-align: middle;
 }

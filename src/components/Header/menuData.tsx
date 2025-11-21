@@ -33,8 +33,8 @@ export const menuData: Menu[] = [
   },
   {
     id: 2,
-    title: "HAIR TOOLS", 
-    path: "/tools",
+    title: "SHOP", 
+    path: "/product",
     newTab: false,
     submenu: {
       categories: [
@@ -66,30 +66,42 @@ export const menuData: Menu[] = [
   },
   {
     id: 3,
+    title: "BUNDLES",
+    path: "/bundles",
+    newTab: false,
+  },
+  {
+    id: 4,
+    title: "PROMOTIONS",
+    path: "/promotions",
+    newTab: false,
+  },
+  {
+    id: 5,
     title: "CLOSURES", 
     path: "/closures",
     newTab: false,
   },
   {
-    id: 4,
+    id: 6,
     title: "ABOUT US",
     path: "/about",
     newTab: false,
   },
   {
-    id: 5,
+    id: 7,
     title: "BLOG",
     path: "/blog",
     newTab: false,
   },
   {
-    id: 6,
+    id: 8,
     title: "FAQ",
     path: "/faq",
     newTab: false,
   },
   {
-    id: 7,
+    id: 9,
     title: "CONTACT US",
     path: "/contact",
     newTab: false,

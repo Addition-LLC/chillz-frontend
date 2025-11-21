@@ -8,25 +8,25 @@ const categories = [
   {
     id: 1,
     name: 'The D Collection', // Example Category Name
-    href: '/products/the-d-collection', // Example Link (use product handle or collection path)
+    href: '/product', // Example Link (use product handle or collection path)
     imgSrc: '/images/shop1.jpg', // Replace with your image path
   },
   {
     id: 2,
     name: 'Curly',
-    href: '/products/curly-hair', // Example Link
+    href: '/product', // Example Link
     imgSrc: '/images/shop3.jpg', // Replace with your image path
   },
   {
     id: 3,
     name: 'Straight',
-    href: '/products/straight-hair', // Example Link
+    href: '/product', // Example Link
     imgSrc: '/images/wigstyles2.jpg', // Replace with your image path
   },
   {
     id: 4,
     name: 'Wavy',
-    href: '/products/wavy-hair', // Example Link
+    href: '/product', // Example Link
     imgSrc: '/images/shop2.jpg', // Replace with your image path
   },
 ];
@@ -37,7 +37,7 @@ const ShopByCategory = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 lg:mb-16">
           <h2
-            className="text-7xl lg:text-4xl font-bold text-brand-tan"
+            className="text-7xl lg:text-4xl font-bold text-brand-tan font-edwardian-first-letter"
             style={{ fontFamily: 'var(--font-caviar-dreams)', fontWeight: '700', fontSize: '36px' }}
           >
             Shop By Style

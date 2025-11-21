@@ -3,11 +3,11 @@
 import medusaClient from "@/lib/medusa";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { StoreProduct, StoreRegion, HttpTypes, StoreProductTag } from "@medusajs/types"; // Import StoreProductTag
-import { useEffect, useState, useMemo, Suspense } from "react";
+import type { StoreProduct, StoreRegion, HttpTypes} from "@medusajs/types";
+import { useEffect, useState, Suspense } from "react";
 import { Search, X } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast"; // Import Toaster
-import Image from "next/image"; // Import Image
+import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 const styleTags = [
   { id: "tag_straight", value: "Straight" },
@@ -18,7 +18,6 @@ const styleTags = [
   { id: "tag_afro_curly", value: "Afro Curly" },
 ];
 
-// Helper function to get region (for pricing)
 async function getRegionId() {
   try {
     const { regions } = await medusaClient.store.region.list({ limit: 1 });
@@ -30,25 +29,18 @@ async function getRegionId() {
   }
 }
 
-// 1. RENAME your main component. This contains all your original logic.
 function ShopPageClient() {
-  // --- State Management ---
   const [products, setProducts] = useState<StoreProduct[]>([]);
   const [collections, setCollections] = useState<HttpTypes.StoreCollection[]>([]);
   const [region, setRegion] = useState<StoreRegion | null>(null);
-  const [tags, setTags] = useState<HttpTypes.StoreProductTag[]>([]); // State for tags
   const [isLoading, setIsLoading] = useState(true);
 
-  // Filter State
-  const searchParams = useSearchParams(); // This hook is now safe
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("created_at_desc");
 
-  // --- Data Fetching ---
-
-  // 1. Fetch static data (collections, region) on component mount
   useEffect(() => {
     const fetchStaticData = async () => {
       try {
@@ -68,7 +60,6 @@ function ShopPageClient() {
     fetchStaticData();
   }, []);
 
-  // 2. Fetch products whenever filters, search, or sorting changes
   useEffect(() => {
     const fetchProducts = async () => {
       if (!region) return; 
@@ -117,7 +108,6 @@ function ShopPageClient() {
     fetchProducts();
   }, [searchQuery, selectedCollections, selectedTags, sortBy, region]);
 
-  // --- Handlers ---
   const handleCollectionToggle = (collectionId: string) => {
     setSelectedCollections((prev) =>
       prev.includes(collectionId)
@@ -146,169 +136,161 @@ function ShopPageClient() {
       (document.getElementById("search-input") as HTMLInputElement).value = "";
   };
 
-
-  // --- Helper Functions ---
   const formatPrice = (product: StoreProduct) => {
     const variant = product.variants?.[0];
     const priceObject = variant?.calculated_price;
     const amount = priceObject?.calculated_amount;
     const currencyCode = region?.currency_code || 'USD';
     if (amount === undefined || amount === null) return "N/A";
-    // FIX: Divide by 100
+    
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currencyCode,
-    }).format(Number(amount) / 100);
+    }).format(Number(amount));
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
-      <Toaster position="bottom-right" /> {/* Add Toaster */}
-      <h1 className="text-4xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-playfair-display)' }}>
-        Shop All Products
-      </h1>
-      
-      {/* Search and Sort Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <form onSubmit={handleSearch} className="relative w-full md:w-1/2">
-            <input
-              id="search-input"
-              type="text"
-              name="search"
-              defaultValue={searchQuery}
-              placeholder="Search for products..."
-              className="w-full p-3 pl-10 border rounded-md shadow-sm text-gray-900"
-            />
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            {searchQuery && (
-                <button type="button" onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800">
-                    <X size={18} />
-                </button>
-            )}
-        </form>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="p-3 border rounded-md shadow-sm w-full md:w-auto text-gray-900"
-        >
-          <option value="created_at_desc">Sort: Latest</option>
-          <option value="price_asc">Sort: Price Low to High</option>
-          <option value="price_desc">Sort: Price High to Low</option>
-        </select>
-      </div>
+    <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+      <div className="container mx-auto px-4">
+        <Toaster position="bottom-right" />
+        <h1 className="text-4xl lg:text-5xl font-bold mb-10 text-center text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+          Shop All Products
+        </h1>
+        
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <form onSubmit={handleSearch} className="relative w-full md:w-1/2">
+              <input
+                id="search-input"
+                type="text"
+                name="search"
+                defaultValue={searchQuery}
+                placeholder="Search for products..."
+                className="w-full p-3 pl-10 border rounded-md shadow-sm text-gray-900 focus:ring-brand-pink focus:border-brand-pink"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              {searchQuery && (
+                  <button type="button" onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800">
+                      <X size={18} />
+                  </button>
+              )}
+          </form>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="p-3 border rounded-md shadow-sm w-full md:w-auto text-gray-900 focus:ring-brand-pink focus:border-brand-pink"
+          >
+            <option value="created_at_desc">Sort: Latest</option>
+            <option value="price_asc">Sort: Price Low to High</option>
+            <option value="price_desc">Sort: Price High to Low</option>
+          </select>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Filters Sidebar */}
-        <aside className="lg:col-span-1 bg-white p-6 rounded-lg shadow-md h-fit sticky top-28 space-y-6">
-          {/* Collections Filter */}
-          <div>
-            <h3 className="font-semibold mb-3 text-lg text-gray-900">Collections</h3>
-            <div className="space-y-2">
-              {collections.map((collection) => (
-                <label key={collection.id} className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedCollections.includes(collection.id)}
-                    onChange={() => handleCollectionToggle(collection.id)}
-                    className="rounded text-brand-brown focus:ring-brand-pink"
-                  />
-                  <span className="text-sm text-gray-700">{collection.title}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          
-          {/* Style (Tags) Filter */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="font-semibold mb-3 text-lg text-gray-900">Style</h3>
-            <div className="space-y-2">
-              {/* Use the dynamically fetched tags */}
-              {tags.map((tag) => (
-                <label key={tag.id} className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedTags.includes(tag.id)}
-                    onChange={() => handleTagToggle(tag.id)}
-                    className="rounded text-brand-brown focus:ring-brand-pink"
-                  />
-                  <span className="text-sm text-gray-700 capitalize">{tag.value.replace(/_/g, ' ')}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* Products Grid */}
-        <main className="lg:col-span-3">
-          {isLoading ? (
-            // Skeleton Loader
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="border rounded-lg p-4 shadow-md animate-pulse">
-                  <div className="h-64 w-full rounded bg-gray-200 mb-4"></div>
-                  <div className="h-6 rounded bg-gray-200 w-3/4 mb-2"></div>
-                  <div className="h-4 rounded bg-gray-200 w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          ) : products.length > 0 ? (
-            // Actual Product Grid
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {products.map((product: StoreProduct) => (
-                <Link
-                  key={product.id}
-                  href={`/products/${product.handle}`} // FIX: Use /products/ (plural)
-                  className="group block rounded-lg border bg-white p-4 shadow-md transition-transform hover:scale-105"
-                >
-                  {product.thumbnail && (
-                    <Image // Use Next.js Image
-                      src={product.thumbnail}
-                      alt={product.title}
-                      width={400}
-                      height={400}
-                      className="mb-4 h-64 w-full rounded object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <aside className="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-brown/10 h-fit sticky top-32 space-y-8">
+            <div>
+              <h3 className="font-bold mb-4 text-xl text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams'}}>Collections</h3>
+              <div className="space-y-2">
+                {collections.map((collection) => (
+                  <label key={collection.id} className="flex items-center space-x-2 cursor-pointer" style={{fontFamily: 'var(--font-caviar-dreams'}}>
+                    <input
+                      type="checkbox"
+                      checked={selectedCollections.includes(collection.id)}
+                      onChange={() => handleCollectionToggle(collection.id)}
+                      className="rounded text-brand-brown focus:ring-brand-pink"
                     />
-                  )}
-                  <h2 className="text-xl font-semibold text-gray-800 transition-colors group-hover:text-brand-pink truncate" title={product.title}>
-                    {product.title}
-                  </h2>
-                  <p className="mt-2 text-lg font-medium text-gray-700">
-                    Starts at {formatPrice(product)}
-                  </p>
-                </Link>
-              ))}
+                    <span className="text-sm text-gray-700" style={{fontFamily: 'var(--font-caviar-dreams'}}>{collection.title}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-          ) : (
-            // No Products Found
-            <div className="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
-              <h3 className="text-2xl font-semibold">No Products Found</h3>
-              <p className="mt-2">Try adjusting your search or filters.</p>
+            
+            <div className="border-t border-gray-200 pt-6">
+              <h3 className="font-bold mb-4 text-xl text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
+              <div className="space-y-2">
+                {styleTags.map((tag) => (
+                  <label key={tag.id} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedTags.includes(tag.id)}
+                      onChange={() => handleTagToggle(tag.id)}
+                      className="rounded text-brand-brown focus:ring-brand-pink"
+                    />
+                    <span className="text-sm text-gray-700 capitalize">{tag.value.replace(/_/g, ' ')}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-          )}
-        </main>
+          </aside>
+
+          <main className="lg:col-span-3">
+            {isLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="border rounded-lg p-4 shadow-md animate-pulse bg-white">
+                    <div className="h-64 w-full rounded bg-gray-200 mb-4"></div>
+                    <div className="h-6 rounded bg-gray-200 w-3/4 mb-2"></div>
+                    <div className="h-4 rounded bg-gray-200 w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : products.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {products.map((product: StoreProduct) => (
+                  <Link
+                    key={product.id}
+                    href={`/product/${product.handle}`}
+                    className="group block rounded-2xl border border-transparent bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-brand-pink/20"
+                  >
+                    {product.thumbnail && (
+                      <Image
+                        src={product.thumbnail}
+                        alt={product.title}
+                        width={400}
+                        height={400}
+                        className="mb-4 h-72 w-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    )}
+                    <h2 className="text-xl font-semibold text-gray-800 transition-colors group-hover:text-brand-pink truncate" title={product.title} style={{fontFamily: 'var(--font-caviar-dreams'}}>
+                      {product.title}
+                    </h2>
+                    <p className="mt-2 text-lg font-medium text-gray-700">
+                      Starts at <span className="text-brand-pink">{formatPrice(product)}</span>
+                    </p>
+                    <div className="mt-4 w-full rounded-full bg-brand-brown py-2 text-center text-sm font-bold text-white transition-colors duration-300 hover:bg-brand-pink">
+                      View Details
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
+                <h3 className="text-2xl font-semibold">No Products Found</h3>
+                <p className="mt-2">Try adjusting your search or filters.</p>
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
 }
 
-// 2. Create a Loading Skeleton component
 function LoadingSkeleton() {
   return (
-     <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
-      <h1 className="text-4xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+     <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+      <div className="container mx-auto px-4">
+      <h1 className="text-4xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
         Shop All Products
       </h1>
       
-      {/* Skeleton for Search/Sort */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <div className="h-12 bg-gray-200 rounded-md w-full md:w-1/2 animate-pulse"></div>
         <div className="h-12 bg-gray-200 rounded-md w-full md:w-40 animate-pulse"></div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Skeleton for Filters */}
-        <aside className="lg:col-span-1 bg-white p-6 rounded-lg shadow-md h-fit sticky top-28 space-y-6 animate-pulse">
+        <aside className="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-brown/10 h-fit sticky top-32 space-y-8 animate-pulse">
           <div className="h-6 bg-gray-200 rounded w-1/2 mb-3"></div>
           <div className="space-y-2">
             <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -322,7 +304,6 @@ function LoadingSkeleton() {
           </div>
         </aside>
         
-        {/* Skeleton for Products */}
         <main className="lg:col-span-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -336,10 +317,10 @@ function LoadingSkeleton() {
         </main>
       </div>
     </div>
+    </div>
   );
 }
 
-// 3. Create a new default export that wraps the client component in Suspense
 export default function ShopPageWrapper() {
   return (
     <Suspense fallback={<LoadingSkeleton />}>

@@ -2,6 +2,7 @@ import medusaClient from "@/lib/medusa";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { StoreProduct, StoreProductVariant, StoreRegion } from "@medusajs/types";
+import Image from "next/image";
 
 export const revalidate = 60;
 
@@ -83,11 +84,14 @@ export default async function CollectionPage({ params }: Props) {
               className="group block rounded-lg border p-4 shadow-md transition-transform hover:scale-105"
             >
               {product.thumbnail && (
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="mb-4 h-64 w-full rounded object-cover"
-                />
+                <div className="relative mb-4 h-64 w-full">
+                  <Image
+                    src={product.thumbnail}
+                    alt={product.title}
+                    fill
+                    className="rounded object-cover"
+                  />
+                </div>
               )}
               <h2 className="text-xl font-semibold text-gray-800 transition-colors group-hover:text-blue-600">
                 {product.title}

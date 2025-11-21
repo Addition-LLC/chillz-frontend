@@ -14,6 +14,8 @@ interface CartContextType {
   closeCart: () => void;
   cartCount: number;
   totalPrice: number;
+  addDiscount: (code: string) => Promise<HttpTypes.StoreCart | undefined>;
+  removeDiscount: (code: string) => Promise<HttpTypes.StoreCart | undefined>;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -73,6 +75,38 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     setCart(undefined);
   };
 
+  const addDiscount = async (code: string) => {
+    if (!cart?.id) return;
+    try {
+      const { cart: updatedCart } = await medusaClient.store.cart.update(cart.id, {
+        promo_codes: [code],
+      });
+      setCart(updatedCart);
+      return updatedCart;
+    } catch (error) {
+      console.error("Error adding discount:", error);
+      throw error;
+    }
+  };
+
+  const removeDiscount = async (code: string) => {
+    if (!cart?.id) return;
+    try {
+      // Filter out the code we want to remove
+      const currentCodes = cart.promotions?.map(p => p.code).filter((c): c is string => c !== undefined) || [];
+      const newCodes = currentCodes.filter(c => c !== code);
+      
+      const { cart: updatedCart } = await medusaClient.store.cart.update(cart.id, {
+        promo_codes: newCodes,
+      });
+      setCart(updatedCart);
+      return updatedCart;
+    } catch (error) {
+      console.error("Error removing discount:", error);
+      throw error;
+    }
+  };
+
   const cartCount = cart?.items?.reduce((acc: number, item: HttpTypes.StoreCartLineItem) => acc + Number(item.quantity), 0) || 0;
   const totalPrice = cart ? Number(cart.subtotal) : 0;
 
@@ -87,6 +121,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         closeCart,
         cartCount,
         totalPrice,
+        addDiscount,
+        removeDiscount,
       }}
     >
       {children}

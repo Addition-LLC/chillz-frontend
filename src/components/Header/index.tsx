@@ -19,6 +19,8 @@ const collections = [
 
 const staticLinks = [
   {id: 'shop', title: 'Shop', path: '/product' },
+  { id: 'bundles', title: 'Bundles', path: '/bundles' },
+  { id: 'promotions', title: 'Promotions', path: '/promotions' },
   { id: 'about', title: 'About Us', path: '/about' },
   { id: 'blog', title: 'Blog', path: '/blog' },
   { id: 'contact', title: 'Contact Us', path: '/contact' },
@@ -66,7 +68,7 @@ const Header = () => {
           <div className="w-60 max-w-full px-4">
             <Link href="/" className="block py-5">
               <div className="flex flex-col -space-y-1">
-                <span className="text-3xl font-bold leading-none" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+                <span className="text-3xl font-bold leading-none" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
                   Nhim Wen
                 </span>
                 <span className="text-xs tracking-[0.2em] uppercase opacity-80" style={{ fontFamily: 'var(--font-lato)' }}>

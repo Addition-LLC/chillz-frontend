@@ -2,7 +2,7 @@ export default function Newsletter() {
   return (
     <section className="flex flex-col md:flex-row items-center justify-between bg-[#5E3B1E] mb-1 py-12 px-4 md:px-16 lg:px-24 gap-6 md:gap-12">
       <h3
-        className="text-white text-2xl md:text-3xl font-bold text-center md:text-left"
+        className="text-white text-2xl md:text-3xl font-bold text-center md:text-left font-edwardian-first-letter"
         style={{
           fontFamily: 'var(--font-caviar-dreams)',
           fontWeight: 700,

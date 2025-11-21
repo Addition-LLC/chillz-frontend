@@ -1,13 +1,15 @@
 "use client";
 
 import medusaClient from "@/lib/medusa";
-import { useCart } from "@/context/CartContext"; 
+import { useCart } from "@/context/CartContext";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { StoreProduct, StoreProductVariant, StoreRegion } from "@medusajs/types";
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import Image from "next/image"; // Import Next.js Image
+import { Check } from "lucide-react"; // Import check icon
 
-
+// Helper function to get region (can be moved to a shared util)
 async function getRegionId() {
   try {
     const { regions } = await medusaClient.store.region.list({ limit: 1 });
@@ -20,13 +22,13 @@ async function getRegionId() {
 
 export default function ProductPage() {
   const { handle } = useParams();
-  // Get cart, setCart, and openCart from the updated context
   const { cart, setCart, openCart } = useCart();
 
   const [product, setProduct] = useState<StoreProduct | null>(null);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [region, setRegion] = useState<StoreRegion | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProductAndRegion = async () => {
@@ -43,14 +45,15 @@ export default function ProductPage() {
         if (typeof handle === "string") {
           const { products } = await medusaClient.store.product.list({
             handle,
-            fields: "*variants.calculated_price", // Request prices
-            region_id: regionId || undefined, // Provide context
+            fields: "*variants.calculated_price,*images", 
+            region_id: regionId || undefined,
           });
           const productData = products[0];
 
           if (productData) {
             setProduct(productData);
             setSelectedVariantId(productData.variants?.[0]?.id || null);
+            setActiveImage(productData.thumbnail || productData.images?.[0]?.url || null);
           }
         }
       } catch (error) {
@@ -62,25 +65,20 @@ export default function ProductPage() {
     fetchProductAndRegion();
   }, [handle]);
 
-  // Updated handleAddToCart function
-  const handleAddToCart = async () => { // Make async
+  const handleAddToCart = async () => {
     const selectedVariant = product?.variants?.find(
       (v) => v.id === selectedVariantId
     );
 
-    if (selectedVariantId && cart?.id && product) { // Ensure cart exists
+    if (selectedVariantId && cart?.id && product) {
       try {
-        // 1. Call the Medusa SDK method directly
         const { cart: updatedCart } = await medusaClient.store.cart.createLineItem(cart.id, {
           variant_id: selectedVariantId,
           quantity: 1,
         });
-
-        // 2. Update the global context state
         setCart(updatedCart);
-        openCart(); // Open the cart panel
-        toast.success(`${product.title} (${selectedVariant?.title || ''}) added to cart!`); // Use toast
-
+        openCart();
+        toast.success(`${product.title} (${selectedVariant?.title || ''}) added to cart!`);
       } catch (error) {
         console.error("Failed to add item to cart:", error);
         toast.error("Could not add item to cart.");
@@ -92,12 +90,10 @@ export default function ProductPage() {
     }
   };
 
-  // Find the currently selected variant object for price display
   const selectedVariant = product?.variants?.find(
     (v) => v.id === selectedVariantId
   ) as StoreProductVariant | undefined;
 
-  // Updated formatPrice function
   const formatPrice = (variant: StoreProductVariant | undefined) => {
     const priceObject = variant?.calculated_price;
     const amount = priceObject?.calculated_amount;
@@ -112,69 +108,129 @@ export default function ProductPage() {
     }).format(Number(amount));
   };
 
+
+
   if (isLoading) {
-    return <div className="text-center py-20 pt-32 lg:pt-40">Loading product...</div>; // Adjusted padding
+    return (
+      <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div>
+            <div className="w-full h-[400px] lg:h-[550px] bg-gray-400 rounded-lg"></div>
+            <div className="mt-4 grid grid-cols-4 gap-4">
+              <div className="w-full h-24 bg-gray-400 rounded"></div>
+              <div className="w-full h-24 bg-gray-400 rounded"></div>
+            </div>
+          </div>
+          <div>
+            <div className="h-10 bg-gray-400 rounded w-3/4 mb-4"></div>
+            <div className="h-8 bg-gray-400 rounded w-1/4 mb-6"></div>
+            <div className="h-20 bg-gray-400 rounded w-full mb-8"></div>
+            <div className="h-6 bg-gray-400 rounded w-1/3 mb-4"></div>
+            <div className="flex gap-2">
+              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
+              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
+              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
+            </div>
+            <div className="h-14 bg-gray-400 rounded-md mt-8"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
-    return <div className="text-center py-20 pt-32 lg:pt-40">Product not found.</div>; // Adjusted padding
+    return <div className="text-center py-20 pt-32 lg:pt-40">Product not found.</div>;
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32"> {/* Consistent padding */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+    <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32">
+      <Toaster position="bottom-right" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
+        {/* Image Gallery */}
         <div>
-          {product.thumbnail && (
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              className="w-full rounded-lg shadow-lg"
-            />
-          )}
-          {/* Optional: Add gallery for more images */}
-          {/* <div className="mt-4 grid grid-cols-4 gap-4">
-              {product.images?.map((img) => (
-                  <img key={img.id} src={img.url} alt="Product image" className="rounded cursor-pointer border-2 border-transparent hover:border-gray-400"/>
-              ))}
-          </div> */}
+          <div className="relative w-full h-[400px] lg:h-[550px] rounded-lg overflow-hidden shadow-lg">
+            {activeImage && (
+              <Image
+                src={activeImage}
+                alt={product.title}
+                fill
+                priority
+                className="object-cover transition-opacity duration-300"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            )}
+          </div>
+          <div className="mt-4 grid grid-cols-4 gap-4">
+            {product.thumbnail && (
+              <div 
+                className={`relative w-full h-24 rounded cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === product.thumbnail ? 'border-brand-brown' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                onClick={() => setActiveImage(product.thumbnail!)}
+              >
+                <Image src={product.thumbnail} alt="Thumbnail" fill className="object-cover" />
+              </div>
+            )}
+            {product.images?.map((img) => (
+              <div 
+                key={img.id}
+                className={`relative w-full h-24 rounded cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === img.url ? 'border-brand-brown' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                onClick={() => setActiveImage(img.url)}
+              >
+                <Image src={img.url} alt="Product image" fill className="object-cover" />
+              </div>
+            ))}
+          </div>
         </div>
-        <div>
-          <h1 className="text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair-display)' }}>{product.title}</h1>
-          <p className="text-2xl font-semibold text-gray-800 mb-6">
-            {formatPrice(selectedVariant)} {/* Display price of the selected variant */}
-          </p>
-          <p className="text-gray-600 mb-8">{product.description}</p>
 
-          {/* Render variant selection only if variants exist */}
+        {/* Product Info */}
+        <div>
+          <h1 className="text-4xl font-bold mb-4 text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>{product.title}</h1>
+          <p className="text-3xl font-semibold text-gray-800 mb-6" style={{ fontFamily: 'var(--font-lato)' }}>
+            {formatPrice(selectedVariant)}
+          </p>
+          <p className="text-gray-600 mb-8 leading-relaxed">{product.description}</p>
+
           {product.variants && product.variants.length > 0 && (
             <div className="mb-8">
-              <label htmlFor="variant-select" className="block text-sm font-medium text-gray-700 mb-2">
-                 {/* Dynamically get option title, default to 'Select Option' */}
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                  {product.options?.[0]?.title || 'Select Option'}
               </label>
-              <select
-                id="variant-select"
-                value={selectedVariantId || ''}
-                onChange={(e) => setSelectedVariantId(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              >
-                {/* Default placeholder option */}
-                {!selectedVariantId && <option value="" disabled>Select {product.options?.[0]?.title || 'an option'}</option>}
-
-                {product.variants.map((variant: StoreProductVariant) => (
-                  <option key={variant.id} value={variant.id}>
-                    {variant.title} - {formatPrice(variant)}
-                  </option>
-                ))}
-              </select>
+              <div className="flex flex-wrap gap-3">
+                {product.variants.map((variant: StoreProductVariant) => {
+                  const isSelected = variant.id === selectedVariantId;
+                  return (
+                    <button
+                      key={variant.id}
+                      onClick={() => setSelectedVariantId(variant.id)}
+                      className={`relative px-5 py-2 rounded-full text-sm font-medium border
+                        transition-all duration-200 transform 
+                        ${isSelected
+                          ? 'bg-brand-pink text-white border-brand-pink shadow-md scale-105' 
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500 hover:scale-105 active:scale-95' // Not Selected: White
+                        }
+                      `}
+                    >
+                      {isSelected && (
+                        // Keep the checkmark
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                          <span className="relative inline-flex rounded-full h-4 w-4 bg-brand-brown items-center justify-center">
+                            <Check size={10} className="text-white"/>
+                          </span>
+                        </span>
+                      )}
+                      {variant.title}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 
+
           <button
             onClick={handleAddToCart}
-            // Disable button if no variant is selected
             disabled={!selectedVariantId || isLoading}
-            className="w-full bg-brand-brown text-white font-bold py-3 px-4 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-brand-brown text-white font-bold py-4 px-6 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+            style={{fontFamily: 'var(--font-caviar-dreams'}}
           >
             Add to Cart
           </button>

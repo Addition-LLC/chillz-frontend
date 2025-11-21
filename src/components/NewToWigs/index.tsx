@@ -12,7 +12,7 @@ const NewToWigs = () => {
           
           <div className="lg:col-span-3 text-brand-brown text-center lg:text-left">
             <h2 
-              className="text-4xl lg:text-5xl font-bold leading-tight font-bold"
+              className="text-4xl lg:text-5xl font-bold leading-tight font-bold font-edwardian-first-letter"
               style={{ fontFamily: 'var(--font-caviar-dreams)' }}
             >
               Beyond Beauty.
@@ -42,7 +42,7 @@ const NewToWigs = () => {
             
             <div className="mt-10">
                <Link
-                href="/shop"
+                href="/product"
                 className="group inline-flex items-center gap-3 rounded-full bg-brand-brown py-3 px-6 text-base font-bold text-brand-tan transition-all duration-300 hover:scale-105 hover:bg-brand-pink hover:text-brand-brown"
                 style={{fontFamily: 'var(--font-caviar-dreams)'}}
               >
@@ -55,14 +55,14 @@ const NewToWigs = () => {
           </div>
           
           <div className="lg:col-span-2 relative h-[550px] w-full">
-            <div className="absolute top-0 left-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+            <Link href="/product" className="absolute top-0 left-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl block">
               <Image
                 src="/images/newtowigs1.jpg"
                 alt="Woman with beautiful wavy hair"
                 fill
                 className="object-cover"
               />
-            </div>
+            </Link>
           </div>
 
         </div>

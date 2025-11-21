@@ -1,5 +1,5 @@
-import { Playfair_Display, Geist } from 'next/font/google';
-import localFont from 'next/font/local'; // 1. Import localFont
+import { Playfair_Display, Geist, Pinyon_Script } from 'next/font/google';
+import localFont from 'next/font/local';
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
@@ -20,7 +20,12 @@ const lato = Geist({
   variable: '--font-lato',
 });
 
-// 2. Define your local font
+const pinyonScript = Pinyon_Script({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-pinyon-script',
+});
+
 const caviarDreams = localFont({
   src: [
     {
@@ -44,7 +49,7 @@ const caviarDreams = localFont({
       style: 'italic',
     },
   ],
-  variable: '--font-caviar-dreams', // This is the CSS variable we'll use
+  variable: '--font-caviar-dreams',
 });
 
 export default function RootLayout({
@@ -55,8 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      {/* 3. Add the new font variable to the body */}
-      <body className={`${playfair_display.variable} ${lato.variable} ${caviarDreams.variable}`}>
+      <body className={`${playfair_display.variable} ${lato.variable} ${caviarDreams.variable} ${pinyonScript.variable}`}>
         <AuthProvider>
           <CartProvider>
             <Cart />

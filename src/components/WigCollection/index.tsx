@@ -55,8 +55,7 @@ const WigCollection = () => {
             
             <div className="flex flex-col h-full space-y-8 animate-slide-in-left" style={{ animationDelay: '0.2s', opacity: 0 }}>
               <div>
-                {/* --- FIX 1: Font changed --- */}
-                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+                <h2 className="text-4xl tracking-wide font-bold font-edwardian-first-letter" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
                   Get the Look
                 </h2>
                 <p className="mt-3 text-lg text-brand-brown/80" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
@@ -70,36 +69,35 @@ const WigCollection = () => {
                 <div className="flex items-center gap-4"><Gem className="h-6 w-6 text-brand-pink" /><div><h3 className="font-bold" style={{fontFamily: 'var(--font-caviar-dreams)'}}>Unmatched Quality</h3><p className="text-sm text-brand-brown/70">Crafted to last, designed to impress.</p></div></div>
               </div>
               
-              <div className="relative group w-full h-56 mt-auto">
+              <Link href="/product" className="relative group w-full h-56 mt-auto block">
                 <Image src="/images/wigcollection1.jpg" alt="Dark wavy wig style" fill className="rounded-2xl object-cover shadow-lg"/>
                 <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><button aria-label="Play video" className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm transition-transform hover:scale-110"><Play className="ml-1 h-6 w-6 fill-brand-brown text-brand-brown" /></button></div>
-              </div>
+              </Link>
             </div>
 
             <div className="relative h-[32rem] w-full group animate-fade-in-up" style={{ animationDelay: '0.4s', opacity: 0 }}>
-              <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
+              <Link href="/product" className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl block">
                 <Image src="/images/wigcollection2.png" alt="Model with blonde wig" fill className="object-cover transition-transform duration-500 group-hover:scale-105"/>
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <Link href="/shop" className="group/button inline-flex items-center justify-center gap-4 rounded-full bg-white py-3 pl-8 pr-3 text-lg font-bold text-brand-brown transition-all duration-300 hover:bg-brand-brown hover:text-white">
+                  <div className="group/button inline-flex items-center justify-center gap-4 rounded-full bg-white py-3 pl-8 pr-3 text-lg font-bold text-brand-brown transition-all duration-300 hover:bg-brand-brown hover:text-white">
                     <span className="transition-transform duration-300 hover:text-black group-hover/button:-translate-x-2">Shop The Look</span>
                     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-pink transition-colors duration-300 group-hover/button:bg-white">
                       <ArrowUpRight className="h-5 w-5 text-brand-brown hover:text-black transition-colors duration-300 group-hover/button:text-brand-pink" />
                     </span>
-                  </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
 
             <div className="h-full flex flex-col items-center justify-between animate-slide-in-right" style={{ animationDelay: '0.6s', opacity: 0 }}>
-              <Link href="/tools" className="self-center"><CircularText /></Link>
-              <div className="relative w-full h-60"><Image src="/images/wigcollection3.jpg" alt="Two models with curly hair" fill className="rounded-3xl object-cover shadow-lg"/></div>
+              <Link href="/product" className="self-center"><CircularText /></Link>
+              <Link href="/product" className="relative w-full h-60 block"><Image src="/images/wigcollection3.jpg" alt="Two models with curly hair" fill className="rounded-3xl object-cover shadow-lg"/></Link>
             </div>
           </div>
           
           <div className="flex flex-col items-center text-center lg:hidden space-y-10">
               <div>
-                {/* --- FIX 2: Font changed --- */}
-                <h2 className="text-4xl tracking-wide font-bold" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+                <h2 className="text-4xl tracking-wide font-bold font-edwardian-first-letter" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
                   Experience The Difference
                 </h2>
                 <p className="mt-3 text-lg text-brand-brown/80 max-w-md mx-auto">
@@ -107,17 +105,17 @@ const WigCollection = () => {
                 </p>
               </div>
 
-              <div className="relative w-full max-w-sm h-[28rem] rounded-3xl overflow-hidden shadow-2xl group">
+              <Link href="/product" className="relative w-full max-w-sm h-[28rem] rounded-3xl overflow-hidden shadow-2xl group block">
                 <Image src="/images/wigcollection2.png" alt="Main wig style" fill className="object-cover"/>
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/20">
-                    <Link href="/shop" className="group/button inline-flex items-center justify-center gap-4 rounded-full bg-white py-3 pl-8 pr-3 text-lg font-bold text-brand-brown">
+                    <div className="group/button inline-flex items-center justify-center gap-4 rounded-full bg-white py-3 pl-8 pr-3 text-lg font-bold text-brand-brown">
                         Shop The Look
                         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-pink">
                             <ArrowUpRight className="h-5 w-5 text-brand-brown" />
                         </span>
-                    </Link>
+                    </div>
                 </div>
-              </div>
+              </Link>
               
                 <div className="space-y-4 max-w-sm">
                  <div className="flex items-center text-left gap-4"><Leaf className="h-6 w-6 text-brand-pink flex-shrink-0" /><div><h3 className="font-bold">100% Human Hair</h3><p className="text-sm text-brand-brown/70">For the most natural look and feel.</p></div></div>
@@ -125,8 +123,8 @@ const WigCollection = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-                    <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection1.jpg" alt="Dark wavy wig style" fill className="object-cover"/></div>
-                    <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg"><Image src="/images/wigcollection3.jpg" alt="Curly hair styles" fill className="object-cover"/></div>
+                    <Link href="/product" className="relative h-48 rounded-2xl overflow-hidden shadow-lg block"><Image src="/images/wigcollection1.jpg" alt="Dark wavy wig style" fill className="object-cover"/></Link>
+                    <Link href="/product" className="relative h-48 rounded-2xl overflow-hidden shadow-lg block"><Image src="/images/wigcollection3.jpg" alt="Curly hair styles" fill className="object-cover"/></Link>
                 </div>
           </div>
         </div>
