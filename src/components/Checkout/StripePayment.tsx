@@ -7,23 +7,20 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useCart } from "@/context/CartContext"; // Use your CartContext path
+import { useCart } from "@/context/CartContext";
 import { useState } from "react";
-import medusaClient from "@/lib/medusa"; // Use your Medusa client path
-import { useRouter } from "next/navigation"; // For redirection
-// import type { HttpTypes } from "@medusajs/types"; // Import HttpTypes
+import medusaClient from "@/lib/medusa";
+import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-// Load Stripe outside of the component to avoid recreating it on every render
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PK || "" // Use your env variable
+  process.env.NEXT_PUBLIC_STRIPE_PK || ""
 );
 
 interface StripePaymentProps {
-  // We need the client secret from the Medusa payment session
   clientSecret: string;
 }
 
-// Main component wrapped in Elements provider
 export default function StripePayment({ clientSecret }: StripePaymentProps) {
   if (!process.env.NEXT_PUBLIC_STRIPE_PK) {
     return <div className="text-red-500 font-semibold">Stripe Publishable Key is missing in .env.local</div>;
@@ -39,9 +36,8 @@ export default function StripePayment({ clientSecret }: StripePaymentProps) {
   );
 }
 
-// Inner form component that uses Stripe hooks
 const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
-  const { cart, refreshCart } = useCart(); // Get refreshCart from context
+  const { cart, refreshCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const stripe = useStripe();
@@ -61,7 +57,6 @@ const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
 
     setLoading(true);
 
-    // 1. Confirm the card payment with Stripe's API
     const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardElement,
@@ -93,21 +88,16 @@ const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
        return;
     }
 
-    // 2. Complete the cart in Medusa to create the order
     try {
-      // FIX: Destructure the response correctly. There is no 'data' property.
       const response = await medusaClient.store.cart.complete(cart.id);
 
       if (response.type === "cart" && response.cart) {
-        // Error occurred during completion
         console.error("Cart completion failed after payment:", response.error);
         setError("Payment succeeded but failed to create the order. Please contact support.");
         setLoading(false);
       } else if (response.type === "order" && response.order) {
-        // Payment succeeded & order created!
         console.log("Order placed successfully:", response.order);
-        refreshCart(); // Use the context's refreshCart function
-        // Redirect to an order confirmation page
+        refreshCart();
         router.push(`/order/confirmed/${response.order.id}`);
       } else {
          console.error("Unexpected response structure:", response);
@@ -121,40 +111,99 @@ const StripeForm = ({ clientSecret }: { clientSecret: string }) => {
     }
   };
 
-  // Basic styling for CardElement
   const cardElementOptions = {
       style: {
           base: {
               fontSize: '16px',
-              color: '#32325d',
-              fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+              color: '#000000',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              fontWeight: '400',
               '::placeholder': {
-                  color: '#aab7c4',
+                  color: '#9CA3AF',
+                  fontWeight: '400',
               },
+              iconColor: '#000000',
           },
           invalid: {
-              color: '#fa755a',
-              iconColor: '#fa755a',
+              color: '#EF4444',
+              iconColor: '#EF4444',
+          },
+          complete: {
+              color: '#000000',
+              iconColor: '#10B981',
           },
       },
   };
 
   return (
-    <form onSubmit={handlePayment} className="space-y-4">
-       <h3 className="text-lg font-semibold text-gray-800">Payment Details</h3>
-       <div className="p-3 border border-gray-300 rounded-md bg-white shadow-sm">
-         <CardElement options={cardElementOptions} />
+    <form onSubmit={handlePayment} className="space-y-6">
+       <div className="space-y-4">
+         <h3 className="text-xl font-bold text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Payment Information</h3>
+         <p className="text-sm text-gray-600">Complete your purchase securely with Stripe</p>
        </div>
 
-       {error && <p className="text-red-600 text-sm">{error}</p>}
+       <div className="bg-white border-2 border-black p-6 space-y-5">
+         <div className="space-y-2">
+           <label className="block text-sm font-semibold text-black">Card Information</label>
+           <div className="relative">
+             <div className="p-4 border-2 border-gray-300 focus-within:border-black transition-colors bg-white">
+               <CardElement options={cardElementOptions} />
+             </div>
+           </div>
+           <p className="text-xs text-gray-500 mt-1">Enter your card number, expiry date, and CVC</p>
+         </div>
+
+         <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+           <div className="flex items-center gap-2 text-xs text-gray-600">
+             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+             </svg>
+             <span>Secured by Stripe</span>
+           </div>
+           <div className="flex items-center gap-2">
+             <svg className="w-8 h-5" viewBox="0 0 32 20" fill="none">
+               <rect width="32" height="20" rx="2" fill="#EB001B"/>
+               <circle cx="12" cy="10" r="7" fill="#F79E1B" fillOpacity="0.8"/>
+               <circle cx="20" cy="10" r="7" fill="#FF5F00" fillOpacity="0.8"/>
+             </svg>
+             <svg className="w-8 h-5" viewBox="0 0 32 20" fill="none">
+               <rect width="32" height="20" rx="2" fill="#0066B2"/>
+               <path d="M13 6h6v8h-6z" fill="#FFCC00"/>
+             </svg>
+           </div>
+         </div>
+       </div>
+
+       {error && (
+         <div className="p-4 bg-red-50 border-2 border-red-200">
+           <p className="text-red-700 text-sm font-medium">{error}</p>
+         </div>
+       )}
 
        <button
          type="submit"
          disabled={loading || !stripe || !elements}
-         className="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+         className="w-full bg-black text-white font-bold py-4 px-6 hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group"
+         style={{ fontFamily: 'var(--font-caviar-dreams)' }}
        >
-         {loading ? "Processing Payment..." : "Place Order"}
+         {loading ? (
+           <>
+             <LoadingSpinner size="md" color="white" />
+             <span>Processing Payment...</span>
+           </>
+         ) : (
+           <>
+             <span>Place Order</span>
+             <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+             </svg>
+           </>
+         )}
        </button>
+
+       <p className="text-xs text-center text-gray-500">
+         Your payment information is encrypted and secure. We never store your card details.
+       </p>
      </form>
   );
 };

@@ -33,38 +33,38 @@ export default function Features() {
   };
 
   return (
-    <section className="bg-brand-tan py-20 lg:py-32">
+    <section className="bg-white py-20 lg:py-32">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2
-            className="text-3xl sm:text-4xl font-bold text-brand-brown font-edwardian-first-letter"
+            className="text-3xl sm:text-4xl font-bold text-black font-edwardian-first-letter"
             style={{ fontFamily: 'var(--font-caviar-dreams)' }}
           >
             Our Commitment to Perfection
           </h2>
-          <p className="mt-4 text-lg text-brand-brown/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-black/80 max-w-2xl mx-auto">
             Discover the core principles that make ChilzStyles a leader in luxury hair.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto border-t border-b border-brand-brown/20">
+        <div className="max-w-4xl mx-auto border-t border-b border-black/20">
           {featuresData.map((feature, index) => (
-            <div key={index} className="border-b border-brand-brown/20">
+            <div key={index} className="border-b border-black/20">
               <button
                 onClick={() => handleToggle(index)}
                 className="w-full flex justify-between items-center text-left py-6"
               >
                 <div className="flex items-center gap-4">
-                  <feature.icon className="h-8 w-8 text-brand-pink flex-shrink-0" />
+                  <feature.icon className="h-8 w-8 text-black flex-shrink-0" />
                   <h3
-                    className="text-2xl lg:text-3xl font-bold text-brand-brown"
+                    className="text-2xl lg:text-3xl font-bold text-black"
                     style={{ fontFamily: 'var(--font-caviar-dreams)' }}
                   >
                     {feature.title}
                   </h3>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-secondary-bg">
-                  {openIndex === index ? <Minus className="h-5 w-5 text-brand-brown" /> : <Plus className="h-5 w-5 text-brand-brown" />}
+                <div className="flex h-10 w-10 items-center justify-center rounded-none bg-black text-white">
+                  {openIndex === index ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
                 </div>
               </button>
               <div
@@ -74,10 +74,10 @@ export default function Features() {
               >
                 <div className="overflow-hidden">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 pb-8">
-                    <p className="text-base text-brand-brown/80">
+                    <p className="text-base text-black/80">
                       {feature.description}
                     </p>
-                    <div className="relative h-48 w-full rounded-lg overflow-hidden">
+                    <div className="relative h-48 w-full rounded-none overflow-hidden">
                       <Image 
                         src={feature.imageSrc}
                         alt={feature.title}

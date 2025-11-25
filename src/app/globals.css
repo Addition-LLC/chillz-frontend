@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F5F0E6;   
-  --foreground: #5C4033; 
-  --secondary-background: #EAE2D7;
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --secondary-background: #F5F0E6;
 }
 
 @theme inline {
@@ -34,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 .font-edwardian-first-letter::first-letter {
   font-family: var(--font-pinyon-script), cursive;
   font-size: 2em;
+  font-weight: normal;
   line-height: 1;
   margin-right: 0.05em;
   vertical-align: middle;

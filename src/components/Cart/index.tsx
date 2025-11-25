@@ -28,7 +28,6 @@ export default function Cart() {
   const totalPrice = useMemo(() => (cart ? Number(cart.subtotal) : 0), [cart]);
   
   const handleUpdateQuantity = async (lineId: string, quantity: number) => {
-    // FIX 1: Add check for cart and cart.items
     if (!cart?.id || !cart.items || updatingItemId) return;
 
     if (quantity < 1) {
@@ -67,7 +66,6 @@ export default function Cart() {
   };
 
   const handleRemoveItem = async (lineId: string) => {
-    // FIX 2: Add check for cart and cart.items
     if (!cart?.id || !cart.items || updatingItemId) return;
 
     const originalCart = cart;
@@ -85,9 +83,8 @@ export default function Cart() {
     setUpdatingItemId(lineId);
 
     try {
-      // FIX 3: The delete method returns 'parent', not 'cart'
       const { parent: updatedCart } = await medusaClient.store.cart.deleteLineItem(cart.id, lineId);
-      setCart(updatedCart); // Set final server state
+      setCart(updatedCart); 
     } catch (error) {
       console.error("Failed to remove item:", error);
       setCart(originalCart);
@@ -97,7 +94,6 @@ export default function Cart() {
     }
   };
 
-  // Corrected formatPrice function
   const formatPrice = (amount: number | string | null | undefined, currencyCode: string) => {
     if (amount === null || amount === undefined || !currencyCode) return 'N/A';
     return new Intl.NumberFormat('en-US', {
@@ -160,7 +156,7 @@ export default function Cart() {
                             <ul role="list" className="-my-6 divide-y divide-gray-200">
                               {cartItems.map((item: HttpTypes.StoreCartLineItem) => (
                                 <li key={item.id} className="flex py-6">
-                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-none border border-gray-200">
                                     <Image 
                                       src={item.thumbnail || '/placeholder.png'} 
                                       alt={item.title} 
@@ -172,7 +168,7 @@ export default function Cart() {
 
                                   <div className="ml-4 flex flex-1 flex-col">
                                     <div>
-                                      <div className="flex justify-between text-base font-medium text-gray-900">
+                                      <div className="flex justify-between text-base font-medium text-black">
                                         <h3>{item.title}</h3>
                                         <p className="ml-4">{formatPrice(item.total, cart?.region?.currency_code || 'USD')}</p>
                                       </div>
@@ -183,20 +179,20 @@ export default function Cart() {
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) - 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50 text-gray-600"
+                                          className="px-2 text-lg disabled:opacity-50 text-black hover:text-gray-600"
                                         >-</button>
-                                        <p className="text-gray-700 mx-2">Qty {item.quantity}</p>
+                                        <p className="text-black mx-2">Qty {item.quantity}</p>
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) + 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50 text-gray-600"
+                                          className="px-2 text-lg disabled:opacity-50 text-black hover:text-gray-600"
                                         >+</button>
                                       </div>
                                       <div className="flex">
                                         <button
                                           onClick={() => handleRemoveItem(item.id)}
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500 disabled:opacity-50"
+                                          className="font-medium text-black hover:text-gray-600 disabled:opacity-50 underline"
                                           disabled={!!updatingItemId}
                                         >
                                           Remove
@@ -215,7 +211,7 @@ export default function Cart() {
                     </div>
 
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                      <div className="flex justify-between text-base font-medium text-gray-900">
+                      <div className="flex justify-between text-base font-medium text-black">
                         <p>Subtotal</p>
                         <p>{formatPrice(totalPrice, cart?.region?.currency_code || 'USD')}</p>
                       </div>
@@ -224,7 +220,7 @@ export default function Cart() {
                         <Link
                           href="/checkout"
                           onClick={closeCart}
-                          className="flex items-center justify-center rounded-md border border-transparent bg-brand-brown px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-90"
+                          className="flex items-center justify-center rounded-none border border-transparent bg-black px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800"
                         >
                           Checkout
                         </Link>

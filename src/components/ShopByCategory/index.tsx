@@ -33,16 +33,16 @@ const categories = [
 
 const ShopByCategory = () => {
   return (
-    <section className="bg-brand-brown text-brand-tan py-16 lg:py-20"> {/* Reverted background */}
+    <section className="bg-black text-white py-16 lg:py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 lg:mb-16">
           <h2
-            className="text-7xl lg:text-4xl font-bold text-brand-tan font-edwardian-first-letter"
+            className="text-7xl lg:text-4xl font-bold text-white font-edwardian-first-letter"
             style={{ fontFamily: 'var(--font-caviar-dreams)', fontWeight: '700', fontSize: '36px' }}
           >
             Shop By Style
           </h2>
-          <p className="mt-4 text-lg text-brand-tan/70 max-w-2xl mx-auto font-caviar font-normal">
+          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto font-caviar font-normal">
             Find the perfect texture for your look.
           </p>
         </div>

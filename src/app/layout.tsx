@@ -1,3 +1,5 @@
+'use client';
+
 import { Playfair_Display, Geist, Pinyon_Script } from 'next/font/google';
 import localFont from 'next/font/local';
 import { AuthProvider } from '@/context/AuthContext';
@@ -6,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import Cart from '@/components/Cart';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 
 const playfair_display = Playfair_Display({
@@ -52,6 +55,27 @@ const caviarDreams = localFont({
   variable: '--font-caviar-dreams',
 });
 
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAuthPage = pathname.includes('/login') || 
+                     pathname.includes('/signup') || 
+                     pathname.includes('/forgot-password') || 
+                     pathname.includes('/reset-password');
+
+  return (
+    <>
+      {!isAuthPage && <Header />}
+      <main>{children}</main>
+      {!isAuthPage && (
+        <>
+          <ScrollToTop />
+          <Footer />
+        </>
+      )}
+    </>
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -64,10 +88,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Cart />
-            <Header />
-            <main>{children}</main>
-            <ScrollToTop />
-            <Footer />
+            <LayoutContent>{children}</LayoutContent>
           </CartProvider>
         </AuthProvider>
       </body>

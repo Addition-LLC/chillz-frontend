@@ -37,16 +37,16 @@ const BlogSection: React.FC = () => {
   const recentPosts = blogPosts.slice(1);
 
   return (
-    <div className="bg-brand-secondary-bg py-20 lg:py-32">
+    <div className="bg-white py-20 lg:py-32">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2
-            className="text-3xl sm:text-4xl font-bold text-brand-brown"
+            className="text-3xl sm:text-4xl font-bold text-black"
             style={{ fontFamily: 'var(--font-playfair-display)' }}
           >
             Latest From Our Blog
           </h2>
-          <p className="mt-4 text-lg text-brand-brown/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-black/80 max-w-2xl mx-auto">
             Insights, tutorials, and the latest trends from the world of luxury hair.
           </p>
         </div>
@@ -55,7 +55,7 @@ const BlogSection: React.FC = () => {
           {/* --- Featured Post (Left Column) --- */}
           <div className="lg:col-span-2">
             <Link href={featuredPost.href} className="group block">
-              <div className="relative h-96 w-full overflow-hidden rounded-lg shadow-lg">
+              <div className="relative h-96 w-full overflow-hidden rounded-none shadow-lg">
                 <Image
                   src={featuredPost.image}
                   alt={featuredPost.title}
@@ -64,7 +64,7 @@ const BlogSection: React.FC = () => {
                 />
               </div>
               <div className="py-6">
-                <div className="flex items-center text-brand-brown/60 text-sm mb-2">
+                <div className="flex items-center text-black/60 text-sm mb-2">
                   <span className="flex items-center mr-4">
                     <Calendar className="w-4 h-4 mr-1.5" />
                     {featuredPost.date}
@@ -75,22 +75,22 @@ const BlogSection: React.FC = () => {
                   </span>
                 </div>
                 <h3
-                  className="text-2xl font-bold text-brand-brown transition-colors group-hover:text-brand-pink"
+                  className="text-2xl font-bold text-black transition-colors group-hover:text-gray-600"
                   style={{ fontFamily: 'var(--font-playfair-display)' }}
                 >
                   {featuredPost.title}
                 </h3>
-                <p className="text-brand-brown/80 text-base mt-2">{featuredPost.excerpt}</p>
+                <p className="text-black/80 text-base mt-2">{featuredPost.excerpt}</p>
               </div>
             </Link>
           </div>
 
           {/* --- Recent Posts (Right Column) --- */}
           <div className="flex flex-col space-y-8">
-             <h4 className="text-xl font-bold text-brand-brown border-b border-brand-brown/20 pb-2" style={{ fontFamily: 'var(--font-playfair-display)' }}>Recent Articles</h4>
+             <h4 className="text-xl font-bold text-black border-b border-black/20 pb-2" style={{ fontFamily: 'var(--font-playfair-display)' }}>Recent Articles</h4>
             {recentPosts.map((post) => (
               <Link href={post.href} key={post.title} className="group flex items-center gap-4">
-                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-none">
                   <Image
                     src={post.image}
                     alt={post.title}
@@ -100,10 +100,10 @@ const BlogSection: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-brand-brown transition-colors group-hover:text-brand-pink" style={{ fontFamily: 'var(--font-playfair-display)' }}>
+                  <h3 className="text-lg font-bold text-black transition-colors group-hover:text-gray-600" style={{ fontFamily: 'var(--font-playfair-display)' }}>
                     {post.title}
                   </h3>
-                  <p className="text-sm text-brand-brown/60 mt-1">{post.date}</p>
+                  <p className="text-sm text-black/60 mt-1">{post.date}</p>
                 </div>
               </Link>
             ))}

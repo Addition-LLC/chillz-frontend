@@ -49,8 +49,8 @@ export default function ProfilePage() {
   };
   
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6">Profile Details</h2>
+    <div className="bg-white p-6 sm:p-8 rounded-none shadow-md border border-gray-100">
+      <h2 className="text-2xl font-semibold mb-6 text-black">Profile Details</h2>
       <form onSubmit={handleUpdateProfile} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField id="firstName" name="firstName" label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
@@ -63,7 +63,7 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full sm:w-auto bg-brand-brown text-white font-bold py-3 px-6 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50"
+            className="w-full sm:w-auto bg-black text-white font-bold py-3 px-6 rounded-none hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
             {isLoading ? "Saving..." : "Save Changes"}
           </button>
@@ -82,8 +82,8 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 const InputField = ({ id, name, label, error, ...props }: InputFieldProps) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input id={id} name={name} className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
+    <label htmlFor={id} className="block text-sm font-medium text-black mb-1">{label}</label>
+    <input id={id} name={name} className={`block w-full rounded-none border-gray-300 shadow-sm focus:border-black focus:ring focus:ring-black/5 focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
     {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
   </div>
 );

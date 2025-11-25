@@ -6,8 +6,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { StoreProduct, StoreProductVariant, StoreRegion } from "@medusajs/types";
 import toast, { Toaster } from 'react-hot-toast';
-import Image from "next/image"; // Import Next.js Image
-import { Check } from "lucide-react"; // Import check icon
+import Image from "next/image"; 
+import { Check } from "lucide-react"; 
 
 // Helper function to get region (can be moved to a shared util)
 async function getRegionId() {
@@ -108,30 +108,28 @@ export default function ProductPage() {
     }).format(Number(amount));
   };
 
-
-
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-12 pt-28 lg:pt-32 animate-pulse">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div>
-            <div className="w-full h-[400px] lg:h-[550px] bg-gray-400 rounded-lg"></div>
+            <div className="w-full h-[400px] lg:h-[550px] bg-gray-200 rounded-none"></div>
             <div className="mt-4 grid grid-cols-4 gap-4">
-              <div className="w-full h-24 bg-gray-400 rounded"></div>
-              <div className="w-full h-24 bg-gray-400 rounded"></div>
+              <div className="w-full h-24 bg-gray-200 rounded-none"></div>
+              <div className="w-full h-24 bg-gray-200 rounded-none"></div>
             </div>
           </div>
           <div>
-            <div className="h-10 bg-gray-400 rounded w-3/4 mb-4"></div>
-            <div className="h-8 bg-gray-400 rounded w-1/4 mb-6"></div>
-            <div className="h-20 bg-gray-400 rounded w-full mb-8"></div>
-            <div className="h-6 bg-gray-400 rounded w-1/3 mb-4"></div>
+            <div className="h-10 bg-gray-200 rounded-none w-3/4 mb-4"></div>
+            <div className="h-8 bg-gray-200 rounded-none w-1/4 mb-6"></div>
+            <div className="h-20 bg-gray-200 rounded-none w-full mb-8"></div>
+            <div className="h-6 bg-gray-200 rounded-none w-1/3 mb-4"></div>
             <div className="flex gap-2">
-              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
-              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
-              <div className="h-10 w-20 bg-gray-400 rounded-full"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-none"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-none"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-none"></div>
             </div>
-            <div className="h-14 bg-gray-400 rounded-md mt-8"></div>
+            <div className="h-14 bg-gray-200 rounded-none mt-8"></div>
           </div>
         </div>
       </div>
@@ -148,7 +146,7 @@ export default function ProductPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Image Gallery */}
         <div>
-          <div className="relative w-full h-[400px] lg:h-[550px] rounded-lg overflow-hidden shadow-lg">
+          <div className="relative w-full h-[400px] lg:h-[550px] rounded-none overflow-hidden shadow-none border border-gray-100">
             {activeImage && (
               <Image
                 src={activeImage}
@@ -163,7 +161,7 @@ export default function ProductPage() {
           <div className="mt-4 grid grid-cols-4 gap-4">
             {product.thumbnail && (
               <div 
-                className={`relative w-full h-24 rounded cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === product.thumbnail ? 'border-brand-brown' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                className={`relative w-full h-24 rounded-none cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === product.thumbnail ? 'border-black' : 'border-transparent opacity-70 hover:opacity-100'}`}
                 onClick={() => setActiveImage(product.thumbnail!)}
               >
                 <Image src={product.thumbnail} alt="Thumbnail" fill className="object-cover" />
@@ -172,7 +170,7 @@ export default function ProductPage() {
             {product.images?.map((img) => (
               <div 
                 key={img.id}
-                className={`relative w-full h-24 rounded cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === img.url ? 'border-brand-brown' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                className={`relative w-full h-24 rounded-none cursor-pointer overflow-hidden border-2 transition-all duration-200 ${activeImage === img.url ? 'border-black' : 'border-transparent opacity-70 hover:opacity-100'}`}
                 onClick={() => setActiveImage(img.url)}
               >
                 <Image src={img.url} alt="Product image" fill className="object-cover" />
@@ -183,15 +181,15 @@ export default function ProductPage() {
 
         {/* Product Info */}
         <div>
-          <h1 className="text-4xl font-bold mb-4 text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>{product.title}</h1>
-          <p className="text-3xl font-semibold text-gray-800 mb-6" style={{ fontFamily: 'var(--font-lato)' }}>
+          <h1 className="text-4xl font-bold mb-4 text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>{product.title}</h1>
+          <p className="text-3xl font-semibold text-black mb-6" style={{ fontFamily: 'var(--font-lato)' }}>
             {formatPrice(selectedVariant)}
           </p>
           <p className="text-gray-600 mb-8 leading-relaxed">{product.description}</p>
 
           {product.variants && product.variants.length > 0 && (
             <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-bold text-black mb-3 uppercase tracking-wider">
                  {product.options?.[0]?.title || 'Select Option'}
               </label>
               <div className="flex flex-wrap gap-3">
@@ -201,19 +199,17 @@ export default function ProductPage() {
                     <button
                       key={variant.id}
                       onClick={() => setSelectedVariantId(variant.id)}
-                      className={`relative px-5 py-2 rounded-full text-sm font-medium border
-                        transition-all duration-200 transform 
+                      className={`relative px-6 py-3 rounded-none text-sm font-bold border
+                        transition-all duration-200 
                         ${isSelected
-                          ? 'bg-brand-pink text-white border-brand-pink shadow-md scale-105' 
-                          : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500 hover:scale-105 active:scale-95' // Not Selected: White
+                          ? 'bg-black text-white border-black shadow-lg' 
+                          : 'bg-white text-black border-gray-200 hover:border-black hover:bg-gray-50'
                         }
                       `}
                     >
                       {isSelected && (
-                        // Keep the checkmark
-                        <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                          <span className="relative inline-flex rounded-full h-4 w-4 bg-brand-brown items-center justify-center">
-                            <Check size={10} className="text-white"/>
+                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                          <span className="relative inline-flex rounded-none h-3 w-3 bg-white border border-black items-center justify-center">
                           </span>
                         </span>
                       )}
@@ -229,7 +225,7 @@ export default function ProductPage() {
           <button
             onClick={handleAddToCart}
             disabled={!selectedVariantId || isLoading}
-            className="w-full bg-brand-brown text-white font-bold py-4 px-6 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+            className="w-full bg-black text-white font-bold py-4 px-6 rounded-none hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg shadow-lg hover:shadow-xl"
             style={{fontFamily: 'var(--font-caviar-dreams'}}
           >
             Add to Cart

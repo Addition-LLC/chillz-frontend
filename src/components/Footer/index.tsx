@@ -39,15 +39,15 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 bg-brand-tan pt-16 text-brand-brown md:pt-20 lg:pt-24">
+    <footer className="relative z-10 bg-black pt-16 text-white md:pt-20 lg:pt-24">
       <div className="container mx-auto px-4">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
             <div className="mb-12 max-w-[360px] lg:mb-16">
-              <Link href="/" className="mb-8 inline-block text-3xl font-bold text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
-                Nhim Wen Luxury Hair
+              <Link href="/" className="mb-8 inline-block text-3xl font-bold text-white" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
+                Nhïëm Wën Luxury Hair
               </Link>
-              <p className="mb-9 text-base leading-relaxed">
+              <p className="mb-9 text-base leading-relaxed text-gray-400">
                 Premium quality wigs made from ethically sourced human hair. Designed for comfort, style, and confidence.
               </p>
               <div className="flex items-center space-x-4">
@@ -58,7 +58,7 @@ const Footer = () => {
                     aria-label={social.label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-brand-pink transition-colors"
+                    className="hover:text-gray-400 transition-colors"
                   >
                     <social.icon className="h-6 w-6" />
                   </Link>
@@ -74,7 +74,7 @@ const Footer = () => {
                 <ul>
                   {column.links.map((link) => (
                     <li key={link.name}>
-                      <Link href={link.href} className="mb-4 inline-block text-base duration-300 hover:text-brand-pink">
+                      <Link href={link.href} className="mb-4 inline-block text-base duration-300 hover:text-gray-400 text-gray-300">
                         {link.name}
                       </Link>
                     </li>
@@ -87,17 +87,17 @@ const Footer = () => {
           <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-3/12">
             <div className="mb-12 lg:mb-16">
               <h2 className="mb-10 text-xl font-bold">CONTACT US</h2>
-              <div className="space-y-4">
+              <div className="space-y-4 text-gray-300">
                 <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 text-brand-pink mt-1 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-white mt-1 flex-shrink-0" />
                   <p>123 Fashion Street, Beauty City, Style Country 12345</p>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-brand-pink flex-shrink-0" />
+                  <Phone className="w-5 h-5 text-white flex-shrink-0" />
                   <p>+1 (555) 987-6543</p>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-brand-pink flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-white flex-shrink-0" />
                   <p>info@nhimwenluxuryhair.com</p>
                 </div>
               </div>
@@ -105,10 +105,10 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="h-px w-full bg-brand-brown/20"></div>
+        <div className="h-px w-full bg-white/20"></div>
         <div className="py-8">
-          <p className="text-center text-base">
-            &copy; {currentYear} Nhim Wen Luxury Hair. All Rights Reserved.
+          <p className="text-center text-base text-gray-400">
+            &copy; {currentYear} Nhïëm Wën Luxury Hair. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -11,6 +11,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        'none': '0',
+        'sm': '0',
+        DEFAULT: '0',
+        'md': '0',
+        'lg': '0',
+        'xl': '0',
+        '2xl': '0',
+        '3xl': '0',
+        'full': '0',
+      },
       colors: {
         'brand-tan': '#F5F0E6',
         'brand-secondary-bg': '#EAE2D7',

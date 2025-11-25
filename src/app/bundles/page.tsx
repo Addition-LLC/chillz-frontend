@@ -136,13 +136,13 @@ export default function BundlesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+    <div className="min-h-screen bg-white pt-28 pb-12 lg:pt-32">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+          <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
             Curated Bundles
           </h1>
-          <p className="text-brand-brown/70 max-w-2xl mx-auto">
+          <p className="text-black/70 max-w-2xl mx-auto">
             Save more when you buy together. Explore our hand-picked sets designed for the perfect look.
           </p>
         </div>
@@ -150,7 +150,7 @@ export default function BundlesPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
              {[1, 2, 3].map(i => (
-               <div key={i} className="h-96 bg-white rounded-2xl animate-pulse shadow-sm border border-brand-brown/10"></div>
+               <div key={i} className="h-96 bg-white rounded-none animate-pulse shadow-sm border border-gray-100"></div>
              ))}
           </div>
         ) : bundles.length > 0 ? (
@@ -168,9 +168,9 @@ export default function BundlesPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-brand-brown/10">
-            <h3 className="text-2xl font-bold text-brand-brown mb-2">Coming Soon</h3>
-            <p className="text-brand-brown/60">We are currently curating new bundles for you. Check back later!</p>
+          <div className="text-center py-20 bg-white rounded-none shadow-sm border border-gray-100">
+            <h3 className="text-2xl font-bold text-black mb-2">Coming Soon</h3>
+            <p className="text-gray-500">We are currently curating new bundles for you. Check back later!</p>
           </div>
         )}
       </div>

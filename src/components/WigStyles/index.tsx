@@ -32,7 +32,7 @@ const WigStyles = () => {
   return (
     <section 
       className="py-20 lg:py-32"
-      style={{ backgroundColor: '#5C4033', color: '#F5F0E6' }} // Forced brand-brown bg & brand-tan text
+      style={{ backgroundColor: '#000000', color: '#FFFFFF' }} // Forced black bg & white text
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -46,21 +46,21 @@ const WigStyles = () => {
               >
                 Embrace Your Ethereal Beauty
               </h2>
-              <p className="mt-4 text-lg text-brand-tan/70 max-w-lg" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
-              At Nhim Wën Lux Hair, we see embracing natural hair as reclaiming your identity. Our founder shares this journey against colonial beauty standards. We believe extensions are a tool to enhance your natural texture, not mask it, allowing for versatile self-expression. By celebrating your hair, you defy outdated norms and reclaim your crown with pride. Your hair is your heritage; let it shine boldly.
+              <p className="mt-4 text-lg text-white/70 max-w-lg" style={{fontFamily: 'var(--font-caviar-dreams)'}}>
+              At Nhïëm Wën Lux Hair, we see embracing natural hair as reclaiming your identity. Our founder shares this journey against colonial beauty standards. We believe extensions are a tool to enhance your natural texture, not mask it, allowing for versatile self-expression. By celebrating your hair, you defy outdated norms and reclaim your crown with pride. Your hair is your heritage; let it shine boldly.
               </p>
             </div>
             
-            {/* <div className="divide-y divide-brand-tan/20 border-t border-b border-brand-tan/20">
+            {/* <div className="divide-y divide-white/20 border-t border-b border-white/20">
               {stylesData.map((style, index) => (
                 <div 
                   key={style.name}
                   onMouseEnter={() => setActiveStyle(style)}
                   className="group"
                 >
-                  <Link href={style.href} className="flex justify-between items-center py-8 text-brand-tan transition-colors duration-300">
+                  <Link href={style.href} className="flex justify-between items-center py-8 text-white transition-colors duration-300">
                     <div className="flex items-center gap-6">
-                      <span className="text-sm font-semibold text-brand-tan/70">
+                      <span className="text-sm font-semibold text-white/70">
                         0{index + 1}
                       </span>
                       <h3 
@@ -71,10 +71,10 @@ const WigStyles = () => {
                       </h3>
                     </div>
                     <div className="text-right flex items-center gap-4">
-                      <p className="hidden md:block text-brand-tan/80 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                      <p className="hidden md:block text-white/80 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                         {style.description}
                       </p>
-                      <div className="h-14 w-14 rounded-full border-2 border-brand-tan flex items-center justify-center transition-all duration-300 group-hover:bg-brand-tan group-hover:text-brand-brown">
+                      <div className="h-14 w-14 rounded-none border-2 border-white flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-black">
                         <ArrowUpRight className="h-6 w-6" />
                       </div>
                     </div>
@@ -85,8 +85,8 @@ const WigStyles = () => {
           </div>
 
           {/* --- Right Column: Image Preview --- */}
-          <div className="relative w-full h-[28rem] lg:h-[36rem] rounded-2xl overflow-hidden">
-             <div className="absolute inset-0 bg-brand-secondary-bg"></div>
+          <div className="relative w-full h-[28rem] lg:h-[36rem] rounded-none overflow-hidden">
+             <div className="absolute inset-0 bg-white"></div>
              {stylesData.map((style) => (
                 <Image
                     key={style.name}

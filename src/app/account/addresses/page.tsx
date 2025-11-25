@@ -49,16 +49,16 @@ export default function AddressesPage() {
   };
 
   if (isLoading) {
-    return <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md animate-pulse">Loading addresses...</div>;
+    return <div className="bg-white p-6 sm:p-8 rounded-none shadow-md animate-pulse border border-gray-100">Loading addresses...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-800">Manage Addresses</h2>
+        <h2 className="text-2xl font-semibold text-black">Manage Addresses</h2>
         <button
           onClick={() => setIsFormVisible(!isFormVisible)}
-          className="flex items-center gap-2 bg-brand-brown text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors"
+          className="flex items-center gap-2 bg-black text-white font-bold py-2 px-4 rounded-none hover:bg-gray-800 transition-colors"
         >
           <Plus size={18} /> {isFormVisible ? "Cancel" : "Add New"}
         </button>
@@ -78,9 +78,9 @@ export default function AddressesPage() {
       <div className="space-y-4">
         {addresses.length > 0 ? (
           addresses.map((address) => (
-            <div key={address.id} className="bg-white p-5 rounded-lg shadow-md flex justify-between items-start">
-              <div className="text-sm text-gray-700">
-                <p className="font-semibold text-gray-900">{address.first_name} {address.last_name}</p>
+            <div key={address.id} className="bg-white p-5 rounded-none shadow-md flex justify-between items-start border border-gray-100">
+              <div className="text-sm text-black">
+                <p className="font-semibold text-black">{address.first_name} {address.last_name}</p>
                 <p>{address.address_1}</p>
                 {address.address_2 && <p>{address.address_2}</p>}
                 <p>{address.city}, {address.province} {address.postal_code}</p>
@@ -98,7 +98,7 @@ export default function AddressesPage() {
           ))
         ) : (
           !isFormVisible && (
-             <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md">
+             <div className="bg-white p-6 sm:p-8 rounded-none shadow-md border border-gray-100">
                 <p className="text-gray-500">You have no saved addresses.</p>
              </div>
           )
@@ -151,7 +151,7 @@ const AddressForm = ({ onAddressAdded }: AddressFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 sm:p-8 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 sm:p-8 rounded-none shadow-md border border-gray-100">
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <InputField id="first_name" name="first_name" label="First Name" value={address.first_name} onChange={handleChange} required />
@@ -170,7 +170,7 @@ const AddressForm = ({ onAddressAdded }: AddressFormProps) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full sm:w-auto bg-brand-brown text-white font-bold py-3 px-6 rounded-md hover:bg-opacity-90 transition-colors disabled:opacity-50"
+          className="w-full sm:w-auto bg-black text-white font-bold py-3 px-6 rounded-none hover:bg-gray-800 transition-colors disabled:opacity-50"
         >
           {isLoading ? "Saving..." : "Save Address"}
         </button>
@@ -188,8 +188,8 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 const InputField = ({ id, name, label, error, ...props }: InputFieldProps) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input id={id} name={name} className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-pink focus:ring focus:ring-brand-pink focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
+    <label htmlFor={id} className="block text-sm font-medium text-black mb-1">{label}</label>
+    <input id={id} name={name} className={`block w-full rounded-none border-gray-300 shadow-sm focus:border-black focus:ring focus:ring-black/5 focus:ring-opacity-50 p-3 ${error ? 'border-red-500' : ''}`} {...props} />
     {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
   </div>
 );

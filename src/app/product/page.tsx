@@ -150,10 +150,10 @@ function ShopPageClient() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+    <div className="min-h-screen bg-white pt-28 pb-12 lg:pt-32">
       <div className="container mx-auto px-4">
         <Toaster position="bottom-right" />
-        <h1 className="text-4xl lg:text-5xl font-bold mb-10 text-center text-brand-brown" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+        <h1 className="text-4xl lg:text-5xl font-bold mb-10 text-center text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
           Shop All Products
         </h1>
         
@@ -165,11 +165,11 @@ function ShopPageClient() {
                 name="search"
                 defaultValue={searchQuery}
                 placeholder="Search for products..."
-                className="w-full p-3 pl-10 border rounded-md shadow-sm text-gray-900 focus:ring-brand-pink focus:border-brand-pink"
+                className="w-full p-3 pl-10 border border-gray-300 rounded-none shadow-sm text-black focus:ring-black focus:border-black"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               {searchQuery && (
-                  <button type="button" onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800">
+                  <button type="button" onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black">
                       <X size={18} />
                   </button>
               )}
@@ -177,7 +177,7 @@ function ShopPageClient() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="p-3 border rounded-md shadow-sm w-full md:w-auto text-gray-900 focus:ring-brand-pink focus:border-brand-pink"
+            className="p-3 border border-gray-300 rounded-none shadow-sm w-full md:w-auto text-black focus:ring-black focus:border-black"
           >
             <option value="created_at_desc">Sort: Latest</option>
             <option value="price_asc">Sort: Price Low to High</option>
@@ -186,9 +186,9 @@ function ShopPageClient() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <aside className="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-brown/10 h-fit sticky top-32 space-y-8">
+          <aside className="lg:col-span-1 bg-white p-6 rounded-none shadow-sm border border-gray-200 h-fit sticky top-32 space-y-8">
             <div>
-              <h3 className="font-bold mb-4 text-xl text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams'}}>Collections</h3>
+              <h3 className="font-bold mb-4 text-xl text-black" style={{fontFamily: 'var(--font-caviar-dreams'}}>Collections</h3>
               <div className="space-y-2">
                 {collections.map((collection) => (
                   <label key={collection.id} className="flex items-center space-x-2 cursor-pointer" style={{fontFamily: 'var(--font-caviar-dreams'}}>
@@ -196,7 +196,7 @@ function ShopPageClient() {
                       type="checkbox"
                       checked={selectedCollections.includes(collection.id)}
                       onChange={() => handleCollectionToggle(collection.id)}
-                      className="rounded text-brand-brown focus:ring-brand-pink"
+                      className="rounded-none text-black focus:ring-black border-gray-300"
                     />
                     <span className="text-sm text-gray-700" style={{fontFamily: 'var(--font-caviar-dreams'}}>{collection.title}</span>
                   </label>
@@ -205,7 +205,7 @@ function ShopPageClient() {
             </div>
             
             <div className="border-t border-gray-200 pt-6">
-              <h3 className="font-bold mb-4 text-xl text-brand-brown" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
+              <h3 className="font-bold mb-4 text-xl text-black" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
               <div className="space-y-2">
                 {styleTags.map((tag) => (
                   <label key={tag.id} className="flex items-center space-x-2 cursor-pointer">
@@ -213,7 +213,7 @@ function ShopPageClient() {
                       type="checkbox"
                       checked={selectedTags.includes(tag.id)}
                       onChange={() => handleTagToggle(tag.id)}
-                      className="rounded text-brand-brown focus:ring-brand-pink"
+                      className="rounded-none text-black focus:ring-black border-gray-300"
                     />
                     <span className="text-sm text-gray-700 capitalize">{tag.value.replace(/_/g, ' ')}</span>
                   </label>
@@ -226,10 +226,10 @@ function ShopPageClient() {
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="border rounded-lg p-4 shadow-md animate-pulse bg-white">
-                    <div className="h-64 w-full rounded bg-gray-200 mb-4"></div>
-                    <div className="h-6 rounded bg-gray-200 w-3/4 mb-2"></div>
-                    <div className="h-4 rounded bg-gray-200 w-1/2"></div>
+                  <div key={i} className="border border-gray-200 rounded-none p-4 shadow-sm animate-pulse bg-white">
+                    <div className="h-64 w-full rounded-none bg-gray-100 mb-4"></div>
+                    <div className="h-6 rounded-none bg-gray-100 w-3/4 mb-2"></div>
+                    <div className="h-4 rounded-none bg-gray-100 w-1/2"></div>
                   </div>
                 ))}
               </div>
@@ -239,7 +239,7 @@ function ShopPageClient() {
                   <Link
                     key={product.id}
                     href={`/product/${product.handle}`}
-                    className="group block rounded-2xl border border-transparent bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-brand-pink/20"
+                    className="group block rounded-none border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-black"
                   >
                     {product.thumbnail && (
                       <Image
@@ -247,25 +247,25 @@ function ShopPageClient() {
                         alt={product.title}
                         width={400}
                         height={400}
-                        className="mb-4 h-72 w-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="mb-4 h-72 w-full rounded-none object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     )}
-                    <h2 className="text-xl font-semibold text-gray-800 transition-colors group-hover:text-brand-pink truncate" title={product.title} style={{fontFamily: 'var(--font-caviar-dreams'}}>
+                    <h2 className="text-xl font-semibold text-black transition-colors group-hover:text-gray-600 truncate" title={product.title} style={{fontFamily: 'var(--font-caviar-dreams'}}>
                       {product.title}
                     </h2>
                     <p className="mt-2 text-lg font-medium text-gray-700">
-                      Starts at <span className="text-brand-pink">{formatPrice(product)}</span>
+                      Starts at <span className="text-black font-bold">{formatPrice(product)}</span>
                     </p>
-                    <div className="mt-4 w-full rounded-full bg-brand-brown py-2 text-center text-sm font-bold text-white transition-colors duration-300 hover:bg-brand-pink">
+                    <div className="mt-4 w-full rounded-none bg-black py-2 text-center text-sm font-bold text-white transition-colors duration-300 hover:bg-gray-800">
                       View Details
                     </div>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
-                <h3 className="text-2xl font-semibold">No Products Found</h3>
+              <div className="text-center text-gray-500 py-16 bg-white rounded-none shadow-sm border border-gray-200">
+                <h3 className="text-2xl font-semibold text-black">No Products Found</h3>
                 <p className="mt-2">Try adjusting your search or filters.</p>
               </div>
             )}
@@ -278,39 +278,39 @@ function ShopPageClient() {
 
 function LoadingSkeleton() {
   return (
-     <div className="min-h-screen bg-brand-tan pt-28 pb-12 lg:pt-32">
+     <div className="min-h-screen bg-white pt-28 pb-12 lg:pt-32">
       <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold mb-8 text-center" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+      <h1 className="text-4xl font-bold mb-8 text-center text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
         Shop All Products
       </h1>
       
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <div className="h-12 bg-gray-200 rounded-md w-full md:w-1/2 animate-pulse"></div>
-        <div className="h-12 bg-gray-200 rounded-md w-full md:w-40 animate-pulse"></div>
+        <div className="h-12 bg-gray-100 rounded-none w-full md:w-1/2 animate-pulse"></div>
+        <div className="h-12 bg-gray-100 rounded-none w-full md:w-40 animate-pulse"></div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <aside className="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-brand-brown/10 h-fit sticky top-32 space-y-8 animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-1/2 mb-3"></div>
+        <aside className="lg:col-span-1 bg-white p-6 rounded-none shadow-sm border border-gray-200 h-fit sticky top-32 space-y-8 animate-pulse">
+          <div className="h-6 bg-gray-100 rounded-none w-1/2 mb-3"></div>
           <div className="space-y-2">
-            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
+            <div className="h-4 bg-gray-100 rounded-none w-2/3"></div>
+            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
           </div>
            <div className="border-t pt-6 space-y-2">
-             <div className="h-6 bg-gray-200 rounded w-1/3 mb-3"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+             <div className="h-6 bg-gray-100 rounded-none w-1/3 mb-3"></div>
+            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
+            <div className="h-4 bg-gray-100 rounded-none w-2/3"></div>
           </div>
         </aside>
         
         <main className="lg:col-span-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="border rounded-lg p-4 shadow-md animate-pulse">
-                <div className="h-64 w-full rounded bg-gray-200 mb-4"></div>
-                <div className="h-6 rounded bg-gray-200 w-3/4 mb-2"></div>
-                <div className="h-4 rounded bg-gray-200 w-1/2"></div>
+              <div key={i} className="border border-gray-200 rounded-none p-4 shadow-sm animate-pulse">
+                <div className="h-64 w-full rounded-none bg-gray-100 mb-4"></div>
+                <div className="h-6 rounded-none bg-gray-100 w-3/4 mb-2"></div>
+                <div className="h-4 rounded-none bg-gray-100 w-1/2"></div>
               </div>
             ))}
           </div>
