@@ -28,7 +28,7 @@ const CircularText = () => {
         </svg>
       </div>
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className={`flex h-16 w-16 items-center justify-center rounded-none bg-black transition-transform duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
+        <div className={`flex h-16 w-16 items-center justify-center rounded-full bg-black transition-transform duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
           <ArrowUpRight className="h-8 w-8 text-white" />
         </div>
       </div>
