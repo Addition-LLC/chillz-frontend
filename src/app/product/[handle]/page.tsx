@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import type { StoreProduct, StoreProductVariant, StoreRegion } from "@medusajs/types";
 import toast, { Toaster } from 'react-hot-toast';
 import Image from "next/image"; 
-import { Check } from "lucide-react"; 
+import { Check, Loader2 } from "lucide-react"; 
 
 // Helper function to get region (can be moved to a shared util)
 async function getRegionId() {
@@ -27,6 +27,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState<StoreProduct | null>(null);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [region, setRegion] = useState<StoreRegion | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
@@ -71,6 +72,7 @@ export default function ProductPage() {
     );
 
     if (selectedVariantId && cart?.id && product) {
+      setIsAddingToCart(true);
       try {
         const { cart: updatedCart } = await medusaClient.store.cart.createLineItem(cart.id, {
           variant_id: selectedVariantId,
@@ -82,6 +84,8 @@ export default function ProductPage() {
       } catch (error) {
         console.error("Failed to add item to cart:", error);
         toast.error("Could not add item to cart.");
+      } finally {
+        setIsAddingToCart(false);
       }
     } else if (!cart?.id) {
         toast.error("Cart not available. Please refresh.");
@@ -146,8 +150,8 @@ export default function ProductPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Image Gallery */}
         <div>
-          <div className="relative w-full h-[400px] lg:h-[550px] rounded-none overflow-hidden shadow-none border border-gray-100">
-            {activeImage && (
+          <div className="relative w-full h-[400px] lg:h-[550px] rounded-none overflow-hidden shadow-none border border-gray-100 bg-gray-50">
+            {activeImage ? (
               <Image
                 src={activeImage}
                 alt={product.title}
@@ -156,6 +160,10 @@ export default function ProductPage() {
                 className="object-cover transition-opacity duration-300"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                <span className="text-xl uppercase tracking-widest" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>No Image</span>
+              </div>
             )}
           </div>
           <div className="mt-4 grid grid-cols-4 gap-4">
@@ -224,11 +232,18 @@ export default function ProductPage() {
 
           <button
             onClick={handleAddToCart}
-            disabled={!selectedVariantId || isLoading}
-            className="w-full bg-black text-white font-bold py-4 px-6 rounded-none hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg shadow-lg hover:shadow-xl"
+            disabled={!selectedVariantId || isLoading || isAddingToCart}
+            className="w-full bg-black text-white font-bold py-4 px-6 rounded-none hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
             style={{fontFamily: 'var(--font-caviar-dreams'}}
           >
-            Add to Cart
+            {isAddingToCart ? (
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                <span>Adding...</span>
+              </>
+            ) : (
+              "Add to Cart"
+            )}
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { useEffect, useState, Suspense } from "react";
 import { Search, X } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
+import ProductCard from "@/components/ProductCard";
 
 const styleTags = [
   { id: "tag_straight", value: "Straight" },
@@ -136,28 +137,25 @@ function ShopPageClient() {
       (document.getElementById("search-input") as HTMLInputElement).value = "";
   };
 
-  const formatPrice = (product: StoreProduct) => {
-    const variant = product.variants?.[0];
-    const priceObject = variant?.calculated_price;
-    const amount = priceObject?.calculated_amount;
-    const currencyCode = region?.currency_code || 'USD';
-    if (amount === undefined || amount === null) return "N/A";
-    
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currencyCode,
-    }).format(Number(amount));
-  };
+
 
   return (
-    <div className="min-h-screen bg-white pt-28 pb-12 lg:pt-32">
+    <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="container mx-auto px-4">
         <Toaster position="bottom-right" />
-        <h1 className="text-4xl lg:text-5xl font-bold mb-10 text-center text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
-          Shop All Products
-        </h1>
         
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl lg:text-7xl font-bold text-black mb-6" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+            Shop All Products
+          </h1>
+          <div className="w-24 h-1 bg-black mx-auto mb-8"></div>
+          <p className="text-xl text-black/70 max-w-2xl mx-auto font-light" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+            Explore our complete collection of premium hair extensions and wigs.
+          </p>
+        </div>
+        
+        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <form onSubmit={handleSearch} className="relative w-full md:w-1/2">
               <input
                 id="search-input"
@@ -165,7 +163,8 @@ function ShopPageClient() {
                 name="search"
                 defaultValue={searchQuery}
                 placeholder="Search for products..."
-                className="w-full p-3 pl-10 border border-gray-300 rounded-none shadow-sm text-black focus:ring-black focus:border-black"
+                className="w-full p-4 pl-12 border-b border-gray-300 bg-transparent text-black focus:border-black focus:ring-0 placeholder-gray-400 transition-colors"
+                style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               {searchQuery && (
@@ -177,7 +176,8 @@ function ShopPageClient() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="p-3 border border-gray-300 rounded-none shadow-sm w-full md:w-auto text-black focus:ring-black focus:border-black"
+            className="p-4 border-b border-gray-300 bg-transparent text-black focus:border-black focus:ring-0 cursor-pointer w-full md:w-auto"
+            style={{ fontFamily: 'var(--font-caviar-dreams)' }}
           >
             <option value="created_at_desc">Sort: Latest</option>
             <option value="price_asc">Sort: Price Low to High</option>
@@ -185,37 +185,43 @@ function ShopPageClient() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <aside className="lg:col-span-1 bg-white p-6 rounded-none shadow-sm border border-gray-200 h-fit sticky top-32 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <aside className="lg:col-span-1 h-fit sticky top-32 space-y-12">
             <div>
-              <h3 className="font-bold mb-4 text-xl text-black" style={{fontFamily: 'var(--font-caviar-dreams'}}>Collections</h3>
-              <div className="space-y-2">
+              <h3 className="font-bold mb-6 text-xl text-black uppercase tracking-widest" style={{fontFamily: 'var(--font-caviar-dreams'}}>Collections</h3>
+              <div className="space-y-3">
                 {collections.map((collection) => (
-                  <label key={collection.id} className="flex items-center space-x-2 cursor-pointer" style={{fontFamily: 'var(--font-caviar-dreams'}}>
+                  <label key={collection.id} className="flex items-center space-x-3 cursor-pointer group">
+                    <div className={`w-4 h-4 border border-gray-400 flex items-center justify-center transition-colors ${selectedCollections.includes(collection.id) ? 'bg-black border-black' : 'group-hover:border-black'}`}>
+                      {selectedCollections.includes(collection.id) && <div className="w-2 h-2 bg-white"></div>}
+                    </div>
                     <input
                       type="checkbox"
                       checked={selectedCollections.includes(collection.id)}
                       onChange={() => handleCollectionToggle(collection.id)}
-                      className="rounded-none text-black focus:ring-black border-gray-300"
+                      className="hidden"
                     />
-                    <span className="text-sm text-gray-700" style={{fontFamily: 'var(--font-caviar-dreams'}}>{collection.title}</span>
+                    <span className={`text-base transition-colors ${selectedCollections.includes(collection.id) ? 'text-black font-bold' : 'text-gray-600 group-hover:text-black'}`} style={{fontFamily: 'var(--font-caviar-dreams'}}>{collection.title}</span>
                   </label>
                 ))}
               </div>
             </div>
             
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="font-bold mb-4 text-xl text-black" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
-              <div className="space-y-2">
+            <div className="border-t border-gray-200 pt-8">
+              <h3 className="font-bold mb-6 text-xl text-black uppercase tracking-widest" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
+              <div className="space-y-3">
                 {styleTags.map((tag) => (
-                  <label key={tag.id} className="flex items-center space-x-2 cursor-pointer">
+                  <label key={tag.id} className="flex items-center space-x-3 cursor-pointer group">
+                    <div className={`w-4 h-4 border border-gray-400 flex items-center justify-center transition-colors ${selectedTags.includes(tag.id) ? 'bg-black border-black' : 'group-hover:border-black'}`}>
+                      {selectedTags.includes(tag.id) && <div className="w-2 h-2 bg-white"></div>}
+                    </div>
                     <input
                       type="checkbox"
                       checked={selectedTags.includes(tag.id)}
                       onChange={() => handleTagToggle(tag.id)}
-                      className="rounded-none text-black focus:ring-black border-gray-300"
+                      className="hidden"
                     />
-                    <span className="text-sm text-gray-700 capitalize">{tag.value.replace(/_/g, ' ')}</span>
+                    <span className={`text-base capitalize transition-colors ${selectedTags.includes(tag.id) ? 'text-black font-bold' : 'text-gray-600 group-hover:text-black'}`} style={{fontFamily: 'var(--font-caviar-dreams'}}>{tag.value.replace(/_/g, ' ')}</span>
                   </label>
                 ))}
               </div>
@@ -226,47 +232,23 @@ function ShopPageClient() {
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="border border-gray-200 rounded-none p-4 shadow-sm animate-pulse bg-white">
-                    <div className="h-64 w-full rounded-none bg-gray-100 mb-4"></div>
-                    <div className="h-6 rounded-none bg-gray-100 w-3/4 mb-2"></div>
-                    <div className="h-4 rounded-none bg-gray-100 w-1/2"></div>
+                  <div key={i} className="animate-pulse">
+                    <div className="aspect-[3/4] w-full bg-gray-100 mb-4"></div>
+                    <div className="h-6 bg-gray-100 w-3/4 mb-2 mx-auto"></div>
+                    <div className="h-4 bg-gray-100 w-1/2 mx-auto"></div>
                   </div>
                 ))}
               </div>
             ) : products.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10">
                 {products.map((product: StoreProduct) => (
-                  <Link
-                    key={product.id}
-                    href={`/product/${product.handle}`}
-                    className="group block rounded-none border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-black"
-                  >
-                    {product.thumbnail && (
-                      <Image
-                        src={product.thumbnail}
-                        alt={product.title}
-                        width={400}
-                        height={400}
-                        className="mb-4 h-72 w-full rounded-none object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    )}
-                    <h2 className="text-xl font-semibold text-black transition-colors group-hover:text-gray-600 truncate" title={product.title} style={{fontFamily: 'var(--font-caviar-dreams'}}>
-                      {product.title}
-                    </h2>
-                    <p className="mt-2 text-lg font-medium text-gray-700">
-                      Starts at <span className="text-black font-bold">{formatPrice(product)}</span>
-                    </p>
-                    <div className="mt-4 w-full rounded-none bg-black py-2 text-center text-sm font-bold text-white transition-colors duration-300 hover:bg-gray-800">
-                      View Details
-                    </div>
-                  </Link>
+                  <ProductCard key={product.id} product={product} region={region} />
                 ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-16 bg-white rounded-none shadow-sm border border-gray-200">
-                <h3 className="text-2xl font-semibold text-black">No Products Found</h3>
-                <p className="mt-2">Try adjusting your search or filters.</p>
+              <div className="text-center py-20">
+                <h3 className="text-2xl font-semibold text-black mb-2" style={{fontFamily: 'var(--font-caviar-dreams'}}>No Products Found</h3>
+                <p className="text-gray-500">Try adjusting your search or filters.</p>
               </div>
             )}
           </main>
@@ -278,39 +260,41 @@ function ShopPageClient() {
 
 function LoadingSkeleton() {
   return (
-     <div className="min-h-screen bg-white pt-28 pb-12 lg:pt-32">
+     <div className="min-h-screen bg-white pt-32 pb-20">
       <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold mb-8 text-center text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
-        Shop All Products
-      </h1>
+      <div className="text-center mb-16 animate-pulse">
+        <div className="h-12 bg-gray-100 w-1/2 mx-auto mb-6"></div>
+        <div className="h-1 bg-gray-200 w-24 mx-auto mb-8"></div>
+        <div className="h-6 bg-gray-100 w-1/3 mx-auto"></div>
+      </div>
       
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <div className="h-12 bg-gray-100 rounded-none w-full md:w-1/2 animate-pulse"></div>
-        <div className="h-12 bg-gray-100 rounded-none w-full md:w-40 animate-pulse"></div>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 animate-pulse">
+        <div className="h-12 bg-gray-100 w-full md:w-1/2"></div>
+        <div className="h-12 bg-gray-100 w-full md:w-40"></div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <aside className="lg:col-span-1 bg-white p-6 rounded-none shadow-sm border border-gray-200 h-fit sticky top-32 space-y-8 animate-pulse">
-          <div className="h-6 bg-gray-100 rounded-none w-1/2 mb-3"></div>
-          <div className="space-y-2">
-            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
-            <div className="h-4 bg-gray-100 rounded-none w-2/3"></div>
-            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <aside className="lg:col-span-1 h-fit sticky top-32 space-y-12 animate-pulse">
+          <div className="h-6 bg-gray-100 w-1/2 mb-6"></div>
+          <div className="space-y-4">
+            <div className="h-4 bg-gray-100 w-3/4"></div>
+            <div className="h-4 bg-gray-100 w-2/3"></div>
+            <div className="h-4 bg-gray-100 w-3/4"></div>
           </div>
-           <div className="border-t pt-6 space-y-2">
-             <div className="h-6 bg-gray-100 rounded-none w-1/3 mb-3"></div>
-            <div className="h-4 bg-gray-100 rounded-none w-3/4"></div>
-            <div className="h-4 bg-gray-100 rounded-none w-2/3"></div>
+           <div className="border-t pt-8 space-y-4">
+             <div className="h-6 bg-gray-100 w-1/3 mb-6"></div>
+            <div className="h-4 bg-gray-100 w-3/4"></div>
+            <div className="h-4 bg-gray-100 w-2/3"></div>
           </div>
         </aside>
         
         <main className="lg:col-span-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="border border-gray-200 rounded-none p-4 shadow-sm animate-pulse">
-                <div className="h-64 w-full rounded-none bg-gray-100 mb-4"></div>
-                <div className="h-6 rounded-none bg-gray-100 w-3/4 mb-2"></div>
-                <div className="h-4 rounded-none bg-gray-100 w-1/2"></div>
+              <div key={i} className="animate-pulse">
+                <div className="aspect-[3/4] w-full bg-gray-100 mb-4"></div>
+                <div className="h-6 bg-gray-100 w-3/4 mb-2 mx-auto"></div>
+                <div className="h-4 bg-gray-100 w-1/2 mx-auto"></div>
               </div>
             ))}
           </div>

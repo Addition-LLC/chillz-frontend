@@ -66,13 +66,13 @@ const Header = () => {
           <div className="w-60 max-w-full px-4">
             <Link href="/" className="block py-5">
               <div className="flex flex-col -space-y-1">
-                <div className={`flex items-center font-bold leading-none transition-colors ${isSticky ? "text-black" : "text-black lg:text-white"}`}>
+                <div className={`flex items-center font-bold leading-none transition-colors ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"}`}>
                   <span className="font-edwardian-first-letter text-2xl -mr-0.5" style={{ fontFamily: 'Edwardian Script ITC, cursive', fontWeight: 'normal' }}>N</span>
                   <span className="text-xl" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>hïëm </span>
                   <span className="font-edwardian-first-letter text-2xl -mr-0.5" style={{ fontFamily: 'Edwardian Script ITC, cursive', fontWeight: 'normal' }}>W</span>
                   <span className="text-xl" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>ën</span>
                 </div>
-                <span className={`text-xs tracking-[0.2em] uppercase opacity-80 transition-colors ${isSticky ? "text-black" : "text-black lg:text-white"}`} style={{ fontFamily: 'var(--font-lato)' }}>
+                <span className={`text-xs tracking-[0.2em] uppercase opacity-80 transition-colors ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"}`} style={{ fontFamily: 'var(--font-lato)' }}>
                   L U X U R Y   H A I R
                 </span>
               </div>
@@ -82,12 +82,12 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex flex-grow items-center justify-center">
             <nav className="flex space-x-8">
-              <Link href="/" className={`py-6 font-semibold transition-colors hover:opacity-70 ${isSticky ? "text-black" : "text-black lg:text-white"} ${ currentPath === "/" ? "underline underline-offset-4" : "" }`}
+              <Link href="/" className={`py-6 font-semibold transition-colors hover:opacity-70 ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"} ${ currentPath === "/" ? "underline underline-offset-4" : "" }`}
               style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                 Home
               </Link>
               <div className="group relative">
-                <span className={`py-6 font-semibold cursor-default flex items-center transition-colors hover:opacity-70 ${isSticky ? "text-black" : "text-black lg:text-white"} ${ currentPath.startsWith("/collections") ? "underline underline-offset-4" : "" }`}
+                <span className={`py-6 font-semibold cursor-default flex items-center transition-colors hover:opacity-70 ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"} ${ currentPath.startsWith("/collections") ? "underline underline-offset-4" : "" }`}
                 style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                   Collections
                   <svg className="ml-1 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -108,7 +108,7 @@ const Header = () => {
                 </div>
               </div>
               {staticLinks.map((link) => (
-                 <Link key={link.id} href={link.path} className={`py-6 font-semibold transition-colors hover:opacity-70 ${isSticky ? "text-black" : "text-black lg:text-white"} ${ currentPath === link.path ? "underline underline-offset-4" : "" }`}
+                 <Link key={link.id} href={link.path} className={`py-6 font-semibold transition-colors hover:opacity-70 ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"} ${ currentPath === link.path ? "underline underline-offset-4" : "" }`}
                  style={{fontFamily: 'var(--font-caviar-dreams)'}}>
                    {link.title}
                  </Link>
@@ -118,7 +118,7 @@ const Header = () => {
 
           {/* Icons */}
           <div className="flex items-center justify-end gap-x-6 px-4">
-             <button className={`relative transition-colors ${isSticky ? "text-black" : "text-black lg:text-white"}`} onClick={openCart} aria-label="Open Cart">
+             <button className={`relative transition-colors ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"}`} onClick={openCart} aria-label="Open Cart">
                 <ShoppingCart className="h-6 w-6" />
                 {isClient && cartCount > 0 && (
                   <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-none bg-white text-xs font-bold text-black border border-black">
@@ -133,7 +133,7 @@ const Header = () => {
                 onMouseEnter={() => setIsUserMenuOpen(true)}
                 onMouseLeave={() => setIsUserMenuOpen(false)}
              >
-                <Link href={customer ? "/account" : "/login"} aria-label={customer ? "Account" : "Login"} className={`block p-1 transition-colors ${isSticky ? "text-black" : "text-black lg:text-white"}`}>
+                <Link href={customer ? "/account" : "/login"} aria-label={customer ? "Account" : "Login"} className={`block p-1 transition-colors ${isSticky || currentPath !== '/' ? "text-black" : "text-black lg:text-white"}`}>
                   <User className="h-6 w-6" />
                 </Link>
                 <AnimatePresence>

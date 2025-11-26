@@ -7,27 +7,27 @@ import Link from 'next/link';
 const categories = [
   {
     id: 1,
-    name: 'The D Collection', // Example Category Name
-    href: '/product', // Example Link (use product handle or collection path)
-    imgSrc: '/images/shop1.jpg', // Replace with your image path
+    name: 'The Nhiem Wen Collection',
+    href: '/collections/the-nhiem-wen-collection',
+    imgSrc: '/images/shop1.jpg',
   },
   {
     id: 2,
     name: 'Curly',
-    href: '/product', // Example Link
-    imgSrc: '/images/shop3.jpg', // Replace with your image path
+    href: '/product',
+    imgSrc: '/images/shop3.jpg',
   },
   {
     id: 3,
     name: 'Straight',
-    href: '/product', // Example Link
-    imgSrc: '/images/wigstyles2.jpg', // Replace with your image path
+    href: '/product',
+    imgSrc: '/images/wigstyles2.jpg',
   },
   {
     id: 4,
     name: 'Wavy',
-    href: '/product', // Example Link
-    imgSrc: '/images/shop2.jpg', // Replace with your image path
+    href: '/product',
+    imgSrc: '/images/shop2.jpg',
   },
 ];
 
