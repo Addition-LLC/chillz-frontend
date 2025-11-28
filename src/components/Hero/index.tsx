@@ -49,17 +49,30 @@ export default function Hero() {
             priority // Helps with faster loading for this important image
           />
           
-          <Link 
-            href="/bundles"
-            className="px-8 py-3 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-none hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 hover:shadow-lg uppercase tracking-widest text-sm"
-            style={{
-              animation: 'fade-in-up 0.8s ease-out 0.3s forwards',
-              opacity: 0,
-              fontFamily: 'var(--font-caviar-dreams)'
-            }}
-          >
-            Shop Bundles
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link 
+              href="/product"
+              className="px-8 py-3 bg-white text-black font-bold rounded-none hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 hover:shadow-lg uppercase tracking-widest text-sm text-center"
+              style={{
+                animation: 'fade-in-up 0.8s ease-out 0.3s forwards',
+                opacity: 0,
+                fontFamily: 'var(--font-caviar-dreams)'
+              }}
+            >
+              Shop Now
+            </Link>
+            <Link 
+              href="/bundles"
+              className="px-8 py-3 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-none hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 hover:shadow-lg uppercase tracking-widest text-sm text-center"
+              style={{
+                animation: 'fade-in-up 0.8s ease-out 0.5s forwards',
+                opacity: 0,
+                fontFamily: 'var(--font-caviar-dreams)'
+              }}
+            >
+              Shop Bundles
+            </Link>
+          </div>
         </div>
       </section>
     </>
