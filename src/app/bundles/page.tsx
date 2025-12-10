@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import medusaClient from "@/lib/medusa";
-import BundleComponent from "@/components/Bundle";
+import BundleComponent from "@/components/BundleCard";
 import { StoreProduct } from "@medusajs/types";
 
 // Define bundle configurations

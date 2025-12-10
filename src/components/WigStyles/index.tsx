@@ -41,7 +41,7 @@ const WigStyles = () => {
           <div>
             <div className="mb-12">
               <h2 
-                className="text-3xl lg:text-4xl font-bold"
+                className="text-3xl lg:text-4xl font-bold font-edwardian-first-letter"
                 style={{ fontFamily: 'var(--font-caviar-dreams)' }}
               >
                 Embrace Your Ethereal Beauty

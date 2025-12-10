@@ -16,6 +16,7 @@ interface CartContextType {
   totalPrice: number;
   addDiscount: (code: string) => Promise<HttpTypes.StoreCart | undefined>;
   removeDiscount: (code: string) => Promise<HttpTypes.StoreCart | undefined>;
+  addMultipleToCart: (items: { variant_id: string; quantity: number }[]) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -107,6 +108,30 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
   };
 
+  const addMultipleToCart = async (items: { variant_id: string; quantity: number }[]) => {
+    if (!cart?.id) {
+      console.error("No cart available");
+      throw new Error("No cart available");
+    }
+    
+    try {
+      // Add each item to the cart sequentially
+      for (const item of items) {
+        await medusaClient.store.cart.createLineItem(cart.id, {
+          variant_id: item.variant_id,
+          quantity: item.quantity,
+        });
+      }
+      
+      // Refresh cart after adding all items
+      const { cart: updatedCart } = await medusaClient.store.cart.retrieve(cart.id);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error("Error adding multiple items to cart:", error);
+      throw error;
+    }
+  };
+
   const cartCount = cart?.items?.reduce((acc: number, item: HttpTypes.StoreCartLineItem) => acc + Number(item.quantity), 0) || 0;
   const totalPrice = cart ? Number(cart.subtotal) : 0;
 
@@ -123,6 +148,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         totalPrice,
         addDiscount,
         removeDiscount,
+        addMultipleToCart,
       }}
     >
       {children}

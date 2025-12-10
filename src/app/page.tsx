@@ -10,6 +10,7 @@ import Features from "@/components/Features";
 import Newsletter from "@/components/Newsletter";
 import NewToWigs1 from "@/components/NewToWigs1";
 import Highlight from "@/components/Highlight";
+import Bundle from "@/components/Bundle";
 
 
 
@@ -23,6 +24,7 @@ export default function Home() {
     <>
       <Hero />
       <WigCollection />
+      <Bundle />
       <WigStyles />
       <NewToWigs /> 
       <ShopByCategory />

@@ -1,6 +1,6 @@
 async function checkReturnReasons() {
   const baseUrl = "http://localhost:9000";
-  const pubKey = "pk_01JD98XJ5X0X0X0X0X0X0X0X0X"; // Placeholder
+  const pubKey = "";
 
   try {
     console.log(`Attempting to fetch ${baseUrl}/store/return-reasons...`);

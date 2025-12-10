@@ -410,7 +410,7 @@ export default function CheckoutPage() {
                        <h3 className="font-medium text-black truncate">{item.title}</h3>
                        <p className="text-sm text-black/60 truncate">{item.variant?.title}</p>
                      </div>
-                     <p className="font-bold text-black">{formatPrice(item.total || 0, cart.region?.currency_code)}</p>
+                     <p className="font-bold text-black">{formatPrice((item.unit_price || 0) * (item.quantity || 1), cart.region?.currency_code)}</p>
                    </div>
                  ))}
                </div>
@@ -458,7 +458,7 @@ export default function CheckoutPage() {
 
                  <div className="flex justify-between text-black/80">
                    <span>Subtotal</span>
-                   <span>{formatPrice(cart.subtotal || 0, cart.region?.currency_code)}</span>
+                   <span>{formatPrice(cart.subtotal, cart.region?.currency_code)}</span>
                  </div>
                  
                  {cart.discount_total && cart.discount_total > 0 && (

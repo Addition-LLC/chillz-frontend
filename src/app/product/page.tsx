@@ -10,13 +10,13 @@ import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
 
-const styleTags = [
-  { id: "tag_straight", value: "Straight" },
-  { id: "tag_wavy", value: "Wavy" },
-  { id: "tag_curly", value: "Curly" },
-  { id: "tag_kinky_curly", value: "Kinky Curly" },
-  { id: "tag_kinky_straight", value: "Kinky Straight" },
-  { id: "tag_afro_curly", value: "Afro Curly" },
+const styleTagValues = [
+  "Straight",
+  "Wavy",
+  "Curly",
+  "Kinky Curly",
+  "Kinky Straight",
+  "Afro Curly",
 ];
 
 async function getRegionId() {
@@ -35,6 +35,7 @@ function ShopPageClient() {
   const [collections, setCollections] = useState<HttpTypes.StoreCollection[]>([]);
   const [region, setRegion] = useState<StoreRegion | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [availableTags, setAvailableTags] = useState<Array<{ id: string; value: string }>>([]);
 
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
@@ -45,15 +46,57 @@ function ShopPageClient() {
   useEffect(() => {
     const fetchStaticData = async () => {
       try {
-        const [regionData, collectionData] = await Promise.all([
+        const [regionData, collectionData, productsData] = await Promise.all([
           getRegionId().then(id => id ? medusaClient.store.region.retrieve(id) : null),
-          medusaClient.store.collection.list()
+          medusaClient.store.collection.list(),
+          medusaClient.store.product.list({ limit: 250, fields: "*tags" })
         ]);
 
         if (regionData) {
           setRegion(regionData.region);
         }
         setCollections(collectionData.collections);
+
+        // Extract unique tags from products that match style tag values
+        const tagMap = new Map<string, string>();
+        productsData.products.forEach((product: StoreProduct) => {
+          if (product.tags && Array.isArray(product.tags)) {
+            product.tags.forEach((tag: any) => {
+              // Handle different tag structures
+              const tagId = tag.id || tag;
+              const tagValue = typeof tag === 'string' ? tag : (tag.value || tag.name || tag.title || "");
+              
+              if (!tagId || !tagValue) return;
+              
+              // Find matching style value (case-insensitive, partial match)
+              const matchingStyleValue = styleTagValues.find(styleValue =>
+                tagValue.toLowerCase().includes(styleValue.toLowerCase()) ||
+                styleValue.toLowerCase().includes(tagValue.toLowerCase())
+              );
+              if (matchingStyleValue && !tagMap.has(matchingStyleValue)) {
+                tagMap.set(matchingStyleValue, tagId);
+              }
+            });
+          }
+        });
+
+        // Create style tags array with actual tag IDs from products
+        const styleTags = styleTagValues
+          .map(value => {
+            // Try exact match first
+            let tagId = tagMap.get(value);
+            // If no exact match, try case-insensitive or partial match
+            if (!tagId) {
+              const entry = Array.from(tagMap.entries()).find(([key]) => 
+                key.toLowerCase() === value.toLowerCase()
+              );
+              tagId = entry?.[1];
+            }
+            return tagId ? { id: tagId, value } : null;
+          })
+          .filter((tag): tag is { id: string; value: string } => tag !== null);
+
+        setAvailableTags(styleTags);
       } catch (error) {
         console.error("Failed to fetch initial data:", error);
       }
@@ -210,20 +253,24 @@ function ShopPageClient() {
             <div className="border-t border-gray-200 pt-8">
               <h3 className="font-bold mb-6 text-xl text-black uppercase tracking-widest" style={{fontFamily: 'var(--font-caviar-dreams'}}>Style</h3>
               <div className="space-y-3">
-                {styleTags.map((tag) => (
-                  <label key={tag.id} className="flex items-center space-x-3 cursor-pointer group">
-                    <div className={`w-4 h-4 border border-gray-400 flex items-center justify-center transition-colors ${selectedTags.includes(tag.id) ? 'bg-black border-black' : 'group-hover:border-black'}`}>
-                      {selectedTags.includes(tag.id) && <div className="w-2 h-2 bg-white"></div>}
-                    </div>
-                    <input
-                      type="checkbox"
-                      checked={selectedTags.includes(tag.id)}
-                      onChange={() => handleTagToggle(tag.id)}
-                      className="hidden"
-                    />
-                    <span className={`text-base capitalize transition-colors ${selectedTags.includes(tag.id) ? 'text-black font-bold' : 'text-gray-600 group-hover:text-black'}`} style={{fontFamily: 'var(--font-caviar-dreams'}}>{tag.value.replace(/_/g, ' ')}</span>
-                  </label>
-                ))}
+                {availableTags.length > 0 ? (
+                  availableTags.map((tag) => (
+                    <label key={tag.id} className="flex items-center space-x-3 cursor-pointer group">
+                      <div className={`w-4 h-4 border border-gray-400 flex items-center justify-center transition-colors ${selectedTags.includes(tag.id) ? 'bg-black border-black' : 'group-hover:border-black'}`}>
+                        {selectedTags.includes(tag.id) && <div className="w-2 h-2 bg-white"></div>}
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={selectedTags.includes(tag.id)}
+                        onChange={() => handleTagToggle(tag.id)}
+                        className="hidden"
+                      />
+                      <span className={`text-base capitalize transition-colors ${selectedTags.includes(tag.id) ? 'text-black font-bold' : 'text-gray-600 group-hover:text-black'}`} style={{fontFamily: 'var(--font-caviar-dreams'}}>{tag.value}</span>
+                    </label>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm">Loading styles...</p>
+                )}
               </div>
             </div>
           </aside>

@@ -54,8 +54,8 @@ const WigCollection = () => {
           <div className="hidden lg:grid grid-cols-3 gap-10">
             <div className="flex flex-col justify-between space-y-10 animate-slide-in-left" style={{ animationDelay: '0.2s', opacity: 0 }}>
               <div className="mb-8">
-                <h2 className="text-5xl tracking-wide font-bold text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
-                  Experience The <i className="font-edwardian-first-letter text-6xl not-italic">Difference</i>
+                <h2 className="text-5xl tracking-wide font-bold text-black font-edwardian-first-letter" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+                  Experience The <span className="font-edwardian-first-letter text-6xl not-italic inline-block">Difference</span>
                 </h2>
                 <p className="mt-6 text-lg text-black/80 leading-relaxed">
                   Our wigs aren&apos;t just accessories; they&apos;re a statement of quality and confidence.

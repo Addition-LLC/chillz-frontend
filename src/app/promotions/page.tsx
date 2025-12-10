@@ -21,7 +21,7 @@ export default function PromotionsPage() {
         <Toaster position="bottom-center" />
         
         <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-black" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
+          <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-black font-edwardian-first-letter" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>
             Current Promotions
           </h1>
           <p className="text-black/70 max-w-2xl mx-auto text-lg">

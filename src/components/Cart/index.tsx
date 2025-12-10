@@ -129,11 +129,11 @@ export default function Cart() {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                <Dialog.Panel className="pointer-events-auto w-screen max-w-md h-full">
+                  <div className="flex h-full flex-col bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart ({cartCount})</Dialog.Title>
+                        <Dialog.Title className="text-2xl font-medium text-gray-900 font-edwardian-first-letter" style={{ fontFamily: 'var(--font-caviar-dreams)' }}>Shopping cart ({cartCount})</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
@@ -175,24 +175,24 @@ export default function Cart() {
                                       <p className="mt-1 text-sm text-gray-500">{item.variant?.title}</p>
                                     </div>
                                     <div className="flex flex-1 items-end justify-between text-sm">
-                                      <div className="flex items-center">
+                                      <div className="flex items-center border border-gray-300">
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) - 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50 text-black hover:text-gray-600"
+                                          className="px-3 py-1 text-lg disabled:opacity-50 text-black hover:bg-gray-100 border-r border-gray-300"
                                         >-</button>
-                                        <p className="text-black mx-2">Qty {item.quantity}</p>
+                                        <p className="text-black px-4 font-medium">{item.quantity}</p>
                                         <button 
                                           onClick={() => handleUpdateQuantity(item.id, Number(item.quantity) + 1)} 
                                           disabled={!!updatingItemId}
-                                          className="px-2 text-lg disabled:opacity-50 text-black hover:text-gray-600"
+                                          className="px-3 py-1 text-lg disabled:opacity-50 text-black hover:bg-gray-100 border-l border-gray-300"
                                         >+</button>
                                       </div>
                                       <div className="flex">
                                         <button
                                           onClick={() => handleRemoveItem(item.id)}
                                           type="button"
-                                          className="font-medium text-black hover:text-gray-600 disabled:opacity-50 underline"
+                                          className="font-medium text-gray-500 hover:text-black disabled:opacity-50 uppercase text-xs tracking-wider border-b border-transparent hover:border-black transition-all"
                                           disabled={!!updatingItemId}
                                         >
                                           Remove
@@ -204,28 +204,38 @@ export default function Cart() {
                               ))}
                             </ul>
                           ) : (
-                            <p className="text-center text-gray-500">Your cart is empty.</p>
+                            <div className="flex flex-col items-center justify-center py-12">
+                              <p className="text-center text-gray-500 mb-6">Your cart is empty.</p>
+                              <button
+                                onClick={closeCart}
+                                className="px-6 py-2 bg-black text-white text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors"
+                              >
+                                Continue Shopping
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                      <div className="flex justify-between text-base font-medium text-black">
-                        <p>Subtotal</p>
-                        <p>{formatPrice(totalPrice, cart?.region?.currency_code || 'USD')}</p>
+                    {cartItems.length > 0 && (
+                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                        <div className="flex justify-between text-base font-medium text-black">
+                          <p>Subtotal</p>
+                          <p>{formatPrice(totalPrice, cart?.region?.currency_code || 'USD')}</p>
+                        </div>
+                        <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                        <div className="mt-6">
+                          <Link
+                            href="/checkout"
+                            onClick={closeCart}
+                            className="flex items-center justify-center rounded-none border border-transparent bg-black px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800 uppercase tracking-widest"
+                          >
+                            Checkout
+                          </Link>
+                        </div>
                       </div>
-                      <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                      <div className="mt-6">
-                        <Link
-                          href="/checkout"
-                          onClick={closeCart}
-                          className="flex items-center justify-center rounded-none border border-transparent bg-black px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-800"
-                        >
-                          Checkout
-                        </Link>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
